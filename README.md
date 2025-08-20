@@ -1,5 +1,7 @@
 # @b9g/crank-graphics
 
+> ⚠️ **Under Construction** - This project is in early development and is not yet published to npm. APIs are subject to change.
+
 Graphics rendering packages for [Crank.js](https://crank.js.org) - supporting Pixi.js, Three.js and more.
 
 ## Packages
@@ -45,6 +47,17 @@ Write graphics code using familiar JSX syntax:
 ## Getting Started
 
 ### Installation
+
+> **Note**: Packages are not yet published to npm. For now, you can clone and build locally:
+
+```bash
+git clone https://github.com/bikeshaving/crank-graphics.git
+cd crank-graphics
+bun install
+bun run build
+```
+
+Once published, you'll be able to install via:
 
 ```bash
 # For 2D graphics with Pixi.js
