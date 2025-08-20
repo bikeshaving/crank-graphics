@@ -15,8 +15,8 @@ import {THREE_TAG_MAP} from "./generated/tag-mapping";
 import {PROPERTY_APPLIERS} from "./generated/property-appliers";
 import {createThreeObject} from "./generated/constructors";
 
-// Import texture registry and URL parsing
-import {textureRegistry} from "./core/texture-registry";
+// Import asset registry and URL parsing
+import {assetRegistry, textureRegistry} from "./core/asset-registry";
 import {
 	parseTextureUrl,
 	isValidTextureId,
@@ -91,16 +91,16 @@ function resolveTexture(textureRef: any, node?: any, property?: string): THREE.T
 	}
 
 	if (typeof textureRef === "string") {
-		// Check if it's a URL reference (url(#id) or #id)
-		const parsed = parseTextureUrl(textureRef);
-		if (parsed) {
-			const texture = textureRegistry.acquire(parsed.id);
+		// Check if it's a registry reference (#id)
+		if (textureRef.startsWith("#")) {
+			const id = textureRef.slice(1);
+			const texture = assetRegistry.acquire(id);
 			if (texture) {
 				return texture;
 			} else if (node && property) {
 				// Defer resolution - texture may be defined later in the tree
-				textureRegistry.addPendingReference({
-					textureId: parsed.id,
+				assetRegistry.addPendingReference({
+					assetId: id,
 					node,
 					property,
 					resolver: (targetNode, resolvedTexture) => {
@@ -123,7 +123,7 @@ function resolveTexture(textureRef: any, node?: any, property?: string): THREE.T
 				return new THREE.Texture(); // Temporary fallback
 			} else {
 				console.warn(
-					`Texture reference "${textureRef}" not found in registry. Available textures: ${textureRegistry.getIds().join(", ")}`,
+					`Texture reference "${textureRef}" not found in registry. Available textures: ${assetRegistry.getIds().join(", ")}`,
 				);
 				return new THREE.Texture();
 			}
@@ -137,57 +137,77 @@ function resolveTexture(textureRef: any, node?: any, property?: string): THREE.T
 	return new THREE.Texture();
 }
 
-// Texture registration from props (synchronous container creation, async loading)
-function createTextureFromProps(props: Record<string, any>): THREE.Group {
+// Asset registration from props (synchronous container creation, async loading)
+function createAssetFromProps(props: Record<string, any>, assetType: "texture" | "asset" = "texture"): THREE.Group {
 	const group = new THREE.Group();
 	group.visible = false;
 	(group as any)[IS_TEXTURE_DEFINITION] = true;
 
 	// Validate required props
 	if (!props.id) {
-		console.error('Texture element requires an "id" prop');
+		console.error(`${assetType} element requires an "id" prop`);
 		return group;
 	}
 
-	// Normalize the texture ID
-	let textureId: string;
+	// Normalize the asset ID
+	let assetId: string;
 	try {
-		textureId = isValidTextureId(props.id)
+		assetId = isValidTextureId(props.id)
 			? props.id
 			: normalizeTextureId(props.id);
 	} catch (error) {
-		console.error(`Invalid texture ID "${props.id}":`, error);
+		console.error(`Invalid ${assetType} ID "${props.id}":`, error);
 		return group;
 	}
 
-	// Store the texture ID on the group for cleanup
-	(group as any)[TEXTURE_ID] = textureId;
+	// Store the asset ID on the group for cleanup
+	(group as any)[TEXTURE_ID] = assetId;
 
-	// Register texture based on provided props
+	// Create event handlers from props
+	const onLoadHandler = props.onload || props.onLoad;
+	const onErrorHandler = props.onerror || props.onError;
+
+	// Register asset based on provided props
 	if (props.src) {
-		// Load from source path asynchronously
-		textureRegistry
-			.registerFromSource(textureId, props.src, {
-				originalId: props.id,
-				...props.metadata,
-			})
+		// Load from source path asynchronously with event handlers
+		assetRegistry
+			.registerFromSource(
+				assetId, 
+				props.src, 
+				props.type, // Allow explicit type override
+				{
+					originalId: props.id,
+					...props.metadata,
+				},
+				onLoadHandler,
+				onErrorHandler
+			)
 			.then(() => {
-				console.log(
-					`Registered texture "${textureId}" from source: ${props.src}`,
-				);
+				console.log(`Registered ${assetType} "${assetId}" from source: ${props.src}`);
 			})
 			.catch((error) => {
-				console.error(`Failed to register texture "${textureId}":`, error);
+				console.error(`Failed to register ${assetType} "${assetId}":`, error);
 			});
-	} else if (props.texture && props.texture instanceof THREE.Texture) {
-		// Register existing texture object synchronously
-		textureRegistry.register(textureId, props.texture, undefined, {
+	} else if (props.asset || props.texture) {
+		// Register existing asset object synchronously
+		const asset = props.asset || props.texture;
+		const type = props.type || (props.texture ? "texture" : "custom");
+		assetRegistry.register(assetId, asset, type, undefined, {
 			originalId: props.id,
 			...props.metadata,
 		});
-		console.log(`Registered texture "${textureId}" from THREE.Texture object`);
+		console.log(`Registered ${assetType} "${assetId}" from object`);
+		
+		// Fire onload event synchronously for existing assets
+		if (onLoadHandler) {
+			try {
+				onLoadHandler({ type: "load", assetId, asset });
+			} catch (error) {
+				console.error(`Error in ${assetType} onload handler:`, error);
+			}
+		}
 	} else {
-		console.warn(`Texture element "${textureId}" has no src or texture prop`);
+		console.warn(`${assetType} element "${assetId}" has no src or asset prop`);
 	}
 
 	return group;
@@ -216,10 +236,15 @@ export const adapter: Partial<
 
 		let node: ThreeNode;
 
-		// Handle special texture definition element
+		// Handle special asset definition elements
 		if (tag === "texture") {
 			// Texture elements are virtual - they register textures but don't create display objects
-			return createTextureFromProps(props);
+			return createAssetFromProps(props, "texture");
+		}
+		
+		if (tag === "asset") {
+			// Asset elements are virtual - they register assets but don't create display objects
+			return createAssetFromProps(props, "asset");
 		}
 
 		// Use the comprehensive tag mapping
@@ -409,8 +434,8 @@ export const adapter: Partial<
 	},
 
 	finalize(root: ThreeContainer): void {
-		// Resolve any pending texture references now that all elements are created
-		textureRegistry.resolvePendingReferences();
+		// Resolve any pending asset references now that all elements are created
+		assetRegistry.resolvePendingReferences();
 		
 		// The actual rendering is handled in the ThreeRenderer.render method
 	},

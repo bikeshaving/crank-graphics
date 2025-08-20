@@ -1,0 +1,55 @@
+{
+  "name": "@b9g/crank-graphics",
+  "version": "0.1.0",
+  "description": "Graphics rendering packages for Crank.js - supporting Pixi.js, Three.js and more",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun run clean && bun run --filter='./packages/*' build",
+    "clean": "rm -rf packages/*/dist",
+    "dev": "bun run --filter='./packages/*' dev",
+    "test": "bun run --filter='./packages/*' test",
+    "typecheck": "bun run --filter='./packages/*' typecheck",
+    "lint": "eslint packages/*/src/**/*.{ts,tsx} --fix",
+    "generate": "bun run --filter='./packages/*' generate"
+  },
+  "keywords": [
+    "crank",
+    "graphics",
+    "pixi",
+    "pixijs", 
+    "threejs",
+    "three",
+    "webgl",
+    "2d",
+    "3d",
+    "canvas",
+    "renderer"
+  ],
+  "author": "Brian Kim <hello@b9g.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bikeshaving/crank-graphics.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bikeshaving/crank-graphics/issues"
+  },
+  "homepage": "https://github.com/bikeshaving/crank-graphics#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

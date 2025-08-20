@@ -57,6 +57,10 @@ export const applyGroupProps = createPropertyApplier<THREE.Group>('Group');
 
 export const applyMeshProps = createPropertyApplier<THREE.Mesh>('Mesh');
 
+export const applyLODProps = createPropertyApplier<THREE.LOD>('LOD');
+
+export const applyInstancedMeshProps = createPropertyApplier<THREE.InstancedMesh>('InstancedMesh');
+
 export const applyBoxGeometryProps = createPropertyApplier<THREE.BoxGeometry>('BoxGeometry');
 
 export const applySphereGeometryProps = createPropertyApplier<THREE.SphereGeometry>('SphereGeometry');
@@ -128,6 +132,8 @@ export const PROPERTY_APPLIERS = {
   "scene": applySceneProps,
   "group": applyGroupProps,
   "mesh": applyMeshProps,
+  "l-o-d": applyLODProps,
+  "instanced-mesh": applyInstancedMeshProps,
   "box-geometry": applyBoxGeometryProps,
   "sphere-geometry": applySphereGeometryProps,
   "plane-geometry": applyPlaneGeometryProps,

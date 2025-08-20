@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crank Three.js - AssetRegistry Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #loading-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            padding: 15px;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            min-width: 200px;
+        }
+        
+        #loading-info div {
+            margin: 2px 0;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        #controls h4 {
+            margin: 0 0 10px 0;
+            color: #00ff00;
+        }
+        
+        #controls button {
+            background: #333;
+            color: white;
+            border: 1px solid #666;
+            padding: 6px 10px;
+            margin: 3px 3px 3px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        
+        #controls button:hover {
+            background: #444;
+            border-color: #888;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .status-good { color: #00ff00; }
+        .status-loading { color: #ffaa00; }
+        .status-error { color: #ff4444; }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    
+    <div id="loading-info">
+        <strong>AssetRegistry Status</strong><br>
+        <div>Assets Loading: --</div>
+        <div>Assets Loaded: --</div>
+        <div>Errors: --</div>
+        <div>Registry Assets: --</div>
+        <div>Pending References: --</div>
+    </div>
+    
+    <div id="controls">
+        <h4>AssetRegistry Demo</h4>
+        <button onclick="getAssetInfo()">Log Asset Info</button>
+        <button onclick="testCustomAsset()">Load Test Asset</button>
+        <button onclick="testFailedAsset()">Test Failed Load</button>
+        <br>
+        <small>Check browser console for detailed logs</small>
+    </div>
+
+    <script type="module">
+        // Import and run the asset demo
+        import './asset-demo.tsx';
+        
+        // Additional demo functions
+        window.testCustomAsset = () => {
+            const id = 'test' + Date.now();
+            console.log('Loading custom asset with ID:', id);
+            
+            // Create a simple SVG as data URL
+            const svg = `<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="lime"/>
+                <circle cx="50" cy="50" r="30" fill="blue"/>
+                <text x="50" y="55" text-anchor="middle" fill="white" font-size="12">TEST</text>
+            </svg>`;
+            const dataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
+            
+            if (window.loadCustomAsset) {
+                window.loadCustomAsset(id, dataUrl);
+            }
+        };
+        
+        window.testFailedAsset = () => {
+            const id = 'failed' + Date.now();
+            console.log('Testing failed asset load with ID:', id);
+            
+            if (window.loadCustomAsset) {
+                window.loadCustomAsset(id, '/definitely-does-not-exist.jpg');
+            }
+        };
+        
+        // Show initial status
+        console.log('AssetRegistry Demo Features:');
+        console.log('✓ DOM-like onload/onerror events');
+        console.log('✓ Multiple asset types (texture, gltf, obj, etc.)');
+        console.log('✓ SVG-style url(#id) references');
+        console.log('✓ Forward reference resolution');
+        console.log('✓ Reference counting');
+        console.log('✓ Automatic fallback assets');
+        console.log('✓ Real-time debugging');
+    </script>
+</body>
+</html>

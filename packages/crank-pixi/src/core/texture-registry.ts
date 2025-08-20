@@ -24,13 +24,24 @@ export interface PendingTextureReference {
 	resolver: (node: any, texture: PIXI.Texture) => void; // function to apply the texture
 }
 
-export class TextureRegistry {
+export interface TextureLoadEvent extends Event {
+	textureId: string;
+	texture?: PIXI.Texture;
+	error?: Error;
+	progress?: number;
+}
+
+export type TextureEventHandler = (event: TextureLoadEvent) => void;
+
+export class TextureRegistry extends EventTarget {
 	private static instance: TextureRegistry | null = null;
 	private textures = new Map<string, TextureRegistryEntry>();
 	private loadingPromises = new Map<string, Promise<PIXI.Texture>>();
 	private pendingReferences = new Array<PendingTextureReference>();
 
-	private constructor() {}
+	private constructor() {
+		super();
+	}
 
 	static getInstance(): TextureRegistry {
 		if (!TextureRegistry.instance) {
@@ -61,6 +72,14 @@ export class TextureRegistry {
 			source: source || undefined,
 			metadata: metadata || {},
 		});
+
+		// Fire load event
+		const loadEvent = new CustomEvent('load', {
+			detail: { textureId: id, texture }
+		}) as TextureLoadEvent;
+		loadEvent.textureId = id;
+		loadEvent.texture = texture;
+		this.dispatchEvent(loadEvent);
 	}
 
 	/**
@@ -69,7 +88,7 @@ export class TextureRegistry {
 	async registerFromSource(
 		id: string,
 		source: string,
-		metadata?: Record<string, any>,
+		metadata?: Record<string, any>
 	): Promise<PIXI.Texture> {
 		if (this.textures.has(id)) {
 			console.warn(
@@ -84,6 +103,7 @@ export class TextureRegistry {
 			return existingPromise;
 		}
 
+
 		// Create loading promise
 		const loadingPromise = this.loadTexture(source)
 			.then((texture) => {
@@ -94,6 +114,15 @@ export class TextureRegistry {
 					metadata: metadata || {},
 				});
 				this.loadingPromises.delete(id);
+				
+				// Fire load event
+				const loadEvent = new CustomEvent('load', {
+					detail: { textureId: id, texture }
+				}) as TextureLoadEvent;
+				loadEvent.textureId = id;
+				loadEvent.texture = texture;
+				this.dispatchEvent(loadEvent);
+				
 				return texture;
 			})
 			.catch((error) => {
@@ -102,6 +131,15 @@ export class TextureRegistry {
 					error,
 				);
 				this.loadingPromises.delete(id);
+				
+				// Fire error event
+				const errorEvent = new CustomEvent('error', {
+					detail: { textureId: id, error }
+				}) as TextureLoadEvent;
+				errorEvent.textureId = id;
+				errorEvent.error = error;
+				this.dispatchEvent(errorEvent);
+				
 				// Return empty texture as fallback
 				const emptyTexture = PIXI.Texture.EMPTY;
 				this.textures.set(id, {
@@ -185,6 +223,7 @@ export class TextureRegistry {
 		if (loadingPromise) {
 			this.loadingPromises.delete(id);
 		}
+
 	}
 
 	/**
@@ -326,6 +365,7 @@ export class TextureRegistry {
 	getPendingReferenceCount(): number {
 		return this.pendingReferences.length;
 	}
+
 }
 
 // Convenience function to get the singleton instance

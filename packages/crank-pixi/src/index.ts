@@ -114,16 +114,16 @@ function resolveTexture(textureRef: any, node?: any, property?: string): PIXI.Te
 	}
 
 	if (typeof textureRef === "string") {
-		// Check if it's a URL reference (url(#id) or #id)
-		const parsed = parseTextureUrl(textureRef);
-		if (parsed) {
-			const texture = textureRegistry.acquire(parsed.id);
+		// Check if it's a registry reference (#id)
+		if (textureRef.startsWith("#")) {
+			const id = textureRef.slice(1);
+			const texture = textureRegistry.acquire(id);
 			if (texture) {
 				return texture;
 			} else if (node && property) {
 				// Defer resolution - texture may be defined later in the tree
 				textureRegistry.addPendingReference({
-					textureId: parsed.id,
+					textureId: id,
 					node,
 					property,
 					resolver: (targetNode, resolvedTexture) => {
@@ -187,14 +187,21 @@ function createTextureFromProps(props: Record<string, any>): PIXI.Container {
 	// Store the texture ID on the container for cleanup
 	(container as any)[TEXTURE_ID] = textureId;
 
+	// Event listeners are now handled via standard EventTarget API
+	// Users should use textureRegistry.addEventListener('load', handler) directly
+
 	// Register texture based on provided props
 	if (props.src) {
 		// Load from source path asynchronously
 		textureRegistry
-			.registerFromSource(textureId, props.src, {
-				originalId: props.id,
-				...props.metadata,
-			})
+			.registerFromSource(
+				textureId, 
+				props.src, 
+				{
+					originalId: props.id,
+					...props.metadata,
+				}
+			)
 			.then(() => {
 				console.log(
 					`Registered texture "${textureId}" from source: ${props.src}`,
@@ -210,6 +217,8 @@ function createTextureFromProps(props: Record<string, any>): PIXI.Container {
 			...props.metadata,
 		});
 		console.log(`Registered texture "${textureId}" from PIXI.Texture object`);
+		
+		// Event will be fired automatically by textureRegistry.register()
 	} else {
 		console.warn(`Texture element "${textureId}" has no src or texture prop`);
 	}

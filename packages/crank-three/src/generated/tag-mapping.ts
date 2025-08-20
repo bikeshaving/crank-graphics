@@ -3,13 +3,15 @@
 
 import * as THREE from 'three';
 
-export type ThreeTag = "object3-d" | "scene" | "group" | "mesh" | "box-geometry" | "sphere-geometry" | "plane-geometry" | "cylinder-geometry" | "cone-geometry" | "torus-geometry" | "mesh-basic-material" | "mesh-standard-material" | "mesh-phong-material" | "mesh-lambert-material" | "ambient-light" | "directional-light" | "point-light" | "spot-light" | "hemisphere-light" | "perspective-camera" | "orthographic-camera";
+export type ThreeTag = "object3-d" | "scene" | "group" | "mesh" | "l-o-d" | "instanced-mesh" | "box-geometry" | "sphere-geometry" | "plane-geometry" | "cylinder-geometry" | "cone-geometry" | "torus-geometry" | "mesh-basic-material" | "mesh-standard-material" | "mesh-phong-material" | "mesh-lambert-material" | "ambient-light" | "directional-light" | "point-light" | "spot-light" | "hemisphere-light" | "perspective-camera" | "orthographic-camera";
 
 export const THREE_TAG_MAP = {
   "object3-d": THREE.Object3D,
   "scene": THREE.Scene,
   "group": THREE.Group,
   "mesh": THREE.Mesh,
+  "l-o-d": THREE.LOD,
+  "instanced-mesh": THREE.InstancedMesh,
   "box-geometry": THREE.BoxGeometry,
   "sphere-geometry": THREE.SphereGeometry,
   "plane-geometry": THREE.PlaneGeometry,

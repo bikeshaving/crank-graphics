@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crank Three.js - LOD Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #lod-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.8;
+            min-width: 250px;
+        }
+        
+        #explanation {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+        
+        #explanation h4 {
+            margin: 0 0 10px 0;
+            color: #ffff00;
+        }
+        
+        .color-legend {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            border-radius: 2px;
+        }
+        
+        .high { background-color: #00ff00; }
+        .medium { background-color: #ffff00; }
+        .low { background-color: #ff0000; border: 1px solid #ff0000; }
+        .billboard { background-color: #ff00ff; }
+        
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    
+    <div id="lod-info">
+        <strong>LOD Demo</strong><br>
+        <div>Camera Distance: --</div>
+        <div>Active Level: --</div>
+        <div>Triangle Count: --</div>
+    </div>
+    
+    <div id="explanation">
+        <h4>Level of Detail (LOD) Demonstration</h4>
+        <p>The sphere automatically switches between different detail levels based on camera distance:</p>
+        <div style="margin: 10px 0;">
+            <span class="color-legend high"></span>High Detail (0-8 units): 1024 triangles<br>
+            <span class="color-legend medium"></span>Medium Detail (8-15 units): 256 triangles<br>
+            <span class="color-legend low"></span>Low Detail (15-25 units): 64 triangles<br>
+            <span class="color-legend billboard"></span>Billboard (>25 units): 2 triangles
+        </div>
+        <p><strong>Performance Benefit:</strong> Distant objects use fewer triangles, improving frame rate while maintaining visual quality up close.</p>
+    </div>
+
+    <script type="module">
+        import './lod-demo.tsx';
+        
+        console.log('LOD (Level of Detail) Demo Features:');
+        console.log('✓ Automatic detail switching based on camera distance');
+        console.log('✓ 4 levels: High (1024 tri) → Medium (256) → Low (64) → Billboard (2)');
+        console.log('✓ Significant performance improvement for distant objects');
+        console.log('✓ Seamless transitions between detail levels');
+        console.log('✓ Real-time distance and triangle count display');
+    </script>
+</body>
+</html>

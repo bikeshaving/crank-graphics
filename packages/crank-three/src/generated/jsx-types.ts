@@ -6,27 +6,786 @@ import * as THREE from 'three';
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      "object3-d": {}; // TODO: Add proper props interface
-      "scene": {}; // TODO: Add proper props interface
-      "group": {}; // TODO: Add proper props interface
-      "mesh": {}; // TODO: Add proper props interface
-      "box-geometry": {}; // TODO: Add proper props interface
-      "sphere-geometry": {}; // TODO: Add proper props interface
-      "plane-geometry": {}; // TODO: Add proper props interface
-      "cylinder-geometry": {}; // TODO: Add proper props interface
-      "cone-geometry": {}; // TODO: Add proper props interface
-      "torus-geometry": {}; // TODO: Add proper props interface
-      "mesh-basic-material": {}; // TODO: Add proper props interface
-      "mesh-standard-material": {}; // TODO: Add proper props interface
-      "mesh-phong-material": {}; // TODO: Add proper props interface
-      "mesh-lambert-material": {}; // TODO: Add proper props interface
-      "ambient-light": {}; // TODO: Add proper props interface
-      "directional-light": {}; // TODO: Add proper props interface
-      "point-light": {}; // TODO: Add proper props interface
-      "spot-light": {}; // TODO: Add proper props interface
-      "hemisphere-light": {}; // TODO: Add proper props interface
-      "perspective-camera": {}; // TODO: Add proper props interface
-      "orthographic-camera": {}; // TODO: Add proper props interface
+      "object3-d": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "scene": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "group": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "mesh": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        geometry?: THREE.BufferGeometry;
+        material?: THREE.Material;
+
+        // Children
+        children?: any;
+      };
+      "l-o-d": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "instanced-mesh": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "box-geometry": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        width?: number;
+        height?: number;
+        depth?: number;
+
+        // Children
+        children?: any;
+      };
+      "sphere-geometry": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        radius?: number;
+        widthSegments?: number;
+        heightSegments?: number;
+
+        // Children
+        children?: any;
+      };
+      "plane-geometry": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        width?: number;
+        height?: number;
+
+        // Children
+        children?: any;
+      };
+      "cylinder-geometry": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        radiusTop?: number;
+        radiusBottom?: number;
+        height?: number;
+
+        // Children
+        children?: any;
+      };
+      "cone-geometry": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "torus-geometry": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+      };
+      "mesh-basic-material": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        transparent?: boolean;
+        opacity?: number;
+        map?: THREE.Texture | string;
+
+        // Children
+        children?: any;
+      };
+      "mesh-standard-material": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        transparent?: boolean;
+        opacity?: number;
+        roughness?: number;
+        metalness?: number;
+        map?: THREE.Texture | string;
+
+        // Children
+        children?: any;
+      };
+      "mesh-phong-material": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        transparent?: boolean;
+        opacity?: number;
+        roughness?: number;
+        metalness?: number;
+        map?: THREE.Texture | string;
+
+        // Children
+        children?: any;
+      };
+      "mesh-lambert-material": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        transparent?: boolean;
+        opacity?: number;
+        map?: THREE.Texture | string;
+
+        // Children
+        children?: any;
+      };
+      "ambient-light": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        intensity?: number;
+
+        // Children
+        children?: any;
+      };
+      "directional-light": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        intensity?: number;
+        target?: THREE.Object3D;
+
+        // Children
+        children?: any;
+      };
+      "point-light": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        intensity?: number;
+        distance?: number;
+        decay?: number;
+
+        // Children
+        children?: any;
+      };
+      "spot-light": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        intensity?: number;
+        distance?: number;
+        decay?: number;
+        angle?: number;
+        penumbra?: number;
+
+        // Children
+        children?: any;
+      };
+      "hemisphere-light": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        color?: THREE.ColorRepresentation;
+        intensity?: number;
+
+        // Children
+        children?: any;
+      };
+      "perspective-camera": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        fov?: number;
+        aspect?: number;
+        near?: number;
+        far?: number;
+
+        // Children
+        children?: any;
+      };
+      "orthographic-camera": {
+        // Common Object3D props
+        position?: [number, number, number] | THREE.Vector3;
+        rotation?: [number, number, number] | THREE.Euler;
+        scale?: [number, number, number] | THREE.Vector3 | number;
+        visible?: boolean;
+        name?: string;
+        userData?: any;
+        castShadow?: boolean;
+        receiveShadow?: boolean;
+        frustumCulled?: boolean;
+        renderOrder?: number;
+
+        // Event handlers (simulated via raycasting - framework implementation needed)
+        // Common UI-style events
+        onClick?: (event: any) => void;
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+
+        // Real Three.js EventDispatcher events
+        onAdded?: (event: any) => void;
+        onRemoved?: (event: any) => void;
+
+        // Class-specific props
+        left?: number;
+        right?: number;
+        top?: number;
+        bottom?: number;
+        near?: number;
+        far?: number;
+
+        // Children
+        children?: any;
+      };
     }
   }
 }

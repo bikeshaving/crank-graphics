@@ -15,6 +15,10 @@ export function createThreeObject(tag: ThreeTag, ThreeClass: any, props: Record<
         return new ThreeClass();
       case 'mesh':
         return new ThreeClass();
+      case 'l-o-d':
+        return new ThreeClass();
+      case 'instanced-mesh':
+        return new ThreeClass();
       case 'box-geometry':
         return new ThreeClass();
       case 'sphere-geometry':

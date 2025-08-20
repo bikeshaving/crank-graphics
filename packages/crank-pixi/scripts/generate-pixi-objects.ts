@@ -1346,7 +1346,7 @@ ${classes.map((cls) => generateJSXElementType(cls)).join("\n")}
 }
 
 function generateJSXElementType(cls: PixiClassInfo): string {
-	// Generate basic JSX element type with common props
+	// Generate basic JSX element type with common props and comprehensive event handlers
 	return `      "${cls.tagName}": {
         // Common display object props
         x?: number;
@@ -1360,10 +1360,47 @@ function generateJSXElementType(cls: PixiClassInfo): string {
         anchor?: number | { x?: number; y?: number };
         tint?: number;
 
-        // Event handlers
-        onclick?: (event: any) => void;
-        onmousedown?: (event: any) => void;
-        onmouseup?: (event: any) => void;
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
 
         // Class-specific props
         ${generateClassSpecificProps(cls)}
