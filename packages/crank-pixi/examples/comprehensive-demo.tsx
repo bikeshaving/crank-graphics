@@ -272,7 +272,9 @@ function* ComprehensiveDemo() {
 					<mesh
 						x={0}
 						y={40}
-						// Note: Mesh requires geometry and shader - simplified for demo
+						texture={greenTexture}
+						width={80}
+						height={40}
 					/>
 					<text
 						text="Mesh (Advanced)"
@@ -300,6 +302,8 @@ function* ComprehensiveDemo() {
 								"Animation",
 								demoState.isAnimating ? "started" : "paused",
 							);
+							// Force a re-render by incrementing time to trigger the generator
+							demoState.time++;
 						}}
 					/>
 					<text
@@ -331,11 +335,9 @@ function* ComprehensiveDemo() {
 	}
 }
 
-// Start the demo
+// Start the demo - always render to handle button state changes
 pixiApp.ticker.add(() => {
-	if (demoState.isAnimating) {
-		renderer.render(<ComprehensiveDemo />, pixiApp);
-	}
+	renderer.render(<ComprehensiveDemo />, pixiApp);
 });
 
 // Initial render

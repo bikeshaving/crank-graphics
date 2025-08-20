@@ -100,13 +100,6 @@ export const applyParticleContainerProps = createPropertyApplier<PIXI.ParticleCo
 });
 
 export const applyAnimatedSpriteProps = createPropertyApplier<PIXI.AnimatedSprite>('AnimatedSprite', {
-  playing: (node: PIXI.AnimatedSprite, value: any) => {
-    if (value === true) {
-      node.play();
-    } else if (value === false) {
-      node.stop();
-    }
-  },
   texture: (node: PIXI.AnimatedSprite, value: any) => {
     if (value) {
       const resolvedTexture = resolveTexture(value, node, 'texture');
@@ -208,7 +201,17 @@ export const applySplitBitmapTextProps = createPropertyApplier<PIXI.SplitBitmapT
   }
 });
 
-export const applyMeshProps = createPropertyApplier<PIXI.Mesh>('Mesh');
+export const applyMeshProps = createPropertyApplier<PIXI.Mesh>('Mesh', {
+  texture: (node: PIXI.Mesh, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'texture');
+      // Only assign if we got a real texture, not a deferred one
+      if (resolvedTexture !== PIXI.Texture.EMPTY || !value.toString().includes('#')) {
+        node.texture = resolvedTexture;
+      }
+    }
+  }
+});
 
 export const PROPERTY_APPLIERS = {
   "sprite": applySpriteProps,

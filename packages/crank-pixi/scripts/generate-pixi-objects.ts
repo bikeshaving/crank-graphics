@@ -1012,6 +1012,7 @@ function generateClassPropertyApplier(cls: PixiClassInfo): string {
       node.textures = resolvedTextures;
     }
   }`);
+
 	}
 
 	// Add texture handling for other sprite types
@@ -1042,6 +1043,19 @@ function generateClassPropertyApplier(cls: PixiClassInfo): string {
     if (typeof drawFn === 'function') {
       node.clear();
       drawFn(node);
+    }
+  }`);
+	}
+
+	// Add texture and size handling for Mesh
+	if (cls.name === "Mesh") {
+		customHandlers.push(`  texture: (node: ${cls.className}, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'texture');
+      // Only assign if we got a real texture, not a deferred one
+      if (resolvedTexture !== PIXI.Texture.EMPTY || !value.toString().includes('#')) {
+        node.texture = resolvedTexture;
+      }
     }
   }`);
 	}
@@ -1082,7 +1096,31 @@ function resolveTexture(textureRef: any): PIXI.Texture {
   return PIXI.Texture.EMPTY;
 }
 
+// Flag to track if we've added prototype modifications
+let prototypesModified = false;
+
 export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<string, any>): any {
+  // Add prototype modifications on first use
+  if (!prototypesModified) {
+    // Add setter for AnimatedSprite playing property to override readonly nature
+    if (PIXI.AnimatedSprite && PIXI.AnimatedSprite.prototype) {
+      Object.defineProperty(PIXI.AnimatedSprite.prototype, 'playing', {
+        get() {
+          return this.currentFrame < this.totalFrames && !this._paused;
+        },
+        set(value: boolean) {
+          if (value) {
+            this.play();
+          } else {
+            this.stop();
+          }
+        },
+        configurable: true
+      });
+    }
+    prototypesModified = true;
+  }
+
   try {
     switch (tag) {
 ${classes.map((cls) => generateConstructorCase(cls)).join("\n")}
