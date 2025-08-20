@@ -1,0 +1,18 @@
+{
+  "include": ["src/*", "test"],
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "ESNEXT",
+    "lib": ["esnext", "dom"],
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@b9g/crank",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "isolatedModules": true
+  },
+  "exclude": ["node_modules"]
+}

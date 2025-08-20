@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crank PIXI Text API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        #game-container {
+            border: 2px solid #333;
+            border-radius: 8px;
+            display: inline-block;
+            background: white;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Crank PIXI Text API Test</h1>
+    <p>Testing the new text API features:</p>
+    <ul>
+        <li>✅ Text content from children: <code>&lt;text&gt;Hello world!&lt;/text&gt;</code></li>
+        <li>✅ Style inheritance from parent text nodes</li>
+        <li>✅ Mixed content (text + sprites)</li>
+        <li>✅ HTMLText host element</li>
+        <li>✅ String content in any container</li>
+    </ul>
+    
+    <div id="game-container"></div>
+    
+    <script type="module" src="./text-api-test.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "crank-pixi-examples",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --hot server.ts",
+    "build": "bun build examples/*.tsx --outdir dist --target browser",
+    "serve": "bun run server.ts"
+  },
+  "dependencies": {
+    "@b9g/crank": "^0.7.0",
+    "pixi.js": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}

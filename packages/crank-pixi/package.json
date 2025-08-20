@@ -1,0 +1,51 @@
+{
+  "name": "@crank/pixi",
+  "version": "0.1.0",
+  "description": "Pixi.js renderer for Crank",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "typecheck": "tsc --noEmit",
+    "generate": "./scripts/generate-pixi-objects.ts",
+    "test": "playwright-test --runner uvu"
+  },
+  "keywords": [
+    "crank",
+    "pixi.js",
+    "renderer",
+    "canvas",
+    "webgl"
+  ],
+  "author": "Crank Contributors",
+  "license": "MIT",
+  "peerDependencies": {
+    "@b9g/crank": "^0.7.0",
+    "pixi.js": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/sinon": "^17.0.4",
+    "playwright-test": "^14.1.9",
+    "sinon": "^17.0.2",
+    "ts-morph": "^21.0.0",
+    "tsx": "^4.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "uvu": "^0.5.6"
+  }
+}

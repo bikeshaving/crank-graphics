@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crank + Pixi.js Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #222;
+            color: white;
+        }
+        #game-container {
+            border: 2px solid #444;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #444;
+            color: white;
+            border: 1px solid #666;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Crank + Pixi.js Demo</h1>
+    <p>A spinning sprite with interactive elements</p>
+
+    <div class="controls">
+        <button onclick="app.toggleAnimation()">Toggle Animation</button>
+        <button onclick="app.changeColor()">Change Color</button>
+    </div>
+
+    <div id="game-container"></div>
+
+    <script type="module" src="./main.tsx"></script>
+</body>
+</html>
