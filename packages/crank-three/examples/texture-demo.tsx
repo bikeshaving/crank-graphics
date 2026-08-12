@@ -55,7 +55,7 @@ function* TextureScene() {
 					rotationX={rotation}
 					rotationY={rotation * 0.7}
 				>
-					<mesh-basic-material map="url(#checker)" />
+					<meshbasicmaterial map="url(#checker)" />
 				</mesh>
 
 				<mesh
@@ -65,7 +65,7 @@ function* TextureScene() {
 					z={0}
 					rotationY={rotation}
 				>
-					<mesh-basic-material map="url(#gradient)" />
+					<meshbasicmaterial map="url(#gradient)" />
 				</mesh>
 
 				<mesh
@@ -76,7 +76,7 @@ function* TextureScene() {
 					rotationX={rotation * -0.5}
 					rotationY={rotation}
 				>
-					<mesh-basic-material map="url(#noise)" />
+					<meshbasicmaterial map="url(#noise)" />
 				</mesh>
 
 				{/* Ground plane with checker texture */}
@@ -87,7 +87,7 @@ function* TextureScene() {
 					z={0}
 					rotationX={-Math.PI / 2}
 				>
-					<mesh-basic-material 
+					<meshbasicmaterial 
 						map="url(#checker)" 
 						side={THREE.DoubleSide}
 					/>
@@ -102,7 +102,7 @@ function* TextureScene() {
 					scale={0.5}
 					rotationY={rotation * 2}
 				>
-					<mesh-basic-material map="url(#dynamic)" />
+					<meshbasicmaterial map="url(#dynamic)" />
 				</mesh>
 				
 				{/* Define the dynamic texture after it's referenced */}
@@ -112,8 +112,8 @@ function* TextureScene() {
 				/>
 
 				{/* Lighting */}
-				<ambient-light intensity={0.4} />
-				<directional-light 
+				<ambientlight intensity={0.4} />
+				<directionallight 
 					intensity={0.8}
 					x={5}
 					y={5}

@@ -6,14 +6,18 @@ import {
 } from "@b9g/crank";
 import * as THREE from "three";
 
-// Three.js object types we'll support
-type ThreeNode = any; // Three.js Object3D base
-type ThreeContainer = any; // Three.js Scene or Group type
+// A node is any Three.js object that the renderer creates.
+// Materials and geometries are not Object3D, so the union includes them.
+export type ThreeNode = THREE.Object3D | THREE.Material | THREE.BufferGeometry;
+
+// A container is a render root. Scene and Group both extend Object3D.
+export type ThreeContainer = THREE.Object3D;
 
 // Import auto-generated mappings
 import {THREE_TAG_MAP} from "./generated/tag-mapping";
 import {PROPERTY_APPLIERS} from "./generated/property-appliers";
 import {createThreeObject} from "./generated/constructors";
+import {getRegisteredTag} from "./core/register";
 
 // Import asset registry and URL parsing
 import {assetRegistry, textureRegistry} from "./core/asset-registry";
@@ -24,7 +28,7 @@ import {
 } from "./core/texture-url-parser";
 
 // Common property setters for Three.js objects
-function applyCommonProps(node: ThreeNode, props: Record<string, any>): void {
+function applyCommonProps(node: any, props: Record<string, any>): void {
 	// Position properties
 	if (props.x !== undefined || props.y !== undefined || props.z !== undefined) {
 		if (node.position) {
@@ -234,7 +238,7 @@ export const adapter: Partial<
 			throw new Error(`Unknown tag: ${tagName} (tag: ${String(tag)})`);
 		}
 
-		let node: ThreeNode;
+		let node: any;
 
 		// Handle special asset definition elements
 		if (tag === "texture") {
@@ -247,14 +251,18 @@ export const adapter: Partial<
 			return createAssetFromProps(props, "asset");
 		}
 
-		// Use the comprehensive tag mapping
-		const ThreeClass = THREE_TAG_MAP[tag as keyof typeof THREE_TAG_MAP];
+		// A registered tag comes first. Its name always contains a dash,
+		// so it cannot shadow a generated tag.
+		const registered = getRegisteredTag(tag);
+		const ThreeClass = registered
+			? registered.Class
+			: THREE_TAG_MAP[tag as keyof typeof THREE_TAG_MAP];
+
 		if (!ThreeClass) {
-			const supportedTags = Object.keys(THREE_TAG_MAP)
-				.filter((t) => t !== "texture")
-				.join(", ");
+			const supportedTags = Object.keys(THREE_TAG_MAP).join(", ");
 			throw new Error(
-				`Unknown Three.js tag: ${tag}. Supported tags: ${supportedTags}`,
+				`Unknown Three.js tag: ${tag}. Supported tags: ${supportedTags}. ` +
+					"Register another class with register().",
 			);
 		}
 
@@ -270,7 +278,7 @@ export const adapter: Partial<
 		props,
 		oldProps,
 	}: {
-		node: ThreeNode;
+		node: any;
 		tagName: string;
 		props: Record<string, any>;
 		oldProps: Record<string, any> | undefined;
@@ -287,8 +295,9 @@ export const adapter: Partial<
 		// Apply common properties first
 		applyCommonProps(node, props);
 
-		// Use the auto-generated property applier based on tag name
+		// Use the auto-generated property applier, or the applier of a registered tag
 		const applier =
+			getRegisteredTag(tagName)?.applyProps ??
 			PROPERTY_APPLIERS[tagName as keyof typeof PROPERTY_APPLIERS];
 
 		if (applier) {
@@ -329,9 +338,9 @@ export const adapter: Partial<
 		children,
 	}: {
 		tag: string | symbol;
-		node: ThreeNode | THREE.WebGLRenderer;
+		node: any;
 		props: Record<string, any>;
-		children: Array<ThreeNode>;
+		children: Array<any>;
 	}): void {
 		// Handle WebGLRenderer by using a scene (we'll need to manage this externally)
 		if (node instanceof THREE.WebGLRenderer) {
@@ -356,7 +365,7 @@ export const adapter: Partial<
 		// Only Object3D can have children in Three.js
 		if (node instanceof THREE.Object3D) {
 			// Remove existing children that aren't in the new children array
-			const toRemove: ThreeNode[] = [];
+			const toRemove: Array<THREE.Object3D> = [];
 			for (const existingChild of node.children) {
 				if (!children.includes(existingChild)) {
 					toRemove.push(existingChild);
@@ -390,8 +399,8 @@ export const adapter: Partial<
 		node,
 		parentNode,
 	}: {
-		node: ThreeNode;
-		parentNode: ThreeNode | THREE.WebGLRenderer;
+		node: any;
+		parentNode: any;
 		isNested: boolean;
 	}): void {
 		// Handle texture definition cleanup
@@ -417,8 +426,8 @@ export const adapter: Partial<
 	}: {
 		value: string;
 		scope: undefined;
-		oldNode: ThreeNode | undefined;
-		hydrationNodes: Array<ThreeNode> | undefined;
+		oldNode: any;
+		hydrationNodes: Array<any> | undefined;
 	}): ThreeNode {
 		// Three.js doesn't have built-in text objects like PIXI
 		// We'll create an empty Group as a placeholder
@@ -428,7 +437,7 @@ export const adapter: Partial<
 		return group;
 	},
 
-	read(value: ElementValue<ThreeNode>): ThreeNode | Array<ThreeNode> | undefined {
+	read(value: ElementValue<any>): any {
 		// Return the Three.js object(s) directly
 		return value;
 	},
@@ -529,4 +538,18 @@ export function* ThreeCanvas({
 
 // Export common Three.js types for convenience
 export {THREE};
-export type {ThreeNode, ThreeContainer};
+
+// The generated JSX types. The import also installs the global JSX element types.
+export * from "./generated/jsx-types";
+export type {ThreeTag} from "./generated/tag-mapping";
+export {isValidThreeTag, getThreeClass, THREE_TAG_MAP} from "./generated/tag-mapping";
+export {assetRegistry, textureRegistry} from "./core/asset-registry";
+export {
+	register,
+	unregister,
+	getRegisteredTag,
+	getRegisteredTagNames,
+	type ThreeConstructor,
+	type RegisteredTag,
+} from "./core/register";
+export {classNameToTagName} from "./core/tag-name";

@@ -3,791 +3,2628 @@
 
 import * as THREE from 'three';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "object3-d": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "scene": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "group": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "mesh": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        geometry?: THREE.BufferGeometry;
-        material?: THREE.Material;
-
-        // Children
-        children?: any;
-      };
-      "l-o-d": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "instanced-mesh": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "box-geometry": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        width?: number;
-        height?: number;
-        depth?: number;
-
-        // Children
-        children?: any;
-      };
-      "sphere-geometry": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        radius?: number;
-        widthSegments?: number;
-        heightSegments?: number;
-
-        // Children
-        children?: any;
-      };
-      "plane-geometry": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        width?: number;
-        height?: number;
-
-        // Children
-        children?: any;
-      };
-      "cylinder-geometry": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        radiusTop?: number;
-        radiusBottom?: number;
-        height?: number;
-
-        // Children
-        children?: any;
-      };
-      "cone-geometry": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "torus-geometry": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        
-
-        // Children
-        children?: any;
-      };
-      "mesh-basic-material": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        transparent?: boolean;
-        opacity?: number;
-        map?: THREE.Texture | string;
-
-        // Children
-        children?: any;
-      };
-      "mesh-standard-material": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        transparent?: boolean;
-        opacity?: number;
-        roughness?: number;
-        metalness?: number;
-        map?: THREE.Texture | string;
-
-        // Children
-        children?: any;
-      };
-      "mesh-phong-material": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        transparent?: boolean;
-        opacity?: number;
-        roughness?: number;
-        metalness?: number;
-        map?: THREE.Texture | string;
-
-        // Children
-        children?: any;
-      };
-      "mesh-lambert-material": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        transparent?: boolean;
-        opacity?: number;
-        map?: THREE.Texture | string;
-
-        // Children
-        children?: any;
-      };
-      "ambient-light": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        intensity?: number;
-
-        // Children
-        children?: any;
-      };
-      "directional-light": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        intensity?: number;
-        target?: THREE.Object3D;
-
-        // Children
-        children?: any;
-      };
-      "point-light": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        intensity?: number;
-        distance?: number;
-        decay?: number;
-
-        // Children
-        children?: any;
-      };
-      "spot-light": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        intensity?: number;
-        distance?: number;
-        decay?: number;
-        angle?: number;
-        penumbra?: number;
-
-        // Children
-        children?: any;
-      };
-      "hemisphere-light": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        color?: THREE.ColorRepresentation;
-        intensity?: number;
-
-        // Children
-        children?: any;
-      };
-      "perspective-camera": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        fov?: number;
-        aspect?: number;
-        near?: number;
-        far?: number;
-
-        // Children
-        children?: any;
-      };
-      "orthographic-camera": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        left?: number;
-        right?: number;
-        top?: number;
-        bottom?: number;
-        near?: number;
-        far?: number;
-
-        // Children
-        children?: any;
-      };
-    }
-  }
+/** A Vector3 property. The renderer accepts a vector, a triple, a number, or a partial vector. */
+export type Vector3Prop =
+  | THREE.Vector3
+  | [number, number, number]
+  | number
+  | {x?: number; y?: number; z?: number};
+
+/** A rotation property. The renderer accepts an Euler, a triple, or a partial Euler. */
+export type EulerProp =
+  | THREE.Euler
+  | [number, number, number]
+  | {x?: number; y?: number; z?: number; order?: THREE.EulerOrder};
+
+/** A texture property. A string is a path, a "#id" reference, or a "url(#id)" reference. */
+export type TextureProp = THREE.Texture | string | null;
+
+export type ThreeEventHandler = (event: any) => void;
+
+/** The value properties of a class. The helper drops the methods. */
+export type ThreeValueProps<T> = {
+  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]?: T[K];
+};
+
+/**
+ * The props of an element of a class that extend() registers.
+ * Augment JSX.IntrinsicElements with it:
+ *
+ *   declare global {
+ *     namespace JSX {
+ *       interface IntrinsicElements {
+ *         orbitcontrols: ThreeElementProps<OrbitControls>;
+ *       }
+ *     }
+ *   }
+ */
+export type ThreeElementProps<T> = ThreeCommonProps &
+  Omit<ThreeValueProps<T>, keyof ThreeCommonProps>;
+
+/** Props that every Three.js element accepts. */
+export interface ThreeCommonProps {
+  position?: Vector3Prop;
+  rotation?: EulerProp;
+  scale?: Vector3Prop;
+
+  // Shorthand transform props. The renderer writes them to position, rotation, and scale.
+  x?: number;
+  y?: number;
+  z?: number;
+  rotationX?: number;
+  rotationY?: number;
+  rotationZ?: number;
+  scaleX?: number;
+  scaleY?: number;
+  scaleZ?: number;
+
+  visible?: boolean;
+  name?: string;
+  userData?: any;
+  castShadow?: boolean;
+  receiveShadow?: boolean;
+  frustumCulled?: boolean;
+  renderOrder?: number;
+
+  children?: any;
+
+  /** The constructor arguments of the Three.js class. */
+  args?: Array<any>;
+
+  // Special props of Crank elements.
+  key?: unknown;
+  ref?: unknown;
+  copy?: unknown;
+  hydrate?: unknown;
+
+  // Event handlers. The renderer adds each "on" prop with addEventListener.
+  onAdded?: ThreeEventHandler;
+  onRemoved?: ThreeEventHandler;
+  [event: `on${string}`]: ThreeEventHandler | undefined;
 }
 
-export {};
+/** Props of the virtual "texture" and "asset" elements. */
+export interface ThreeAssetProps {
+  /** The registry id. Other elements refer to it with "url(#id)". */
+  id: string;
+  /** A path to load the asset from. */
+  src?: string;
+  /** The asset type. The registry reads the file extension when you omit it. */
+  type?: string;
+  texture?: THREE.Texture;
+  asset?: any;
+  metadata?: Record<string, any>;
+  onload?: ThreeEventHandler;
+  onerror?: ThreeEventHandler;
+  onLoad?: ThreeEventHandler;
+  onError?: ThreeEventHandler;
+  children?: any;
+}
+
+/** Props of the "audio" element (THREE.Audio). */
+export interface AudioProps extends ThreeCommonProps {
+  animations?: THREE.Audio["animations"];
+  autoplay?: THREE.Audio["autoplay"];
+  buffer?: THREE.Audio["buffer"];
+  context?: THREE.Audio["context"];
+  customDepthMaterial?: THREE.Audio["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Audio["customDistanceMaterial"];
+  detune?: THREE.Audio["detune"];
+  duration?: THREE.Audio["duration"];
+  filters?: THREE.Audio["filters"];
+  gain?: THREE.Audio["gain"];
+  hasPlaybackControl?: THREE.Audio["hasPlaybackControl"];
+  layers?: THREE.Audio["layers"];
+  listener?: THREE.Audio["listener"];
+  loop?: THREE.Audio["loop"];
+  loopEnd?: THREE.Audio["loopEnd"];
+  loopStart?: THREE.Audio["loopStart"];
+  matrixAutoUpdate?: THREE.Audio["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Audio["matrixWorldAutoUpdate"];
+  offset?: THREE.Audio["offset"];
+  playbackRate?: THREE.Audio["playbackRate"];
+  source?: THREE.Audio["source"];
+  sourceType?: THREE.Audio["sourceType"];
+  up?: THREE.Audio["up"] | Vector3Prop;
+}
+
+/** Props of the "audiolistener" element (THREE.AudioListener). */
+export interface AudioListenerProps extends ThreeCommonProps {
+  animations?: THREE.AudioListener["animations"];
+  context?: THREE.AudioListener["context"];
+  customDepthMaterial?: THREE.AudioListener["customDepthMaterial"];
+  customDistanceMaterial?: THREE.AudioListener["customDistanceMaterial"];
+  filter?: THREE.AudioListener["filter"];
+  gain?: THREE.AudioListener["gain"];
+  layers?: THREE.AudioListener["layers"];
+  matrixAutoUpdate?: THREE.AudioListener["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.AudioListener["matrixWorldAutoUpdate"];
+  timeDelta?: THREE.AudioListener["timeDelta"];
+  up?: THREE.AudioListener["up"] | Vector3Prop;
+}
+
+/** Props of the "positionalaudio" element (THREE.PositionalAudio). */
+export interface PositionalAudioProps extends ThreeCommonProps {
+  animations?: THREE.PositionalAudio["animations"];
+  autoplay?: THREE.PositionalAudio["autoplay"];
+  buffer?: THREE.PositionalAudio["buffer"];
+  context?: THREE.PositionalAudio["context"];
+  customDepthMaterial?: THREE.PositionalAudio["customDepthMaterial"];
+  customDistanceMaterial?: THREE.PositionalAudio["customDistanceMaterial"];
+  detune?: THREE.PositionalAudio["detune"];
+  duration?: THREE.PositionalAudio["duration"];
+  filters?: THREE.PositionalAudio["filters"];
+  gain?: THREE.PositionalAudio["gain"];
+  hasPlaybackControl?: THREE.PositionalAudio["hasPlaybackControl"];
+  layers?: THREE.PositionalAudio["layers"];
+  listener?: THREE.PositionalAudio["listener"];
+  loop?: THREE.PositionalAudio["loop"];
+  loopEnd?: THREE.PositionalAudio["loopEnd"];
+  loopStart?: THREE.PositionalAudio["loopStart"];
+  matrixAutoUpdate?: THREE.PositionalAudio["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.PositionalAudio["matrixWorldAutoUpdate"];
+  offset?: THREE.PositionalAudio["offset"];
+  panner?: THREE.PositionalAudio["panner"];
+  playbackRate?: THREE.PositionalAudio["playbackRate"];
+  source?: THREE.PositionalAudio["source"];
+  sourceType?: THREE.PositionalAudio["sourceType"];
+  up?: THREE.PositionalAudio["up"] | Vector3Prop;
+}
+
+/** Props of the "arraycamera" element (THREE.ArrayCamera). */
+export interface ArrayCameraProps extends ThreeCommonProps {
+  animations?: THREE.ArrayCamera["animations"];
+  aspect?: THREE.ArrayCamera["aspect"];
+  cameras?: THREE.ArrayCamera["cameras"];
+  coordinateSystem?: THREE.ArrayCamera["coordinateSystem"];
+  customDepthMaterial?: THREE.ArrayCamera["customDepthMaterial"];
+  customDistanceMaterial?: THREE.ArrayCamera["customDistanceMaterial"];
+  far?: THREE.ArrayCamera["far"];
+  filmGauge?: THREE.ArrayCamera["filmGauge"];
+  filmOffset?: THREE.ArrayCamera["filmOffset"];
+  focus?: THREE.ArrayCamera["focus"];
+  fov?: THREE.ArrayCamera["fov"];
+  layers?: THREE.ArrayCamera["layers"];
+  matrixAutoUpdate?: THREE.ArrayCamera["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.ArrayCamera["matrixWorldAutoUpdate"];
+  matrixWorldInverse?: THREE.ArrayCamera["matrixWorldInverse"];
+  near?: THREE.ArrayCamera["near"];
+  projectionMatrix?: THREE.ArrayCamera["projectionMatrix"];
+  projectionMatrixInverse?: THREE.ArrayCamera["projectionMatrixInverse"];
+  up?: THREE.ArrayCamera["up"] | Vector3Prop;
+  view?: THREE.ArrayCamera["view"];
+  viewport?: THREE.ArrayCamera["viewport"];
+  zoom?: THREE.ArrayCamera["zoom"];
+}
+
+/** Props of the "camera" element (THREE.Camera). */
+export interface CameraProps extends ThreeCommonProps {
+  animations?: THREE.Camera["animations"];
+  coordinateSystem?: THREE.Camera["coordinateSystem"];
+  customDepthMaterial?: THREE.Camera["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Camera["customDistanceMaterial"];
+  layers?: THREE.Camera["layers"];
+  matrixAutoUpdate?: THREE.Camera["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Camera["matrixWorldAutoUpdate"];
+  matrixWorldInverse?: THREE.Camera["matrixWorldInverse"];
+  projectionMatrix?: THREE.Camera["projectionMatrix"];
+  projectionMatrixInverse?: THREE.Camera["projectionMatrixInverse"];
+  up?: THREE.Camera["up"] | Vector3Prop;
+  viewport?: THREE.Camera["viewport"];
+}
+
+/** Props of the "cubecamera" element (THREE.CubeCamera). */
+export interface CubeCameraProps extends ThreeCommonProps {
+  activeMipmapLevel?: THREE.CubeCamera["activeMipmapLevel"];
+  animations?: THREE.CubeCamera["animations"];
+  coordinateSystem?: THREE.CubeCamera["coordinateSystem"];
+  customDepthMaterial?: THREE.CubeCamera["customDepthMaterial"];
+  customDistanceMaterial?: THREE.CubeCamera["customDistanceMaterial"];
+  layers?: THREE.CubeCamera["layers"];
+  matrixAutoUpdate?: THREE.CubeCamera["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.CubeCamera["matrixWorldAutoUpdate"];
+  renderTarget?: THREE.CubeCamera["renderTarget"];
+  up?: THREE.CubeCamera["up"] | Vector3Prop;
+}
+
+/** Props of the "orthographiccamera" element (THREE.OrthographicCamera). */
+export interface OrthographicCameraProps extends ThreeCommonProps {
+  animations?: THREE.OrthographicCamera["animations"];
+  bottom?: THREE.OrthographicCamera["bottom"];
+  coordinateSystem?: THREE.OrthographicCamera["coordinateSystem"];
+  customDepthMaterial?: THREE.OrthographicCamera["customDepthMaterial"];
+  customDistanceMaterial?: THREE.OrthographicCamera["customDistanceMaterial"];
+  far?: THREE.OrthographicCamera["far"];
+  layers?: THREE.OrthographicCamera["layers"];
+  left?: THREE.OrthographicCamera["left"];
+  matrixAutoUpdate?: THREE.OrthographicCamera["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.OrthographicCamera["matrixWorldAutoUpdate"];
+  matrixWorldInverse?: THREE.OrthographicCamera["matrixWorldInverse"];
+  near?: THREE.OrthographicCamera["near"];
+  projectionMatrix?: THREE.OrthographicCamera["projectionMatrix"];
+  projectionMatrixInverse?: THREE.OrthographicCamera["projectionMatrixInverse"];
+  right?: THREE.OrthographicCamera["right"];
+  top?: THREE.OrthographicCamera["top"];
+  up?: THREE.OrthographicCamera["up"] | Vector3Prop;
+  view?: THREE.OrthographicCamera["view"];
+  viewport?: THREE.OrthographicCamera["viewport"];
+  zoom?: THREE.OrthographicCamera["zoom"];
+}
+
+/** Props of the "perspectivecamera" element (THREE.PerspectiveCamera). */
+export interface PerspectiveCameraProps extends ThreeCommonProps {
+  animations?: THREE.PerspectiveCamera["animations"];
+  aspect?: THREE.PerspectiveCamera["aspect"];
+  coordinateSystem?: THREE.PerspectiveCamera["coordinateSystem"];
+  customDepthMaterial?: THREE.PerspectiveCamera["customDepthMaterial"];
+  customDistanceMaterial?: THREE.PerspectiveCamera["customDistanceMaterial"];
+  far?: THREE.PerspectiveCamera["far"];
+  filmGauge?: THREE.PerspectiveCamera["filmGauge"];
+  filmOffset?: THREE.PerspectiveCamera["filmOffset"];
+  focus?: THREE.PerspectiveCamera["focus"];
+  fov?: THREE.PerspectiveCamera["fov"];
+  layers?: THREE.PerspectiveCamera["layers"];
+  matrixAutoUpdate?: THREE.PerspectiveCamera["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.PerspectiveCamera["matrixWorldAutoUpdate"];
+  matrixWorldInverse?: THREE.PerspectiveCamera["matrixWorldInverse"];
+  near?: THREE.PerspectiveCamera["near"];
+  projectionMatrix?: THREE.PerspectiveCamera["projectionMatrix"];
+  projectionMatrixInverse?: THREE.PerspectiveCamera["projectionMatrixInverse"];
+  up?: THREE.PerspectiveCamera["up"] | Vector3Prop;
+  view?: THREE.PerspectiveCamera["view"];
+  viewport?: THREE.PerspectiveCamera["viewport"];
+  zoom?: THREE.PerspectiveCamera["zoom"];
+}
+
+/** Props of the "stereocamera" element (THREE.StereoCamera). */
+export interface StereoCameraProps extends ThreeCommonProps {
+  animations?: THREE.StereoCamera["animations"];
+  aspect?: THREE.StereoCamera["aspect"];
+  cameraL?: THREE.StereoCamera["cameraL"];
+  cameraR?: THREE.StereoCamera["cameraR"];
+  coordinateSystem?: THREE.StereoCamera["coordinateSystem"];
+  customDepthMaterial?: THREE.StereoCamera["customDepthMaterial"];
+  customDistanceMaterial?: THREE.StereoCamera["customDistanceMaterial"];
+  eyeSep?: THREE.StereoCamera["eyeSep"];
+  layers?: THREE.StereoCamera["layers"];
+  matrixAutoUpdate?: THREE.StereoCamera["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.StereoCamera["matrixWorldAutoUpdate"];
+  matrixWorldInverse?: THREE.StereoCamera["matrixWorldInverse"];
+  projectionMatrix?: THREE.StereoCamera["projectionMatrix"];
+  projectionMatrixInverse?: THREE.StereoCamera["projectionMatrixInverse"];
+  up?: THREE.StereoCamera["up"] | Vector3Prop;
+  viewport?: THREE.StereoCamera["viewport"];
+}
+
+/** Props of the "buffergeometry" element (THREE.BufferGeometry). */
+export interface BufferGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.BufferGeometry["attributes"];
+  boundingBox?: THREE.BufferGeometry["boundingBox"];
+  boundingSphere?: THREE.BufferGeometry["boundingSphere"];
+  drawRange?: THREE.BufferGeometry["drawRange"];
+  groups?: THREE.BufferGeometry["groups"];
+  index?: THREE.BufferGeometry["index"];
+  indirect?: THREE.BufferGeometry["indirect"];
+  morphAttributes?: THREE.BufferGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.BufferGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "instancedbuffergeometry" element (THREE.InstancedBufferGeometry). */
+export interface InstancedBufferGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.InstancedBufferGeometry["attributes"];
+  boundingBox?: THREE.InstancedBufferGeometry["boundingBox"];
+  boundingSphere?: THREE.InstancedBufferGeometry["boundingSphere"];
+  drawRange?: THREE.InstancedBufferGeometry["drawRange"];
+  groups?: THREE.InstancedBufferGeometry["groups"];
+  index?: THREE.InstancedBufferGeometry["index"];
+  indirect?: THREE.InstancedBufferGeometry["indirect"];
+  instanceCount?: THREE.InstancedBufferGeometry["instanceCount"];
+  morphAttributes?: THREE.InstancedBufferGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.InstancedBufferGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "object3d" element (THREE.Object3D). */
+export interface Object3DProps extends ThreeCommonProps {
+  animations?: THREE.Object3D["animations"];
+  customDepthMaterial?: THREE.Object3D["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Object3D["customDistanceMaterial"];
+  layers?: THREE.Object3D["layers"];
+  matrixAutoUpdate?: THREE.Object3D["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Object3D["matrixWorldAutoUpdate"];
+  up?: THREE.Object3D["up"] | Vector3Prop;
+}
+
+/** Props of the "boxgeometry" element (THREE.BoxGeometry). */
+export interface BoxGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.BoxGeometry["attributes"];
+  boundingBox?: THREE.BoxGeometry["boundingBox"];
+  boundingSphere?: THREE.BoxGeometry["boundingSphere"];
+  drawRange?: THREE.BoxGeometry["drawRange"];
+  groups?: THREE.BoxGeometry["groups"];
+  index?: THREE.BoxGeometry["index"];
+  indirect?: THREE.BoxGeometry["indirect"];
+  morphAttributes?: THREE.BoxGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.BoxGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "capsulegeometry" element (THREE.CapsuleGeometry). */
+export interface CapsuleGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.CapsuleGeometry["attributes"];
+  boundingBox?: THREE.CapsuleGeometry["boundingBox"];
+  boundingSphere?: THREE.CapsuleGeometry["boundingSphere"];
+  drawRange?: THREE.CapsuleGeometry["drawRange"];
+  groups?: THREE.CapsuleGeometry["groups"];
+  index?: THREE.CapsuleGeometry["index"];
+  indirect?: THREE.CapsuleGeometry["indirect"];
+  morphAttributes?: THREE.CapsuleGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.CapsuleGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "circlegeometry" element (THREE.CircleGeometry). */
+export interface CircleGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.CircleGeometry["attributes"];
+  boundingBox?: THREE.CircleGeometry["boundingBox"];
+  boundingSphere?: THREE.CircleGeometry["boundingSphere"];
+  drawRange?: THREE.CircleGeometry["drawRange"];
+  groups?: THREE.CircleGeometry["groups"];
+  index?: THREE.CircleGeometry["index"];
+  indirect?: THREE.CircleGeometry["indirect"];
+  morphAttributes?: THREE.CircleGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.CircleGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "conegeometry" element (THREE.ConeGeometry). */
+export interface ConeGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.ConeGeometry["attributes"];
+  boundingBox?: THREE.ConeGeometry["boundingBox"];
+  boundingSphere?: THREE.ConeGeometry["boundingSphere"];
+  drawRange?: THREE.ConeGeometry["drawRange"];
+  groups?: THREE.ConeGeometry["groups"];
+  index?: THREE.ConeGeometry["index"];
+  indirect?: THREE.ConeGeometry["indirect"];
+  morphAttributes?: THREE.ConeGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.ConeGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "cylindergeometry" element (THREE.CylinderGeometry). */
+export interface CylinderGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.CylinderGeometry["attributes"];
+  boundingBox?: THREE.CylinderGeometry["boundingBox"];
+  boundingSphere?: THREE.CylinderGeometry["boundingSphere"];
+  drawRange?: THREE.CylinderGeometry["drawRange"];
+  groups?: THREE.CylinderGeometry["groups"];
+  index?: THREE.CylinderGeometry["index"];
+  indirect?: THREE.CylinderGeometry["indirect"];
+  morphAttributes?: THREE.CylinderGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.CylinderGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "dodecahedrongeometry" element (THREE.DodecahedronGeometry). */
+export interface DodecahedronGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.DodecahedronGeometry["attributes"];
+  boundingBox?: THREE.DodecahedronGeometry["boundingBox"];
+  boundingSphere?: THREE.DodecahedronGeometry["boundingSphere"];
+  drawRange?: THREE.DodecahedronGeometry["drawRange"];
+  groups?: THREE.DodecahedronGeometry["groups"];
+  index?: THREE.DodecahedronGeometry["index"];
+  indirect?: THREE.DodecahedronGeometry["indirect"];
+  morphAttributes?: THREE.DodecahedronGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.DodecahedronGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "edgesgeometry" element (THREE.EdgesGeometry). */
+export interface EdgesGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.EdgesGeometry["attributes"];
+  boundingBox?: THREE.EdgesGeometry["boundingBox"];
+  boundingSphere?: THREE.EdgesGeometry["boundingSphere"];
+  drawRange?: THREE.EdgesGeometry["drawRange"];
+  groups?: THREE.EdgesGeometry["groups"];
+  index?: THREE.EdgesGeometry["index"];
+  indirect?: THREE.EdgesGeometry["indirect"];
+  morphAttributes?: THREE.EdgesGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.EdgesGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "extrudegeometry" element (THREE.ExtrudeGeometry). */
+export interface ExtrudeGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.ExtrudeGeometry["attributes"];
+  boundingBox?: THREE.ExtrudeGeometry["boundingBox"];
+  boundingSphere?: THREE.ExtrudeGeometry["boundingSphere"];
+  drawRange?: THREE.ExtrudeGeometry["drawRange"];
+  groups?: THREE.ExtrudeGeometry["groups"];
+  index?: THREE.ExtrudeGeometry["index"];
+  indirect?: THREE.ExtrudeGeometry["indirect"];
+  morphAttributes?: THREE.ExtrudeGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.ExtrudeGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "icosahedrongeometry" element (THREE.IcosahedronGeometry). */
+export interface IcosahedronGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.IcosahedronGeometry["attributes"];
+  boundingBox?: THREE.IcosahedronGeometry["boundingBox"];
+  boundingSphere?: THREE.IcosahedronGeometry["boundingSphere"];
+  drawRange?: THREE.IcosahedronGeometry["drawRange"];
+  groups?: THREE.IcosahedronGeometry["groups"];
+  index?: THREE.IcosahedronGeometry["index"];
+  indirect?: THREE.IcosahedronGeometry["indirect"];
+  morphAttributes?: THREE.IcosahedronGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.IcosahedronGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "lathegeometry" element (THREE.LatheGeometry). */
+export interface LatheGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.LatheGeometry["attributes"];
+  boundingBox?: THREE.LatheGeometry["boundingBox"];
+  boundingSphere?: THREE.LatheGeometry["boundingSphere"];
+  drawRange?: THREE.LatheGeometry["drawRange"];
+  groups?: THREE.LatheGeometry["groups"];
+  index?: THREE.LatheGeometry["index"];
+  indirect?: THREE.LatheGeometry["indirect"];
+  morphAttributes?: THREE.LatheGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.LatheGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "octahedrongeometry" element (THREE.OctahedronGeometry). */
+export interface OctahedronGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.OctahedronGeometry["attributes"];
+  boundingBox?: THREE.OctahedronGeometry["boundingBox"];
+  boundingSphere?: THREE.OctahedronGeometry["boundingSphere"];
+  drawRange?: THREE.OctahedronGeometry["drawRange"];
+  groups?: THREE.OctahedronGeometry["groups"];
+  index?: THREE.OctahedronGeometry["index"];
+  indirect?: THREE.OctahedronGeometry["indirect"];
+  morphAttributes?: THREE.OctahedronGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.OctahedronGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "planegeometry" element (THREE.PlaneGeometry). */
+export interface PlaneGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.PlaneGeometry["attributes"];
+  boundingBox?: THREE.PlaneGeometry["boundingBox"];
+  boundingSphere?: THREE.PlaneGeometry["boundingSphere"];
+  drawRange?: THREE.PlaneGeometry["drawRange"];
+  groups?: THREE.PlaneGeometry["groups"];
+  index?: THREE.PlaneGeometry["index"];
+  indirect?: THREE.PlaneGeometry["indirect"];
+  morphAttributes?: THREE.PlaneGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.PlaneGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "polyhedrongeometry" element (THREE.PolyhedronGeometry). */
+export interface PolyhedronGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.PolyhedronGeometry["attributes"];
+  boundingBox?: THREE.PolyhedronGeometry["boundingBox"];
+  boundingSphere?: THREE.PolyhedronGeometry["boundingSphere"];
+  drawRange?: THREE.PolyhedronGeometry["drawRange"];
+  groups?: THREE.PolyhedronGeometry["groups"];
+  index?: THREE.PolyhedronGeometry["index"];
+  indirect?: THREE.PolyhedronGeometry["indirect"];
+  morphAttributes?: THREE.PolyhedronGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.PolyhedronGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "ringgeometry" element (THREE.RingGeometry). */
+export interface RingGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.RingGeometry["attributes"];
+  boundingBox?: THREE.RingGeometry["boundingBox"];
+  boundingSphere?: THREE.RingGeometry["boundingSphere"];
+  drawRange?: THREE.RingGeometry["drawRange"];
+  groups?: THREE.RingGeometry["groups"];
+  index?: THREE.RingGeometry["index"];
+  indirect?: THREE.RingGeometry["indirect"];
+  morphAttributes?: THREE.RingGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.RingGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "shapegeometry" element (THREE.ShapeGeometry). */
+export interface ShapeGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.ShapeGeometry["attributes"];
+  boundingBox?: THREE.ShapeGeometry["boundingBox"];
+  boundingSphere?: THREE.ShapeGeometry["boundingSphere"];
+  drawRange?: THREE.ShapeGeometry["drawRange"];
+  groups?: THREE.ShapeGeometry["groups"];
+  index?: THREE.ShapeGeometry["index"];
+  indirect?: THREE.ShapeGeometry["indirect"];
+  morphAttributes?: THREE.ShapeGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.ShapeGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "spheregeometry" element (THREE.SphereGeometry). */
+export interface SphereGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.SphereGeometry["attributes"];
+  boundingBox?: THREE.SphereGeometry["boundingBox"];
+  boundingSphere?: THREE.SphereGeometry["boundingSphere"];
+  drawRange?: THREE.SphereGeometry["drawRange"];
+  groups?: THREE.SphereGeometry["groups"];
+  index?: THREE.SphereGeometry["index"];
+  indirect?: THREE.SphereGeometry["indirect"];
+  morphAttributes?: THREE.SphereGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.SphereGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "tetrahedrongeometry" element (THREE.TetrahedronGeometry). */
+export interface TetrahedronGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.TetrahedronGeometry["attributes"];
+  boundingBox?: THREE.TetrahedronGeometry["boundingBox"];
+  boundingSphere?: THREE.TetrahedronGeometry["boundingSphere"];
+  drawRange?: THREE.TetrahedronGeometry["drawRange"];
+  groups?: THREE.TetrahedronGeometry["groups"];
+  index?: THREE.TetrahedronGeometry["index"];
+  indirect?: THREE.TetrahedronGeometry["indirect"];
+  morphAttributes?: THREE.TetrahedronGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.TetrahedronGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "torusgeometry" element (THREE.TorusGeometry). */
+export interface TorusGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.TorusGeometry["attributes"];
+  boundingBox?: THREE.TorusGeometry["boundingBox"];
+  boundingSphere?: THREE.TorusGeometry["boundingSphere"];
+  drawRange?: THREE.TorusGeometry["drawRange"];
+  groups?: THREE.TorusGeometry["groups"];
+  index?: THREE.TorusGeometry["index"];
+  indirect?: THREE.TorusGeometry["indirect"];
+  morphAttributes?: THREE.TorusGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.TorusGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "torusknotgeometry" element (THREE.TorusKnotGeometry). */
+export interface TorusKnotGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.TorusKnotGeometry["attributes"];
+  boundingBox?: THREE.TorusKnotGeometry["boundingBox"];
+  boundingSphere?: THREE.TorusKnotGeometry["boundingSphere"];
+  drawRange?: THREE.TorusKnotGeometry["drawRange"];
+  groups?: THREE.TorusKnotGeometry["groups"];
+  index?: THREE.TorusKnotGeometry["index"];
+  indirect?: THREE.TorusKnotGeometry["indirect"];
+  morphAttributes?: THREE.TorusKnotGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.TorusKnotGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "tubegeometry" element (THREE.TubeGeometry). */
+export interface TubeGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.TubeGeometry["attributes"];
+  binormals?: THREE.TubeGeometry["binormals"] | Vector3Prop;
+  boundingBox?: THREE.TubeGeometry["boundingBox"];
+  boundingSphere?: THREE.TubeGeometry["boundingSphere"];
+  drawRange?: THREE.TubeGeometry["drawRange"];
+  groups?: THREE.TubeGeometry["groups"];
+  index?: THREE.TubeGeometry["index"];
+  indirect?: THREE.TubeGeometry["indirect"];
+  morphAttributes?: THREE.TubeGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.TubeGeometry["morphTargetsRelative"];
+  normals?: THREE.TubeGeometry["normals"] | Vector3Prop;
+  tangents?: THREE.TubeGeometry["tangents"] | Vector3Prop;
+}
+
+/** Props of the "wireframegeometry" element (THREE.WireframeGeometry). */
+export interface WireframeGeometryProps extends ThreeCommonProps {
+  attributes?: THREE.WireframeGeometry["attributes"];
+  boundingBox?: THREE.WireframeGeometry["boundingBox"];
+  boundingSphere?: THREE.WireframeGeometry["boundingSphere"];
+  drawRange?: THREE.WireframeGeometry["drawRange"];
+  groups?: THREE.WireframeGeometry["groups"];
+  index?: THREE.WireframeGeometry["index"];
+  indirect?: THREE.WireframeGeometry["indirect"];
+  morphAttributes?: THREE.WireframeGeometry["morphAttributes"];
+  morphTargetsRelative?: THREE.WireframeGeometry["morphTargetsRelative"];
+}
+
+/** Props of the "arrowhelper" element (THREE.ArrowHelper). */
+export interface ArrowHelperProps extends ThreeCommonProps {
+  animations?: THREE.ArrowHelper["animations"];
+  cone?: THREE.ArrowHelper["cone"];
+  customDepthMaterial?: THREE.ArrowHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.ArrowHelper["customDistanceMaterial"];
+  layers?: THREE.ArrowHelper["layers"];
+  line?: THREE.ArrowHelper["line"];
+  matrixAutoUpdate?: THREE.ArrowHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.ArrowHelper["matrixWorldAutoUpdate"];
+  up?: THREE.ArrowHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "axeshelper" element (THREE.AxesHelper). */
+export interface AxesHelperProps extends ThreeCommonProps {
+  animations?: THREE.AxesHelper["animations"];
+  customDepthMaterial?: THREE.AxesHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.AxesHelper["customDistanceMaterial"];
+  geometry?: THREE.AxesHelper["geometry"];
+  layers?: THREE.AxesHelper["layers"];
+  material?: THREE.AxesHelper["material"];
+  matrixAutoUpdate?: THREE.AxesHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.AxesHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.AxesHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.AxesHelper["morphTargetInfluences"];
+  up?: THREE.AxesHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "box3helper" element (THREE.Box3Helper). */
+export interface Box3HelperProps extends ThreeCommonProps {
+  animations?: THREE.Box3Helper["animations"];
+  box?: THREE.Box3Helper["box"];
+  customDepthMaterial?: THREE.Box3Helper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Box3Helper["customDistanceMaterial"];
+  geometry?: THREE.Box3Helper["geometry"];
+  layers?: THREE.Box3Helper["layers"];
+  material?: THREE.Box3Helper["material"];
+  matrixAutoUpdate?: THREE.Box3Helper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Box3Helper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.Box3Helper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.Box3Helper["morphTargetInfluences"];
+  up?: THREE.Box3Helper["up"] | Vector3Prop;
+}
+
+/** Props of the "boxhelper" element (THREE.BoxHelper). */
+export interface BoxHelperProps extends ThreeCommonProps {
+  animations?: THREE.BoxHelper["animations"];
+  customDepthMaterial?: THREE.BoxHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.BoxHelper["customDistanceMaterial"];
+  geometry?: THREE.BoxHelper["geometry"];
+  layers?: THREE.BoxHelper["layers"];
+  material?: THREE.BoxHelper["material"];
+  matrixAutoUpdate?: THREE.BoxHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.BoxHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.BoxHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.BoxHelper["morphTargetInfluences"];
+  up?: THREE.BoxHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "camerahelper" element (THREE.CameraHelper). */
+export interface CameraHelperProps extends ThreeCommonProps {
+  animations?: THREE.CameraHelper["animations"];
+  camera?: THREE.CameraHelper["camera"];
+  customDepthMaterial?: THREE.CameraHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.CameraHelper["customDistanceMaterial"];
+  geometry?: THREE.CameraHelper["geometry"];
+  layers?: THREE.CameraHelper["layers"];
+  material?: THREE.CameraHelper["material"];
+  matrixAutoUpdate?: THREE.CameraHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.CameraHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.CameraHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.CameraHelper["morphTargetInfluences"];
+  pointMap?: THREE.CameraHelper["pointMap"];
+  up?: THREE.CameraHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "directionallighthelper" element (THREE.DirectionalLightHelper). */
+export interface DirectionalLightHelperProps extends ThreeCommonProps {
+  animations?: THREE.DirectionalLightHelper["animations"];
+  color?: THREE.DirectionalLightHelper["color"];
+  customDepthMaterial?: THREE.DirectionalLightHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.DirectionalLightHelper["customDistanceMaterial"];
+  layers?: THREE.DirectionalLightHelper["layers"];
+  light?: THREE.DirectionalLightHelper["light"];
+  lightPlane?: THREE.DirectionalLightHelper["lightPlane"];
+  matrixAutoUpdate?: THREE.DirectionalLightHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.DirectionalLightHelper["matrixWorldAutoUpdate"];
+  targetLine?: THREE.DirectionalLightHelper["targetLine"];
+  up?: THREE.DirectionalLightHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "gridhelper" element (THREE.GridHelper). */
+export interface GridHelperProps extends ThreeCommonProps {
+  animations?: THREE.GridHelper["animations"];
+  customDepthMaterial?: THREE.GridHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.GridHelper["customDistanceMaterial"];
+  geometry?: THREE.GridHelper["geometry"];
+  layers?: THREE.GridHelper["layers"];
+  material?: THREE.GridHelper["material"];
+  matrixAutoUpdate?: THREE.GridHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.GridHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.GridHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.GridHelper["morphTargetInfluences"];
+  up?: THREE.GridHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "hemispherelighthelper" element (THREE.HemisphereLightHelper). */
+export interface HemisphereLightHelperProps extends ThreeCommonProps {
+  animations?: THREE.HemisphereLightHelper["animations"];
+  color?: THREE.HemisphereLightHelper["color"];
+  customDepthMaterial?: THREE.HemisphereLightHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.HemisphereLightHelper["customDistanceMaterial"];
+  layers?: THREE.HemisphereLightHelper["layers"];
+  light?: THREE.HemisphereLightHelper["light"];
+  material?: THREE.HemisphereLightHelper["material"];
+  matrixAutoUpdate?: THREE.HemisphereLightHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.HemisphereLightHelper["matrixWorldAutoUpdate"];
+  up?: THREE.HemisphereLightHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "planehelper" element (THREE.PlaneHelper). */
+export interface PlaneHelperProps extends ThreeCommonProps {
+  animations?: THREE.PlaneHelper["animations"];
+  customDepthMaterial?: THREE.PlaneHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.PlaneHelper["customDistanceMaterial"];
+  geometry?: THREE.PlaneHelper["geometry"];
+  layers?: THREE.PlaneHelper["layers"];
+  material?: THREE.PlaneHelper["material"];
+  matrixAutoUpdate?: THREE.PlaneHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.PlaneHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.PlaneHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.PlaneHelper["morphTargetInfluences"];
+  plane?: THREE.PlaneHelper["plane"];
+  size?: THREE.PlaneHelper["size"];
+  up?: THREE.PlaneHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "pointlighthelper" element (THREE.PointLightHelper). */
+export interface PointLightHelperProps extends ThreeCommonProps {
+  animations?: THREE.PointLightHelper["animations"];
+  color?: THREE.PointLightHelper["color"];
+  customDepthMaterial?: THREE.PointLightHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.PointLightHelper["customDistanceMaterial"];
+  layers?: THREE.PointLightHelper["layers"];
+  light?: THREE.PointLightHelper["light"];
+  matrixAutoUpdate?: THREE.PointLightHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.PointLightHelper["matrixWorldAutoUpdate"];
+  up?: THREE.PointLightHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "polargridhelper" element (THREE.PolarGridHelper). */
+export interface PolarGridHelperProps extends ThreeCommonProps {
+  animations?: THREE.PolarGridHelper["animations"];
+  customDepthMaterial?: THREE.PolarGridHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.PolarGridHelper["customDistanceMaterial"];
+  geometry?: THREE.PolarGridHelper["geometry"];
+  layers?: THREE.PolarGridHelper["layers"];
+  material?: THREE.PolarGridHelper["material"];
+  matrixAutoUpdate?: THREE.PolarGridHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.PolarGridHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.PolarGridHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.PolarGridHelper["morphTargetInfluences"];
+  up?: THREE.PolarGridHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "skeletonhelper" element (THREE.SkeletonHelper). */
+export interface SkeletonHelperProps extends ThreeCommonProps {
+  animations?: THREE.SkeletonHelper["animations"];
+  bones?: THREE.SkeletonHelper["bones"];
+  customDepthMaterial?: THREE.SkeletonHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.SkeletonHelper["customDistanceMaterial"];
+  geometry?: THREE.SkeletonHelper["geometry"];
+  layers?: THREE.SkeletonHelper["layers"];
+  material?: THREE.SkeletonHelper["material"];
+  matrixAutoUpdate?: THREE.SkeletonHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.SkeletonHelper["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.SkeletonHelper["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.SkeletonHelper["morphTargetInfluences"];
+  root?: THREE.SkeletonHelper["root"];
+  up?: THREE.SkeletonHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "spotlighthelper" element (THREE.SpotLightHelper). */
+export interface SpotLightHelperProps extends ThreeCommonProps {
+  animations?: THREE.SpotLightHelper["animations"];
+  color?: THREE.SpotLightHelper["color"];
+  cone?: THREE.SpotLightHelper["cone"];
+  customDepthMaterial?: THREE.SpotLightHelper["customDepthMaterial"];
+  customDistanceMaterial?: THREE.SpotLightHelper["customDistanceMaterial"];
+  layers?: THREE.SpotLightHelper["layers"];
+  light?: THREE.SpotLightHelper["light"];
+  matrixAutoUpdate?: THREE.SpotLightHelper["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.SpotLightHelper["matrixWorldAutoUpdate"];
+  up?: THREE.SpotLightHelper["up"] | Vector3Prop;
+}
+
+/** Props of the "ambientlight" element (THREE.AmbientLight). */
+export interface AmbientLightProps extends ThreeCommonProps {
+  animations?: THREE.AmbientLight["animations"];
+  color?: THREE.AmbientLight["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.AmbientLight["customDepthMaterial"];
+  customDistanceMaterial?: THREE.AmbientLight["customDistanceMaterial"];
+  intensity?: THREE.AmbientLight["intensity"];
+  layers?: THREE.AmbientLight["layers"];
+  matrixAutoUpdate?: THREE.AmbientLight["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.AmbientLight["matrixWorldAutoUpdate"];
+  shadow?: THREE.AmbientLight["shadow"];
+  up?: THREE.AmbientLight["up"] | Vector3Prop;
+}
+
+/** Props of the "directionallight" element (THREE.DirectionalLight). */
+export interface DirectionalLightProps extends ThreeCommonProps {
+  animations?: THREE.DirectionalLight["animations"];
+  color?: THREE.DirectionalLight["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.DirectionalLight["customDepthMaterial"];
+  customDistanceMaterial?: THREE.DirectionalLight["customDistanceMaterial"];
+  intensity?: THREE.DirectionalLight["intensity"];
+  layers?: THREE.DirectionalLight["layers"];
+  matrixAutoUpdate?: THREE.DirectionalLight["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.DirectionalLight["matrixWorldAutoUpdate"];
+  shadow?: THREE.DirectionalLight["shadow"];
+  target?: THREE.DirectionalLight["target"];
+  up?: THREE.DirectionalLight["up"] | Vector3Prop;
+}
+
+/** Props of the "hemispherelight" element (THREE.HemisphereLight). */
+export interface HemisphereLightProps extends ThreeCommonProps {
+  animations?: THREE.HemisphereLight["animations"];
+  color?: THREE.HemisphereLight["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.HemisphereLight["customDepthMaterial"];
+  customDistanceMaterial?: THREE.HemisphereLight["customDistanceMaterial"];
+  groundColor?: THREE.HemisphereLight["groundColor"] | THREE.ColorRepresentation;
+  intensity?: THREE.HemisphereLight["intensity"];
+  layers?: THREE.HemisphereLight["layers"];
+  matrixAutoUpdate?: THREE.HemisphereLight["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.HemisphereLight["matrixWorldAutoUpdate"];
+  shadow?: THREE.HemisphereLight["shadow"];
+  up?: THREE.HemisphereLight["up"] | Vector3Prop;
+}
+
+/** Props of the "lightprobe" element (THREE.LightProbe). */
+export interface LightProbeProps extends ThreeCommonProps {
+  animations?: THREE.LightProbe["animations"];
+  color?: THREE.LightProbe["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.LightProbe["customDepthMaterial"];
+  customDistanceMaterial?: THREE.LightProbe["customDistanceMaterial"];
+  intensity?: THREE.LightProbe["intensity"];
+  layers?: THREE.LightProbe["layers"];
+  matrixAutoUpdate?: THREE.LightProbe["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.LightProbe["matrixWorldAutoUpdate"];
+  sh?: THREE.LightProbe["sh"];
+  shadow?: THREE.LightProbe["shadow"];
+  up?: THREE.LightProbe["up"] | Vector3Prop;
+}
+
+/** Props of the "pointlight" element (THREE.PointLight). */
+export interface PointLightProps extends ThreeCommonProps {
+  animations?: THREE.PointLight["animations"];
+  color?: THREE.PointLight["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.PointLight["customDepthMaterial"];
+  customDistanceMaterial?: THREE.PointLight["customDistanceMaterial"];
+  decay?: THREE.PointLight["decay"];
+  distance?: THREE.PointLight["distance"];
+  intensity?: THREE.PointLight["intensity"];
+  layers?: THREE.PointLight["layers"];
+  matrixAutoUpdate?: THREE.PointLight["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.PointLight["matrixWorldAutoUpdate"];
+  power?: THREE.PointLight["power"];
+  shadow?: THREE.PointLight["shadow"];
+  up?: THREE.PointLight["up"] | Vector3Prop;
+}
+
+/** Props of the "rectarealight" element (THREE.RectAreaLight). */
+export interface RectAreaLightProps extends ThreeCommonProps {
+  animations?: THREE.RectAreaLight["animations"];
+  color?: THREE.RectAreaLight["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.RectAreaLight["customDepthMaterial"];
+  customDistanceMaterial?: THREE.RectAreaLight["customDistanceMaterial"];
+  height?: THREE.RectAreaLight["height"];
+  intensity?: THREE.RectAreaLight["intensity"];
+  layers?: THREE.RectAreaLight["layers"];
+  matrixAutoUpdate?: THREE.RectAreaLight["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.RectAreaLight["matrixWorldAutoUpdate"];
+  power?: THREE.RectAreaLight["power"];
+  shadow?: THREE.RectAreaLight["shadow"];
+  up?: THREE.RectAreaLight["up"] | Vector3Prop;
+  width?: THREE.RectAreaLight["width"];
+}
+
+/** Props of the "spotlight" element (THREE.SpotLight). */
+export interface SpotLightProps extends ThreeCommonProps {
+  angle?: THREE.SpotLight["angle"];
+  animations?: THREE.SpotLight["animations"];
+  color?: THREE.SpotLight["color"] | THREE.ColorRepresentation;
+  customDepthMaterial?: THREE.SpotLight["customDepthMaterial"];
+  customDistanceMaterial?: THREE.SpotLight["customDistanceMaterial"];
+  decay?: THREE.SpotLight["decay"];
+  distance?: THREE.SpotLight["distance"];
+  intensity?: THREE.SpotLight["intensity"];
+  layers?: THREE.SpotLight["layers"];
+  map?: THREE.SpotLight["map"] | string;
+  matrixAutoUpdate?: THREE.SpotLight["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.SpotLight["matrixWorldAutoUpdate"];
+  penumbra?: THREE.SpotLight["penumbra"];
+  power?: THREE.SpotLight["power"];
+  shadow?: THREE.SpotLight["shadow"];
+  target?: THREE.SpotLight["target"];
+  up?: THREE.SpotLight["up"] | Vector3Prop;
+}
+
+/** Props of the "linebasicmaterial" element (THREE.LineBasicMaterial). */
+export interface LineBasicMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.LineBasicMaterial["alphaHash"];
+  alphaTest?: THREE.LineBasicMaterial["alphaTest"];
+  alphaToCoverage?: THREE.LineBasicMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.LineBasicMaterial["blendAlpha"];
+  blendColor?: THREE.LineBasicMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.LineBasicMaterial["blendDst"];
+  blendDstAlpha?: THREE.LineBasicMaterial["blendDstAlpha"];
+  blendEquation?: THREE.LineBasicMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.LineBasicMaterial["blendEquationAlpha"];
+  blending?: THREE.LineBasicMaterial["blending"];
+  blendSrc?: THREE.LineBasicMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.LineBasicMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.LineBasicMaterial["clipIntersection"];
+  clippingPlanes?: THREE.LineBasicMaterial["clippingPlanes"];
+  clipShadows?: THREE.LineBasicMaterial["clipShadows"];
+  color?: THREE.LineBasicMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.LineBasicMaterial["colorWrite"];
+  defines?: THREE.LineBasicMaterial["defines"];
+  depthFunc?: THREE.LineBasicMaterial["depthFunc"];
+  depthTest?: THREE.LineBasicMaterial["depthTest"];
+  depthWrite?: THREE.LineBasicMaterial["depthWrite"];
+  dithering?: THREE.LineBasicMaterial["dithering"];
+  fog?: THREE.LineBasicMaterial["fog"];
+  forceSinglePass?: THREE.LineBasicMaterial["forceSinglePass"];
+  linecap?: THREE.LineBasicMaterial["linecap"];
+  linejoin?: THREE.LineBasicMaterial["linejoin"];
+  linewidth?: THREE.LineBasicMaterial["linewidth"];
+  map?: THREE.LineBasicMaterial["map"] | string;
+  needsUpdate?: THREE.LineBasicMaterial["needsUpdate"];
+  opacity?: THREE.LineBasicMaterial["opacity"];
+  polygonOffset?: THREE.LineBasicMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.LineBasicMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.LineBasicMaterial["polygonOffsetUnits"];
+  precision?: THREE.LineBasicMaterial["precision"];
+  premultipliedAlpha?: THREE.LineBasicMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.LineBasicMaterial["shadowSide"];
+  side?: THREE.LineBasicMaterial["side"];
+  stencilFail?: THREE.LineBasicMaterial["stencilFail"];
+  stencilFunc?: THREE.LineBasicMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.LineBasicMaterial["stencilFuncMask"];
+  stencilRef?: THREE.LineBasicMaterial["stencilRef"];
+  stencilWrite?: THREE.LineBasicMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.LineBasicMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.LineBasicMaterial["stencilZFail"];
+  stencilZPass?: THREE.LineBasicMaterial["stencilZPass"];
+  toneMapped?: THREE.LineBasicMaterial["toneMapped"];
+  transparent?: THREE.LineBasicMaterial["transparent"];
+  vertexColors?: THREE.LineBasicMaterial["vertexColors"];
+}
+
+/** Props of the "linedashedmaterial" element (THREE.LineDashedMaterial). */
+export interface LineDashedMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.LineDashedMaterial["alphaHash"];
+  alphaTest?: THREE.LineDashedMaterial["alphaTest"];
+  alphaToCoverage?: THREE.LineDashedMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.LineDashedMaterial["blendAlpha"];
+  blendColor?: THREE.LineDashedMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.LineDashedMaterial["blendDst"];
+  blendDstAlpha?: THREE.LineDashedMaterial["blendDstAlpha"];
+  blendEquation?: THREE.LineDashedMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.LineDashedMaterial["blendEquationAlpha"];
+  blending?: THREE.LineDashedMaterial["blending"];
+  blendSrc?: THREE.LineDashedMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.LineDashedMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.LineDashedMaterial["clipIntersection"];
+  clippingPlanes?: THREE.LineDashedMaterial["clippingPlanes"];
+  clipShadows?: THREE.LineDashedMaterial["clipShadows"];
+  color?: THREE.LineDashedMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.LineDashedMaterial["colorWrite"];
+  dashSize?: THREE.LineDashedMaterial["dashSize"];
+  defines?: THREE.LineDashedMaterial["defines"];
+  depthFunc?: THREE.LineDashedMaterial["depthFunc"];
+  depthTest?: THREE.LineDashedMaterial["depthTest"];
+  depthWrite?: THREE.LineDashedMaterial["depthWrite"];
+  dithering?: THREE.LineDashedMaterial["dithering"];
+  fog?: THREE.LineDashedMaterial["fog"];
+  forceSinglePass?: THREE.LineDashedMaterial["forceSinglePass"];
+  gapSize?: THREE.LineDashedMaterial["gapSize"];
+  linecap?: THREE.LineDashedMaterial["linecap"];
+  linejoin?: THREE.LineDashedMaterial["linejoin"];
+  linewidth?: THREE.LineDashedMaterial["linewidth"];
+  map?: THREE.LineDashedMaterial["map"] | string;
+  needsUpdate?: THREE.LineDashedMaterial["needsUpdate"];
+  opacity?: THREE.LineDashedMaterial["opacity"];
+  polygonOffset?: THREE.LineDashedMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.LineDashedMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.LineDashedMaterial["polygonOffsetUnits"];
+  precision?: THREE.LineDashedMaterial["precision"];
+  premultipliedAlpha?: THREE.LineDashedMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.LineDashedMaterial["shadowSide"];
+  side?: THREE.LineDashedMaterial["side"];
+  stencilFail?: THREE.LineDashedMaterial["stencilFail"];
+  stencilFunc?: THREE.LineDashedMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.LineDashedMaterial["stencilFuncMask"];
+  stencilRef?: THREE.LineDashedMaterial["stencilRef"];
+  stencilWrite?: THREE.LineDashedMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.LineDashedMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.LineDashedMaterial["stencilZFail"];
+  stencilZPass?: THREE.LineDashedMaterial["stencilZPass"];
+  toneMapped?: THREE.LineDashedMaterial["toneMapped"];
+  transparent?: THREE.LineDashedMaterial["transparent"];
+  vertexColors?: THREE.LineDashedMaterial["vertexColors"];
+}
+
+/** Props of the "meshbasicmaterial" element (THREE.MeshBasicMaterial). */
+export interface MeshBasicMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshBasicMaterial["alphaHash"];
+  alphaMap?: THREE.MeshBasicMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshBasicMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshBasicMaterial["alphaToCoverage"];
+  aoMap?: THREE.MeshBasicMaterial["aoMap"] | string;
+  aoMapIntensity?: THREE.MeshBasicMaterial["aoMapIntensity"];
+  blendAlpha?: THREE.MeshBasicMaterial["blendAlpha"];
+  blendColor?: THREE.MeshBasicMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshBasicMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshBasicMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshBasicMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshBasicMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshBasicMaterial["blending"];
+  blendSrc?: THREE.MeshBasicMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshBasicMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.MeshBasicMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshBasicMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshBasicMaterial["clipShadows"];
+  color?: THREE.MeshBasicMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshBasicMaterial["colorWrite"];
+  combine?: THREE.MeshBasicMaterial["combine"];
+  defines?: THREE.MeshBasicMaterial["defines"];
+  depthFunc?: THREE.MeshBasicMaterial["depthFunc"];
+  depthTest?: THREE.MeshBasicMaterial["depthTest"];
+  depthWrite?: THREE.MeshBasicMaterial["depthWrite"];
+  dithering?: THREE.MeshBasicMaterial["dithering"];
+  envMap?: THREE.MeshBasicMaterial["envMap"] | string;
+  envMapRotation?: THREE.MeshBasicMaterial["envMapRotation"] | EulerProp;
+  fog?: THREE.MeshBasicMaterial["fog"];
+  forceSinglePass?: THREE.MeshBasicMaterial["forceSinglePass"];
+  lightMap?: THREE.MeshBasicMaterial["lightMap"] | string;
+  lightMapIntensity?: THREE.MeshBasicMaterial["lightMapIntensity"];
+  map?: THREE.MeshBasicMaterial["map"] | string;
+  needsUpdate?: THREE.MeshBasicMaterial["needsUpdate"];
+  opacity?: THREE.MeshBasicMaterial["opacity"];
+  polygonOffset?: THREE.MeshBasicMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshBasicMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshBasicMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshBasicMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshBasicMaterial["premultipliedAlpha"];
+  reflectivity?: THREE.MeshBasicMaterial["reflectivity"];
+  refractionRatio?: THREE.MeshBasicMaterial["refractionRatio"];
+  shadowSide?: THREE.MeshBasicMaterial["shadowSide"];
+  side?: THREE.MeshBasicMaterial["side"];
+  specularMap?: THREE.MeshBasicMaterial["specularMap"] | string;
+  stencilFail?: THREE.MeshBasicMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshBasicMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshBasicMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshBasicMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshBasicMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshBasicMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshBasicMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshBasicMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshBasicMaterial["toneMapped"];
+  transparent?: THREE.MeshBasicMaterial["transparent"];
+  vertexColors?: THREE.MeshBasicMaterial["vertexColors"];
+  wireframe?: THREE.MeshBasicMaterial["wireframe"];
+  wireframeLinecap?: THREE.MeshBasicMaterial["wireframeLinecap"];
+  wireframeLinejoin?: THREE.MeshBasicMaterial["wireframeLinejoin"];
+  wireframeLinewidth?: THREE.MeshBasicMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshdepthmaterial" element (THREE.MeshDepthMaterial). */
+export interface MeshDepthMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshDepthMaterial["alphaHash"];
+  alphaMap?: THREE.MeshDepthMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshDepthMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshDepthMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.MeshDepthMaterial["blendAlpha"];
+  blendColor?: THREE.MeshDepthMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshDepthMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshDepthMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshDepthMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshDepthMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshDepthMaterial["blending"];
+  blendSrc?: THREE.MeshDepthMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshDepthMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.MeshDepthMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshDepthMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshDepthMaterial["clipShadows"];
+  colorWrite?: THREE.MeshDepthMaterial["colorWrite"];
+  defines?: THREE.MeshDepthMaterial["defines"];
+  depthFunc?: THREE.MeshDepthMaterial["depthFunc"];
+  depthPacking?: THREE.MeshDepthMaterial["depthPacking"];
+  depthTest?: THREE.MeshDepthMaterial["depthTest"];
+  depthWrite?: THREE.MeshDepthMaterial["depthWrite"];
+  displacementBias?: THREE.MeshDepthMaterial["displacementBias"];
+  displacementMap?: THREE.MeshDepthMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshDepthMaterial["displacementScale"];
+  dithering?: THREE.MeshDepthMaterial["dithering"];
+  fog?: THREE.MeshDepthMaterial["fog"];
+  forceSinglePass?: THREE.MeshDepthMaterial["forceSinglePass"];
+  map?: THREE.MeshDepthMaterial["map"] | string;
+  needsUpdate?: THREE.MeshDepthMaterial["needsUpdate"];
+  opacity?: THREE.MeshDepthMaterial["opacity"];
+  polygonOffset?: THREE.MeshDepthMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshDepthMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshDepthMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshDepthMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshDepthMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.MeshDepthMaterial["shadowSide"];
+  side?: THREE.MeshDepthMaterial["side"];
+  stencilFail?: THREE.MeshDepthMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshDepthMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshDepthMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshDepthMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshDepthMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshDepthMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshDepthMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshDepthMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshDepthMaterial["toneMapped"];
+  transparent?: THREE.MeshDepthMaterial["transparent"];
+  vertexColors?: THREE.MeshDepthMaterial["vertexColors"];
+  wireframe?: THREE.MeshDepthMaterial["wireframe"];
+  wireframeLinewidth?: THREE.MeshDepthMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshdistancematerial" element (THREE.MeshDistanceMaterial). */
+export interface MeshDistanceMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshDistanceMaterial["alphaHash"];
+  alphaMap?: THREE.MeshDistanceMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshDistanceMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshDistanceMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.MeshDistanceMaterial["blendAlpha"];
+  blendColor?: THREE.MeshDistanceMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshDistanceMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshDistanceMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshDistanceMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshDistanceMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshDistanceMaterial["blending"];
+  blendSrc?: THREE.MeshDistanceMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshDistanceMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.MeshDistanceMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshDistanceMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshDistanceMaterial["clipShadows"];
+  colorWrite?: THREE.MeshDistanceMaterial["colorWrite"];
+  defines?: THREE.MeshDistanceMaterial["defines"];
+  depthFunc?: THREE.MeshDistanceMaterial["depthFunc"];
+  depthTest?: THREE.MeshDistanceMaterial["depthTest"];
+  depthWrite?: THREE.MeshDistanceMaterial["depthWrite"];
+  displacementBias?: THREE.MeshDistanceMaterial["displacementBias"];
+  displacementMap?: THREE.MeshDistanceMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshDistanceMaterial["displacementScale"];
+  dithering?: THREE.MeshDistanceMaterial["dithering"];
+  fog?: THREE.MeshDistanceMaterial["fog"];
+  forceSinglePass?: THREE.MeshDistanceMaterial["forceSinglePass"];
+  map?: THREE.MeshDistanceMaterial["map"] | string;
+  needsUpdate?: THREE.MeshDistanceMaterial["needsUpdate"];
+  opacity?: THREE.MeshDistanceMaterial["opacity"];
+  polygonOffset?: THREE.MeshDistanceMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshDistanceMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshDistanceMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshDistanceMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshDistanceMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.MeshDistanceMaterial["shadowSide"];
+  side?: THREE.MeshDistanceMaterial["side"];
+  stencilFail?: THREE.MeshDistanceMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshDistanceMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshDistanceMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshDistanceMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshDistanceMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshDistanceMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshDistanceMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshDistanceMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshDistanceMaterial["toneMapped"];
+  transparent?: THREE.MeshDistanceMaterial["transparent"];
+  vertexColors?: THREE.MeshDistanceMaterial["vertexColors"];
+}
+
+/** Props of the "meshlambertmaterial" element (THREE.MeshLambertMaterial). */
+export interface MeshLambertMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshLambertMaterial["alphaHash"];
+  alphaMap?: THREE.MeshLambertMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshLambertMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshLambertMaterial["alphaToCoverage"];
+  aoMap?: THREE.MeshLambertMaterial["aoMap"] | string;
+  aoMapIntensity?: THREE.MeshLambertMaterial["aoMapIntensity"];
+  blendAlpha?: THREE.MeshLambertMaterial["blendAlpha"];
+  blendColor?: THREE.MeshLambertMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshLambertMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshLambertMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshLambertMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshLambertMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshLambertMaterial["blending"];
+  blendSrc?: THREE.MeshLambertMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshLambertMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshLambertMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshLambertMaterial["bumpScale"];
+  clipIntersection?: THREE.MeshLambertMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshLambertMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshLambertMaterial["clipShadows"];
+  color?: THREE.MeshLambertMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshLambertMaterial["colorWrite"];
+  combine?: THREE.MeshLambertMaterial["combine"];
+  defines?: THREE.MeshLambertMaterial["defines"];
+  depthFunc?: THREE.MeshLambertMaterial["depthFunc"];
+  depthTest?: THREE.MeshLambertMaterial["depthTest"];
+  depthWrite?: THREE.MeshLambertMaterial["depthWrite"];
+  displacementBias?: THREE.MeshLambertMaterial["displacementBias"];
+  displacementMap?: THREE.MeshLambertMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshLambertMaterial["displacementScale"];
+  dithering?: THREE.MeshLambertMaterial["dithering"];
+  emissive?: THREE.MeshLambertMaterial["emissive"] | THREE.ColorRepresentation;
+  emissiveIntensity?: THREE.MeshLambertMaterial["emissiveIntensity"];
+  emissiveMap?: THREE.MeshLambertMaterial["emissiveMap"] | string;
+  envMap?: THREE.MeshLambertMaterial["envMap"] | string;
+  envMapRotation?: THREE.MeshLambertMaterial["envMapRotation"] | EulerProp;
+  flatShading?: THREE.MeshLambertMaterial["flatShading"];
+  fog?: THREE.MeshLambertMaterial["fog"];
+  forceSinglePass?: THREE.MeshLambertMaterial["forceSinglePass"];
+  lightMap?: THREE.MeshLambertMaterial["lightMap"] | string;
+  lightMapIntensity?: THREE.MeshLambertMaterial["lightMapIntensity"];
+  map?: THREE.MeshLambertMaterial["map"] | string;
+  needsUpdate?: THREE.MeshLambertMaterial["needsUpdate"];
+  normalMap?: THREE.MeshLambertMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshLambertMaterial["normalMapType"];
+  normalScale?: THREE.MeshLambertMaterial["normalScale"];
+  opacity?: THREE.MeshLambertMaterial["opacity"];
+  polygonOffset?: THREE.MeshLambertMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshLambertMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshLambertMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshLambertMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshLambertMaterial["premultipliedAlpha"];
+  reflectivity?: THREE.MeshLambertMaterial["reflectivity"];
+  refractionRatio?: THREE.MeshLambertMaterial["refractionRatio"];
+  shadowSide?: THREE.MeshLambertMaterial["shadowSide"];
+  side?: THREE.MeshLambertMaterial["side"];
+  specularMap?: THREE.MeshLambertMaterial["specularMap"] | string;
+  stencilFail?: THREE.MeshLambertMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshLambertMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshLambertMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshLambertMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshLambertMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshLambertMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshLambertMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshLambertMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshLambertMaterial["toneMapped"];
+  transparent?: THREE.MeshLambertMaterial["transparent"];
+  vertexColors?: THREE.MeshLambertMaterial["vertexColors"];
+  wireframe?: THREE.MeshLambertMaterial["wireframe"];
+  wireframeLinecap?: THREE.MeshLambertMaterial["wireframeLinecap"];
+  wireframeLinejoin?: THREE.MeshLambertMaterial["wireframeLinejoin"];
+  wireframeLinewidth?: THREE.MeshLambertMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshmatcapmaterial" element (THREE.MeshMatcapMaterial). */
+export interface MeshMatcapMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshMatcapMaterial["alphaHash"];
+  alphaMap?: THREE.MeshMatcapMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshMatcapMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshMatcapMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.MeshMatcapMaterial["blendAlpha"];
+  blendColor?: THREE.MeshMatcapMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshMatcapMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshMatcapMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshMatcapMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshMatcapMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshMatcapMaterial["blending"];
+  blendSrc?: THREE.MeshMatcapMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshMatcapMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshMatcapMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshMatcapMaterial["bumpScale"];
+  clipIntersection?: THREE.MeshMatcapMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshMatcapMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshMatcapMaterial["clipShadows"];
+  color?: THREE.MeshMatcapMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshMatcapMaterial["colorWrite"];
+  defines?: THREE.MeshMatcapMaterial["defines"];
+  depthFunc?: THREE.MeshMatcapMaterial["depthFunc"];
+  depthTest?: THREE.MeshMatcapMaterial["depthTest"];
+  depthWrite?: THREE.MeshMatcapMaterial["depthWrite"];
+  displacementBias?: THREE.MeshMatcapMaterial["displacementBias"];
+  displacementMap?: THREE.MeshMatcapMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshMatcapMaterial["displacementScale"];
+  dithering?: THREE.MeshMatcapMaterial["dithering"];
+  flatShading?: THREE.MeshMatcapMaterial["flatShading"];
+  fog?: THREE.MeshMatcapMaterial["fog"];
+  forceSinglePass?: THREE.MeshMatcapMaterial["forceSinglePass"];
+  map?: THREE.MeshMatcapMaterial["map"] | string;
+  matcap?: THREE.MeshMatcapMaterial["matcap"] | string;
+  needsUpdate?: THREE.MeshMatcapMaterial["needsUpdate"];
+  normalMap?: THREE.MeshMatcapMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshMatcapMaterial["normalMapType"];
+  normalScale?: THREE.MeshMatcapMaterial["normalScale"];
+  opacity?: THREE.MeshMatcapMaterial["opacity"];
+  polygonOffset?: THREE.MeshMatcapMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshMatcapMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshMatcapMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshMatcapMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshMatcapMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.MeshMatcapMaterial["shadowSide"];
+  side?: THREE.MeshMatcapMaterial["side"];
+  stencilFail?: THREE.MeshMatcapMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshMatcapMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshMatcapMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshMatcapMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshMatcapMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshMatcapMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshMatcapMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshMatcapMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshMatcapMaterial["toneMapped"];
+  transparent?: THREE.MeshMatcapMaterial["transparent"];
+  vertexColors?: THREE.MeshMatcapMaterial["vertexColors"];
+}
+
+/** Props of the "meshnormalmaterial" element (THREE.MeshNormalMaterial). */
+export interface MeshNormalMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshNormalMaterial["alphaHash"];
+  alphaTest?: THREE.MeshNormalMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshNormalMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.MeshNormalMaterial["blendAlpha"];
+  blendColor?: THREE.MeshNormalMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshNormalMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshNormalMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshNormalMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshNormalMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshNormalMaterial["blending"];
+  blendSrc?: THREE.MeshNormalMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshNormalMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshNormalMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshNormalMaterial["bumpScale"];
+  clipIntersection?: THREE.MeshNormalMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshNormalMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshNormalMaterial["clipShadows"];
+  colorWrite?: THREE.MeshNormalMaterial["colorWrite"];
+  defines?: THREE.MeshNormalMaterial["defines"];
+  depthFunc?: THREE.MeshNormalMaterial["depthFunc"];
+  depthTest?: THREE.MeshNormalMaterial["depthTest"];
+  depthWrite?: THREE.MeshNormalMaterial["depthWrite"];
+  displacementBias?: THREE.MeshNormalMaterial["displacementBias"];
+  displacementMap?: THREE.MeshNormalMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshNormalMaterial["displacementScale"];
+  dithering?: THREE.MeshNormalMaterial["dithering"];
+  flatShading?: THREE.MeshNormalMaterial["flatShading"];
+  forceSinglePass?: THREE.MeshNormalMaterial["forceSinglePass"];
+  needsUpdate?: THREE.MeshNormalMaterial["needsUpdate"];
+  normalMap?: THREE.MeshNormalMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshNormalMaterial["normalMapType"];
+  normalScale?: THREE.MeshNormalMaterial["normalScale"];
+  opacity?: THREE.MeshNormalMaterial["opacity"];
+  polygonOffset?: THREE.MeshNormalMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshNormalMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshNormalMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshNormalMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshNormalMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.MeshNormalMaterial["shadowSide"];
+  side?: THREE.MeshNormalMaterial["side"];
+  stencilFail?: THREE.MeshNormalMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshNormalMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshNormalMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshNormalMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshNormalMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshNormalMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshNormalMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshNormalMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshNormalMaterial["toneMapped"];
+  transparent?: THREE.MeshNormalMaterial["transparent"];
+  vertexColors?: THREE.MeshNormalMaterial["vertexColors"];
+  wireframe?: THREE.MeshNormalMaterial["wireframe"];
+  wireframeLinewidth?: THREE.MeshNormalMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshphongmaterial" element (THREE.MeshPhongMaterial). */
+export interface MeshPhongMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshPhongMaterial["alphaHash"];
+  alphaMap?: THREE.MeshPhongMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshPhongMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshPhongMaterial["alphaToCoverage"];
+  aoMap?: THREE.MeshPhongMaterial["aoMap"] | string;
+  aoMapIntensity?: THREE.MeshPhongMaterial["aoMapIntensity"];
+  blendAlpha?: THREE.MeshPhongMaterial["blendAlpha"];
+  blendColor?: THREE.MeshPhongMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshPhongMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshPhongMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshPhongMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshPhongMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshPhongMaterial["blending"];
+  blendSrc?: THREE.MeshPhongMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshPhongMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshPhongMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshPhongMaterial["bumpScale"];
+  clipIntersection?: THREE.MeshPhongMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshPhongMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshPhongMaterial["clipShadows"];
+  color?: THREE.MeshPhongMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshPhongMaterial["colorWrite"];
+  combine?: THREE.MeshPhongMaterial["combine"];
+  defines?: THREE.MeshPhongMaterial["defines"];
+  depthFunc?: THREE.MeshPhongMaterial["depthFunc"];
+  depthTest?: THREE.MeshPhongMaterial["depthTest"];
+  depthWrite?: THREE.MeshPhongMaterial["depthWrite"];
+  displacementBias?: THREE.MeshPhongMaterial["displacementBias"];
+  displacementMap?: THREE.MeshPhongMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshPhongMaterial["displacementScale"];
+  dithering?: THREE.MeshPhongMaterial["dithering"];
+  emissive?: THREE.MeshPhongMaterial["emissive"] | THREE.ColorRepresentation;
+  emissiveIntensity?: THREE.MeshPhongMaterial["emissiveIntensity"];
+  emissiveMap?: THREE.MeshPhongMaterial["emissiveMap"] | string;
+  envMap?: THREE.MeshPhongMaterial["envMap"] | string;
+  envMapRotation?: THREE.MeshPhongMaterial["envMapRotation"] | EulerProp;
+  flatShading?: THREE.MeshPhongMaterial["flatShading"];
+  fog?: THREE.MeshPhongMaterial["fog"];
+  forceSinglePass?: THREE.MeshPhongMaterial["forceSinglePass"];
+  lightMap?: THREE.MeshPhongMaterial["lightMap"] | string;
+  lightMapIntensity?: THREE.MeshPhongMaterial["lightMapIntensity"];
+  map?: THREE.MeshPhongMaterial["map"] | string;
+  metal?: THREE.MeshPhongMaterial["metal"];
+  needsUpdate?: THREE.MeshPhongMaterial["needsUpdate"];
+  normalMap?: THREE.MeshPhongMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshPhongMaterial["normalMapType"];
+  normalScale?: THREE.MeshPhongMaterial["normalScale"];
+  opacity?: THREE.MeshPhongMaterial["opacity"];
+  polygonOffset?: THREE.MeshPhongMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshPhongMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshPhongMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshPhongMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshPhongMaterial["premultipliedAlpha"];
+  reflectivity?: THREE.MeshPhongMaterial["reflectivity"];
+  refractionRatio?: THREE.MeshPhongMaterial["refractionRatio"];
+  shadowSide?: THREE.MeshPhongMaterial["shadowSide"];
+  shininess?: THREE.MeshPhongMaterial["shininess"];
+  side?: THREE.MeshPhongMaterial["side"];
+  specular?: THREE.MeshPhongMaterial["specular"] | THREE.ColorRepresentation;
+  specularMap?: THREE.MeshPhongMaterial["specularMap"] | string;
+  stencilFail?: THREE.MeshPhongMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshPhongMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshPhongMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshPhongMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshPhongMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshPhongMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshPhongMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshPhongMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshPhongMaterial["toneMapped"];
+  transparent?: THREE.MeshPhongMaterial["transparent"];
+  vertexColors?: THREE.MeshPhongMaterial["vertexColors"];
+  wireframe?: THREE.MeshPhongMaterial["wireframe"];
+  wireframeLinecap?: THREE.MeshPhongMaterial["wireframeLinecap"];
+  wireframeLinejoin?: THREE.MeshPhongMaterial["wireframeLinejoin"];
+  wireframeLinewidth?: THREE.MeshPhongMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshphysicalmaterial" element (THREE.MeshPhysicalMaterial). */
+export interface MeshPhysicalMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshPhysicalMaterial["alphaHash"];
+  alphaMap?: THREE.MeshPhysicalMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshPhysicalMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshPhysicalMaterial["alphaToCoverage"];
+  anisotropy?: THREE.MeshPhysicalMaterial["anisotropy"];
+  anisotropyMap?: THREE.MeshPhysicalMaterial["anisotropyMap"] | string;
+  anisotropyRotation?: THREE.MeshPhysicalMaterial["anisotropyRotation"];
+  aoMap?: THREE.MeshPhysicalMaterial["aoMap"] | string;
+  aoMapIntensity?: THREE.MeshPhysicalMaterial["aoMapIntensity"];
+  attenuationColor?: THREE.MeshPhysicalMaterial["attenuationColor"] | THREE.ColorRepresentation;
+  attenuationDistance?: THREE.MeshPhysicalMaterial["attenuationDistance"];
+  blendAlpha?: THREE.MeshPhysicalMaterial["blendAlpha"];
+  blendColor?: THREE.MeshPhysicalMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshPhysicalMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshPhysicalMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshPhysicalMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshPhysicalMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshPhysicalMaterial["blending"];
+  blendSrc?: THREE.MeshPhysicalMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshPhysicalMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshPhysicalMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshPhysicalMaterial["bumpScale"];
+  clearcoat?: THREE.MeshPhysicalMaterial["clearcoat"];
+  clearcoatMap?: THREE.MeshPhysicalMaterial["clearcoatMap"] | string;
+  clearcoatNormalMap?: THREE.MeshPhysicalMaterial["clearcoatNormalMap"] | string;
+  clearcoatNormalScale?: THREE.MeshPhysicalMaterial["clearcoatNormalScale"];
+  clearcoatRoughness?: THREE.MeshPhysicalMaterial["clearcoatRoughness"];
+  clearcoatRoughnessMap?: THREE.MeshPhysicalMaterial["clearcoatRoughnessMap"] | string;
+  clipIntersection?: THREE.MeshPhysicalMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshPhysicalMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshPhysicalMaterial["clipShadows"];
+  color?: THREE.MeshPhysicalMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshPhysicalMaterial["colorWrite"];
+  defines?: THREE.MeshPhysicalMaterial["defines"];
+  depthFunc?: THREE.MeshPhysicalMaterial["depthFunc"];
+  depthTest?: THREE.MeshPhysicalMaterial["depthTest"];
+  depthWrite?: THREE.MeshPhysicalMaterial["depthWrite"];
+  dispersion?: THREE.MeshPhysicalMaterial["dispersion"];
+  displacementBias?: THREE.MeshPhysicalMaterial["displacementBias"];
+  displacementMap?: THREE.MeshPhysicalMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshPhysicalMaterial["displacementScale"];
+  dithering?: THREE.MeshPhysicalMaterial["dithering"];
+  emissive?: THREE.MeshPhysicalMaterial["emissive"] | THREE.ColorRepresentation;
+  emissiveIntensity?: THREE.MeshPhysicalMaterial["emissiveIntensity"];
+  emissiveMap?: THREE.MeshPhysicalMaterial["emissiveMap"] | string;
+  envMap?: THREE.MeshPhysicalMaterial["envMap"] | string;
+  envMapIntensity?: THREE.MeshPhysicalMaterial["envMapIntensity"];
+  envMapRotation?: THREE.MeshPhysicalMaterial["envMapRotation"] | EulerProp;
+  flatShading?: THREE.MeshPhysicalMaterial["flatShading"];
+  fog?: THREE.MeshPhysicalMaterial["fog"];
+  forceSinglePass?: THREE.MeshPhysicalMaterial["forceSinglePass"];
+  ior?: THREE.MeshPhysicalMaterial["ior"];
+  iridescence?: THREE.MeshPhysicalMaterial["iridescence"];
+  iridescenceIOR?: THREE.MeshPhysicalMaterial["iridescenceIOR"];
+  iridescenceMap?: THREE.MeshPhysicalMaterial["iridescenceMap"] | string;
+  iridescenceThicknessMap?: THREE.MeshPhysicalMaterial["iridescenceThicknessMap"] | string;
+  iridescenceThicknessRange?: THREE.MeshPhysicalMaterial["iridescenceThicknessRange"];
+  lightMap?: THREE.MeshPhysicalMaterial["lightMap"] | string;
+  lightMapIntensity?: THREE.MeshPhysicalMaterial["lightMapIntensity"];
+  map?: THREE.MeshPhysicalMaterial["map"] | string;
+  metalness?: THREE.MeshPhysicalMaterial["metalness"];
+  metalnessMap?: THREE.MeshPhysicalMaterial["metalnessMap"] | string;
+  needsUpdate?: THREE.MeshPhysicalMaterial["needsUpdate"];
+  normalMap?: THREE.MeshPhysicalMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshPhysicalMaterial["normalMapType"];
+  normalScale?: THREE.MeshPhysicalMaterial["normalScale"];
+  opacity?: THREE.MeshPhysicalMaterial["opacity"];
+  polygonOffset?: THREE.MeshPhysicalMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshPhysicalMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshPhysicalMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshPhysicalMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshPhysicalMaterial["premultipliedAlpha"];
+  reflectivity?: THREE.MeshPhysicalMaterial["reflectivity"];
+  roughness?: THREE.MeshPhysicalMaterial["roughness"];
+  roughnessMap?: THREE.MeshPhysicalMaterial["roughnessMap"] | string;
+  shadowSide?: THREE.MeshPhysicalMaterial["shadowSide"];
+  sheen?: THREE.MeshPhysicalMaterial["sheen"];
+  sheenColor?: THREE.MeshPhysicalMaterial["sheenColor"] | THREE.ColorRepresentation;
+  sheenColorMap?: THREE.MeshPhysicalMaterial["sheenColorMap"] | string;
+  sheenRoughness?: THREE.MeshPhysicalMaterial["sheenRoughness"];
+  sheenRoughnessMap?: THREE.MeshPhysicalMaterial["sheenRoughnessMap"] | string;
+  side?: THREE.MeshPhysicalMaterial["side"];
+  specularColor?: THREE.MeshPhysicalMaterial["specularColor"] | THREE.ColorRepresentation;
+  specularColorMap?: THREE.MeshPhysicalMaterial["specularColorMap"] | string;
+  specularIntensity?: THREE.MeshPhysicalMaterial["specularIntensity"];
+  specularIntensityMap?: THREE.MeshPhysicalMaterial["specularIntensityMap"] | string;
+  stencilFail?: THREE.MeshPhysicalMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshPhysicalMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshPhysicalMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshPhysicalMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshPhysicalMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshPhysicalMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshPhysicalMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshPhysicalMaterial["stencilZPass"];
+  thickness?: THREE.MeshPhysicalMaterial["thickness"];
+  thicknessMap?: THREE.MeshPhysicalMaterial["thicknessMap"] | string;
+  toneMapped?: THREE.MeshPhysicalMaterial["toneMapped"];
+  transmission?: THREE.MeshPhysicalMaterial["transmission"];
+  transmissionMap?: THREE.MeshPhysicalMaterial["transmissionMap"] | string;
+  transparent?: THREE.MeshPhysicalMaterial["transparent"];
+  vertexColors?: THREE.MeshPhysicalMaterial["vertexColors"];
+  wireframe?: THREE.MeshPhysicalMaterial["wireframe"];
+  wireframeLinecap?: THREE.MeshPhysicalMaterial["wireframeLinecap"];
+  wireframeLinejoin?: THREE.MeshPhysicalMaterial["wireframeLinejoin"];
+  wireframeLinewidth?: THREE.MeshPhysicalMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshstandardmaterial" element (THREE.MeshStandardMaterial). */
+export interface MeshStandardMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshStandardMaterial["alphaHash"];
+  alphaMap?: THREE.MeshStandardMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshStandardMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshStandardMaterial["alphaToCoverage"];
+  aoMap?: THREE.MeshStandardMaterial["aoMap"] | string;
+  aoMapIntensity?: THREE.MeshStandardMaterial["aoMapIntensity"];
+  blendAlpha?: THREE.MeshStandardMaterial["blendAlpha"];
+  blendColor?: THREE.MeshStandardMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshStandardMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshStandardMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshStandardMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshStandardMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshStandardMaterial["blending"];
+  blendSrc?: THREE.MeshStandardMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshStandardMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshStandardMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshStandardMaterial["bumpScale"];
+  clipIntersection?: THREE.MeshStandardMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshStandardMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshStandardMaterial["clipShadows"];
+  color?: THREE.MeshStandardMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshStandardMaterial["colorWrite"];
+  defines?: THREE.MeshStandardMaterial["defines"];
+  depthFunc?: THREE.MeshStandardMaterial["depthFunc"];
+  depthTest?: THREE.MeshStandardMaterial["depthTest"];
+  depthWrite?: THREE.MeshStandardMaterial["depthWrite"];
+  displacementBias?: THREE.MeshStandardMaterial["displacementBias"];
+  displacementMap?: THREE.MeshStandardMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshStandardMaterial["displacementScale"];
+  dithering?: THREE.MeshStandardMaterial["dithering"];
+  emissive?: THREE.MeshStandardMaterial["emissive"] | THREE.ColorRepresentation;
+  emissiveIntensity?: THREE.MeshStandardMaterial["emissiveIntensity"];
+  emissiveMap?: THREE.MeshStandardMaterial["emissiveMap"] | string;
+  envMap?: THREE.MeshStandardMaterial["envMap"] | string;
+  envMapIntensity?: THREE.MeshStandardMaterial["envMapIntensity"];
+  envMapRotation?: THREE.MeshStandardMaterial["envMapRotation"] | EulerProp;
+  flatShading?: THREE.MeshStandardMaterial["flatShading"];
+  fog?: THREE.MeshStandardMaterial["fog"];
+  forceSinglePass?: THREE.MeshStandardMaterial["forceSinglePass"];
+  lightMap?: THREE.MeshStandardMaterial["lightMap"] | string;
+  lightMapIntensity?: THREE.MeshStandardMaterial["lightMapIntensity"];
+  map?: THREE.MeshStandardMaterial["map"] | string;
+  metalness?: THREE.MeshStandardMaterial["metalness"];
+  metalnessMap?: THREE.MeshStandardMaterial["metalnessMap"] | string;
+  needsUpdate?: THREE.MeshStandardMaterial["needsUpdate"];
+  normalMap?: THREE.MeshStandardMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshStandardMaterial["normalMapType"];
+  normalScale?: THREE.MeshStandardMaterial["normalScale"];
+  opacity?: THREE.MeshStandardMaterial["opacity"];
+  polygonOffset?: THREE.MeshStandardMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshStandardMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshStandardMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshStandardMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshStandardMaterial["premultipliedAlpha"];
+  roughness?: THREE.MeshStandardMaterial["roughness"];
+  roughnessMap?: THREE.MeshStandardMaterial["roughnessMap"] | string;
+  shadowSide?: THREE.MeshStandardMaterial["shadowSide"];
+  side?: THREE.MeshStandardMaterial["side"];
+  stencilFail?: THREE.MeshStandardMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshStandardMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshStandardMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshStandardMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshStandardMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshStandardMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshStandardMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshStandardMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshStandardMaterial["toneMapped"];
+  transparent?: THREE.MeshStandardMaterial["transparent"];
+  vertexColors?: THREE.MeshStandardMaterial["vertexColors"];
+  wireframe?: THREE.MeshStandardMaterial["wireframe"];
+  wireframeLinecap?: THREE.MeshStandardMaterial["wireframeLinecap"];
+  wireframeLinejoin?: THREE.MeshStandardMaterial["wireframeLinejoin"];
+  wireframeLinewidth?: THREE.MeshStandardMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "meshtoonmaterial" element (THREE.MeshToonMaterial). */
+export interface MeshToonMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.MeshToonMaterial["alphaHash"];
+  alphaMap?: THREE.MeshToonMaterial["alphaMap"] | string;
+  alphaTest?: THREE.MeshToonMaterial["alphaTest"];
+  alphaToCoverage?: THREE.MeshToonMaterial["alphaToCoverage"];
+  aoMap?: THREE.MeshToonMaterial["aoMap"] | string;
+  aoMapIntensity?: THREE.MeshToonMaterial["aoMapIntensity"];
+  blendAlpha?: THREE.MeshToonMaterial["blendAlpha"];
+  blendColor?: THREE.MeshToonMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.MeshToonMaterial["blendDst"];
+  blendDstAlpha?: THREE.MeshToonMaterial["blendDstAlpha"];
+  blendEquation?: THREE.MeshToonMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.MeshToonMaterial["blendEquationAlpha"];
+  blending?: THREE.MeshToonMaterial["blending"];
+  blendSrc?: THREE.MeshToonMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.MeshToonMaterial["blendSrcAlpha"];
+  bumpMap?: THREE.MeshToonMaterial["bumpMap"] | string;
+  bumpScale?: THREE.MeshToonMaterial["bumpScale"];
+  clipIntersection?: THREE.MeshToonMaterial["clipIntersection"];
+  clippingPlanes?: THREE.MeshToonMaterial["clippingPlanes"];
+  clipShadows?: THREE.MeshToonMaterial["clipShadows"];
+  color?: THREE.MeshToonMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.MeshToonMaterial["colorWrite"];
+  defines?: THREE.MeshToonMaterial["defines"];
+  depthFunc?: THREE.MeshToonMaterial["depthFunc"];
+  depthTest?: THREE.MeshToonMaterial["depthTest"];
+  depthWrite?: THREE.MeshToonMaterial["depthWrite"];
+  displacementBias?: THREE.MeshToonMaterial["displacementBias"];
+  displacementMap?: THREE.MeshToonMaterial["displacementMap"] | string;
+  displacementScale?: THREE.MeshToonMaterial["displacementScale"];
+  dithering?: THREE.MeshToonMaterial["dithering"];
+  emissive?: THREE.MeshToonMaterial["emissive"] | THREE.ColorRepresentation;
+  emissiveIntensity?: THREE.MeshToonMaterial["emissiveIntensity"];
+  emissiveMap?: THREE.MeshToonMaterial["emissiveMap"] | string;
+  fog?: THREE.MeshToonMaterial["fog"];
+  forceSinglePass?: THREE.MeshToonMaterial["forceSinglePass"];
+  gradientMap?: THREE.MeshToonMaterial["gradientMap"] | string;
+  lightMap?: THREE.MeshToonMaterial["lightMap"] | string;
+  lightMapIntensity?: THREE.MeshToonMaterial["lightMapIntensity"];
+  map?: THREE.MeshToonMaterial["map"] | string;
+  needsUpdate?: THREE.MeshToonMaterial["needsUpdate"];
+  normalMap?: THREE.MeshToonMaterial["normalMap"] | string;
+  normalMapType?: THREE.MeshToonMaterial["normalMapType"];
+  normalScale?: THREE.MeshToonMaterial["normalScale"];
+  opacity?: THREE.MeshToonMaterial["opacity"];
+  polygonOffset?: THREE.MeshToonMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.MeshToonMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.MeshToonMaterial["polygonOffsetUnits"];
+  precision?: THREE.MeshToonMaterial["precision"];
+  premultipliedAlpha?: THREE.MeshToonMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.MeshToonMaterial["shadowSide"];
+  side?: THREE.MeshToonMaterial["side"];
+  stencilFail?: THREE.MeshToonMaterial["stencilFail"];
+  stencilFunc?: THREE.MeshToonMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.MeshToonMaterial["stencilFuncMask"];
+  stencilRef?: THREE.MeshToonMaterial["stencilRef"];
+  stencilWrite?: THREE.MeshToonMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.MeshToonMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.MeshToonMaterial["stencilZFail"];
+  stencilZPass?: THREE.MeshToonMaterial["stencilZPass"];
+  toneMapped?: THREE.MeshToonMaterial["toneMapped"];
+  transparent?: THREE.MeshToonMaterial["transparent"];
+  vertexColors?: THREE.MeshToonMaterial["vertexColors"];
+  wireframe?: THREE.MeshToonMaterial["wireframe"];
+  wireframeLinecap?: THREE.MeshToonMaterial["wireframeLinecap"];
+  wireframeLinejoin?: THREE.MeshToonMaterial["wireframeLinejoin"];
+  wireframeLinewidth?: THREE.MeshToonMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "pointsmaterial" element (THREE.PointsMaterial). */
+export interface PointsMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.PointsMaterial["alphaHash"];
+  alphaMap?: THREE.PointsMaterial["alphaMap"] | string;
+  alphaTest?: THREE.PointsMaterial["alphaTest"];
+  alphaToCoverage?: THREE.PointsMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.PointsMaterial["blendAlpha"];
+  blendColor?: THREE.PointsMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.PointsMaterial["blendDst"];
+  blendDstAlpha?: THREE.PointsMaterial["blendDstAlpha"];
+  blendEquation?: THREE.PointsMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.PointsMaterial["blendEquationAlpha"];
+  blending?: THREE.PointsMaterial["blending"];
+  blendSrc?: THREE.PointsMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.PointsMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.PointsMaterial["clipIntersection"];
+  clippingPlanes?: THREE.PointsMaterial["clippingPlanes"];
+  clipShadows?: THREE.PointsMaterial["clipShadows"];
+  color?: THREE.PointsMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.PointsMaterial["colorWrite"];
+  defines?: THREE.PointsMaterial["defines"];
+  depthFunc?: THREE.PointsMaterial["depthFunc"];
+  depthTest?: THREE.PointsMaterial["depthTest"];
+  depthWrite?: THREE.PointsMaterial["depthWrite"];
+  dithering?: THREE.PointsMaterial["dithering"];
+  fog?: THREE.PointsMaterial["fog"];
+  forceSinglePass?: THREE.PointsMaterial["forceSinglePass"];
+  map?: THREE.PointsMaterial["map"] | string;
+  needsUpdate?: THREE.PointsMaterial["needsUpdate"];
+  opacity?: THREE.PointsMaterial["opacity"];
+  polygonOffset?: THREE.PointsMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.PointsMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.PointsMaterial["polygonOffsetUnits"];
+  precision?: THREE.PointsMaterial["precision"];
+  premultipliedAlpha?: THREE.PointsMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.PointsMaterial["shadowSide"];
+  side?: THREE.PointsMaterial["side"];
+  size?: THREE.PointsMaterial["size"];
+  sizeAttenuation?: THREE.PointsMaterial["sizeAttenuation"];
+  stencilFail?: THREE.PointsMaterial["stencilFail"];
+  stencilFunc?: THREE.PointsMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.PointsMaterial["stencilFuncMask"];
+  stencilRef?: THREE.PointsMaterial["stencilRef"];
+  stencilWrite?: THREE.PointsMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.PointsMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.PointsMaterial["stencilZFail"];
+  stencilZPass?: THREE.PointsMaterial["stencilZPass"];
+  toneMapped?: THREE.PointsMaterial["toneMapped"];
+  transparent?: THREE.PointsMaterial["transparent"];
+  vertexColors?: THREE.PointsMaterial["vertexColors"];
+}
+
+/** Props of the "rawshadermaterial" element (THREE.RawShaderMaterial). */
+export interface RawShaderMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.RawShaderMaterial["alphaHash"];
+  alphaTest?: THREE.RawShaderMaterial["alphaTest"];
+  alphaToCoverage?: THREE.RawShaderMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.RawShaderMaterial["blendAlpha"];
+  blendColor?: THREE.RawShaderMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.RawShaderMaterial["blendDst"];
+  blendDstAlpha?: THREE.RawShaderMaterial["blendDstAlpha"];
+  blendEquation?: THREE.RawShaderMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.RawShaderMaterial["blendEquationAlpha"];
+  blending?: THREE.RawShaderMaterial["blending"];
+  blendSrc?: THREE.RawShaderMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.RawShaderMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.RawShaderMaterial["clipIntersection"];
+  clipping?: THREE.RawShaderMaterial["clipping"];
+  clippingPlanes?: THREE.RawShaderMaterial["clippingPlanes"];
+  clipShadows?: THREE.RawShaderMaterial["clipShadows"];
+  colorWrite?: THREE.RawShaderMaterial["colorWrite"];
+  defaultAttributeValues?: THREE.RawShaderMaterial["defaultAttributeValues"];
+  defines?: THREE.RawShaderMaterial["defines"];
+  depthFunc?: THREE.RawShaderMaterial["depthFunc"];
+  depthTest?: THREE.RawShaderMaterial["depthTest"];
+  depthWrite?: THREE.RawShaderMaterial["depthWrite"];
+  dithering?: THREE.RawShaderMaterial["dithering"];
+  extensions?: THREE.RawShaderMaterial["extensions"];
+  fog?: THREE.RawShaderMaterial["fog"];
+  forceSinglePass?: THREE.RawShaderMaterial["forceSinglePass"];
+  fragmentShader?: THREE.RawShaderMaterial["fragmentShader"];
+  glslVersion?: THREE.RawShaderMaterial["glslVersion"];
+  index0AttributeName?: THREE.RawShaderMaterial["index0AttributeName"];
+  lights?: THREE.RawShaderMaterial["lights"];
+  linewidth?: THREE.RawShaderMaterial["linewidth"];
+  needsUpdate?: THREE.RawShaderMaterial["needsUpdate"];
+  opacity?: THREE.RawShaderMaterial["opacity"];
+  polygonOffset?: THREE.RawShaderMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.RawShaderMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.RawShaderMaterial["polygonOffsetUnits"];
+  precision?: THREE.RawShaderMaterial["precision"];
+  premultipliedAlpha?: THREE.RawShaderMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.RawShaderMaterial["shadowSide"];
+  side?: THREE.RawShaderMaterial["side"];
+  stencilFail?: THREE.RawShaderMaterial["stencilFail"];
+  stencilFunc?: THREE.RawShaderMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.RawShaderMaterial["stencilFuncMask"];
+  stencilRef?: THREE.RawShaderMaterial["stencilRef"];
+  stencilWrite?: THREE.RawShaderMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.RawShaderMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.RawShaderMaterial["stencilZFail"];
+  stencilZPass?: THREE.RawShaderMaterial["stencilZPass"];
+  toneMapped?: THREE.RawShaderMaterial["toneMapped"];
+  transparent?: THREE.RawShaderMaterial["transparent"];
+  uniforms?: THREE.RawShaderMaterial["uniforms"];
+  uniformsGroups?: THREE.RawShaderMaterial["uniformsGroups"];
+  uniformsNeedUpdate?: THREE.RawShaderMaterial["uniformsNeedUpdate"];
+  vertexColors?: THREE.RawShaderMaterial["vertexColors"];
+  vertexShader?: THREE.RawShaderMaterial["vertexShader"];
+  wireframe?: THREE.RawShaderMaterial["wireframe"];
+  wireframeLinewidth?: THREE.RawShaderMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "shadermaterial" element (THREE.ShaderMaterial). */
+export interface ShaderMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.ShaderMaterial["alphaHash"];
+  alphaTest?: THREE.ShaderMaterial["alphaTest"];
+  alphaToCoverage?: THREE.ShaderMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.ShaderMaterial["blendAlpha"];
+  blendColor?: THREE.ShaderMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.ShaderMaterial["blendDst"];
+  blendDstAlpha?: THREE.ShaderMaterial["blendDstAlpha"];
+  blendEquation?: THREE.ShaderMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.ShaderMaterial["blendEquationAlpha"];
+  blending?: THREE.ShaderMaterial["blending"];
+  blendSrc?: THREE.ShaderMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.ShaderMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.ShaderMaterial["clipIntersection"];
+  clipping?: THREE.ShaderMaterial["clipping"];
+  clippingPlanes?: THREE.ShaderMaterial["clippingPlanes"];
+  clipShadows?: THREE.ShaderMaterial["clipShadows"];
+  colorWrite?: THREE.ShaderMaterial["colorWrite"];
+  defaultAttributeValues?: THREE.ShaderMaterial["defaultAttributeValues"];
+  defines?: THREE.ShaderMaterial["defines"];
+  depthFunc?: THREE.ShaderMaterial["depthFunc"];
+  depthTest?: THREE.ShaderMaterial["depthTest"];
+  depthWrite?: THREE.ShaderMaterial["depthWrite"];
+  dithering?: THREE.ShaderMaterial["dithering"];
+  extensions?: THREE.ShaderMaterial["extensions"];
+  fog?: THREE.ShaderMaterial["fog"];
+  forceSinglePass?: THREE.ShaderMaterial["forceSinglePass"];
+  fragmentShader?: THREE.ShaderMaterial["fragmentShader"];
+  glslVersion?: THREE.ShaderMaterial["glslVersion"];
+  index0AttributeName?: THREE.ShaderMaterial["index0AttributeName"];
+  lights?: THREE.ShaderMaterial["lights"];
+  linewidth?: THREE.ShaderMaterial["linewidth"];
+  needsUpdate?: THREE.ShaderMaterial["needsUpdate"];
+  opacity?: THREE.ShaderMaterial["opacity"];
+  polygonOffset?: THREE.ShaderMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.ShaderMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.ShaderMaterial["polygonOffsetUnits"];
+  precision?: THREE.ShaderMaterial["precision"];
+  premultipliedAlpha?: THREE.ShaderMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.ShaderMaterial["shadowSide"];
+  side?: THREE.ShaderMaterial["side"];
+  stencilFail?: THREE.ShaderMaterial["stencilFail"];
+  stencilFunc?: THREE.ShaderMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.ShaderMaterial["stencilFuncMask"];
+  stencilRef?: THREE.ShaderMaterial["stencilRef"];
+  stencilWrite?: THREE.ShaderMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.ShaderMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.ShaderMaterial["stencilZFail"];
+  stencilZPass?: THREE.ShaderMaterial["stencilZPass"];
+  toneMapped?: THREE.ShaderMaterial["toneMapped"];
+  transparent?: THREE.ShaderMaterial["transparent"];
+  uniforms?: THREE.ShaderMaterial["uniforms"];
+  uniformsGroups?: THREE.ShaderMaterial["uniformsGroups"];
+  uniformsNeedUpdate?: THREE.ShaderMaterial["uniformsNeedUpdate"];
+  vertexColors?: THREE.ShaderMaterial["vertexColors"];
+  vertexShader?: THREE.ShaderMaterial["vertexShader"];
+  wireframe?: THREE.ShaderMaterial["wireframe"];
+  wireframeLinewidth?: THREE.ShaderMaterial["wireframeLinewidth"];
+}
+
+/** Props of the "shadowmaterial" element (THREE.ShadowMaterial). */
+export interface ShadowMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.ShadowMaterial["alphaHash"];
+  alphaTest?: THREE.ShadowMaterial["alphaTest"];
+  alphaToCoverage?: THREE.ShadowMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.ShadowMaterial["blendAlpha"];
+  blendColor?: THREE.ShadowMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.ShadowMaterial["blendDst"];
+  blendDstAlpha?: THREE.ShadowMaterial["blendDstAlpha"];
+  blendEquation?: THREE.ShadowMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.ShadowMaterial["blendEquationAlpha"];
+  blending?: THREE.ShadowMaterial["blending"];
+  blendSrc?: THREE.ShadowMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.ShadowMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.ShadowMaterial["clipIntersection"];
+  clippingPlanes?: THREE.ShadowMaterial["clippingPlanes"];
+  clipShadows?: THREE.ShadowMaterial["clipShadows"];
+  color?: THREE.ShadowMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.ShadowMaterial["colorWrite"];
+  defines?: THREE.ShadowMaterial["defines"];
+  depthFunc?: THREE.ShadowMaterial["depthFunc"];
+  depthTest?: THREE.ShadowMaterial["depthTest"];
+  depthWrite?: THREE.ShadowMaterial["depthWrite"];
+  dithering?: THREE.ShadowMaterial["dithering"];
+  fog?: THREE.ShadowMaterial["fog"];
+  forceSinglePass?: THREE.ShadowMaterial["forceSinglePass"];
+  needsUpdate?: THREE.ShadowMaterial["needsUpdate"];
+  opacity?: THREE.ShadowMaterial["opacity"];
+  polygonOffset?: THREE.ShadowMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.ShadowMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.ShadowMaterial["polygonOffsetUnits"];
+  precision?: THREE.ShadowMaterial["precision"];
+  premultipliedAlpha?: THREE.ShadowMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.ShadowMaterial["shadowSide"];
+  side?: THREE.ShadowMaterial["side"];
+  stencilFail?: THREE.ShadowMaterial["stencilFail"];
+  stencilFunc?: THREE.ShadowMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.ShadowMaterial["stencilFuncMask"];
+  stencilRef?: THREE.ShadowMaterial["stencilRef"];
+  stencilWrite?: THREE.ShadowMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.ShadowMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.ShadowMaterial["stencilZFail"];
+  stencilZPass?: THREE.ShadowMaterial["stencilZPass"];
+  toneMapped?: THREE.ShadowMaterial["toneMapped"];
+  transparent?: THREE.ShadowMaterial["transparent"];
+  vertexColors?: THREE.ShadowMaterial["vertexColors"];
+}
+
+/** Props of the "spritematerial" element (THREE.SpriteMaterial). */
+export interface SpriteMaterialProps extends ThreeCommonProps {
+  alphaHash?: THREE.SpriteMaterial["alphaHash"];
+  alphaMap?: THREE.SpriteMaterial["alphaMap"] | string;
+  alphaTest?: THREE.SpriteMaterial["alphaTest"];
+  alphaToCoverage?: THREE.SpriteMaterial["alphaToCoverage"];
+  blendAlpha?: THREE.SpriteMaterial["blendAlpha"];
+  blendColor?: THREE.SpriteMaterial["blendColor"] | THREE.ColorRepresentation;
+  blendDst?: THREE.SpriteMaterial["blendDst"];
+  blendDstAlpha?: THREE.SpriteMaterial["blendDstAlpha"];
+  blendEquation?: THREE.SpriteMaterial["blendEquation"];
+  blendEquationAlpha?: THREE.SpriteMaterial["blendEquationAlpha"];
+  blending?: THREE.SpriteMaterial["blending"];
+  blendSrc?: THREE.SpriteMaterial["blendSrc"];
+  blendSrcAlpha?: THREE.SpriteMaterial["blendSrcAlpha"];
+  clipIntersection?: THREE.SpriteMaterial["clipIntersection"];
+  clippingPlanes?: THREE.SpriteMaterial["clippingPlanes"];
+  clipShadows?: THREE.SpriteMaterial["clipShadows"];
+  color?: THREE.SpriteMaterial["color"] | THREE.ColorRepresentation;
+  colorWrite?: THREE.SpriteMaterial["colorWrite"];
+  defines?: THREE.SpriteMaterial["defines"];
+  depthFunc?: THREE.SpriteMaterial["depthFunc"];
+  depthTest?: THREE.SpriteMaterial["depthTest"];
+  depthWrite?: THREE.SpriteMaterial["depthWrite"];
+  dithering?: THREE.SpriteMaterial["dithering"];
+  fog?: THREE.SpriteMaterial["fog"];
+  forceSinglePass?: THREE.SpriteMaterial["forceSinglePass"];
+  map?: THREE.SpriteMaterial["map"] | string;
+  needsUpdate?: THREE.SpriteMaterial["needsUpdate"];
+  opacity?: THREE.SpriteMaterial["opacity"];
+  polygonOffset?: THREE.SpriteMaterial["polygonOffset"];
+  polygonOffsetFactor?: THREE.SpriteMaterial["polygonOffsetFactor"];
+  polygonOffsetUnits?: THREE.SpriteMaterial["polygonOffsetUnits"];
+  precision?: THREE.SpriteMaterial["precision"];
+  premultipliedAlpha?: THREE.SpriteMaterial["premultipliedAlpha"];
+  shadowSide?: THREE.SpriteMaterial["shadowSide"];
+  side?: THREE.SpriteMaterial["side"];
+  sizeAttenuation?: THREE.SpriteMaterial["sizeAttenuation"];
+  stencilFail?: THREE.SpriteMaterial["stencilFail"];
+  stencilFunc?: THREE.SpriteMaterial["stencilFunc"];
+  stencilFuncMask?: THREE.SpriteMaterial["stencilFuncMask"];
+  stencilRef?: THREE.SpriteMaterial["stencilRef"];
+  stencilWrite?: THREE.SpriteMaterial["stencilWrite"];
+  stencilWriteMask?: THREE.SpriteMaterial["stencilWriteMask"];
+  stencilZFail?: THREE.SpriteMaterial["stencilZFail"];
+  stencilZPass?: THREE.SpriteMaterial["stencilZPass"];
+  toneMapped?: THREE.SpriteMaterial["toneMapped"];
+  transparent?: THREE.SpriteMaterial["transparent"];
+  vertexColors?: THREE.SpriteMaterial["vertexColors"];
+}
+
+/** Props of the "batchedmesh" element (THREE.BatchedMesh). */
+export interface BatchedMeshProps extends ThreeCommonProps {
+  animations?: THREE.BatchedMesh["animations"];
+  boundingBox?: THREE.BatchedMesh["boundingBox"];
+  boundingSphere?: THREE.BatchedMesh["boundingSphere"];
+  customDepthMaterial?: THREE.BatchedMesh["customDepthMaterial"];
+  customDistanceMaterial?: THREE.BatchedMesh["customDistanceMaterial"];
+  customSort?: THREE.BatchedMesh["customSort"];
+  geometry?: THREE.BatchedMesh["geometry"];
+  instanceCount?: THREE.BatchedMesh["instanceCount"];
+  layers?: THREE.BatchedMesh["layers"];
+  material?: THREE.BatchedMesh["material"];
+  matrixAutoUpdate?: THREE.BatchedMesh["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.BatchedMesh["matrixWorldAutoUpdate"];
+  maxInstanceCount?: THREE.BatchedMesh["maxInstanceCount"];
+  morphTargetDictionary?: THREE.BatchedMesh["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.BatchedMesh["morphTargetInfluences"];
+  perObjectFrustumCulled?: THREE.BatchedMesh["perObjectFrustumCulled"];
+  sortObjects?: THREE.BatchedMesh["sortObjects"];
+  unusedIndexCount?: THREE.BatchedMesh["unusedIndexCount"];
+  unusedVertexCount?: THREE.BatchedMesh["unusedVertexCount"];
+  up?: THREE.BatchedMesh["up"] | Vector3Prop;
+}
+
+/** Props of the "bone" element (THREE.Bone). */
+export interface BoneProps extends ThreeCommonProps {
+  animations?: THREE.Bone["animations"];
+  customDepthMaterial?: THREE.Bone["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Bone["customDistanceMaterial"];
+  layers?: THREE.Bone["layers"];
+  matrixAutoUpdate?: THREE.Bone["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Bone["matrixWorldAutoUpdate"];
+  up?: THREE.Bone["up"] | Vector3Prop;
+}
+
+/** Props of the "group" element (THREE.Group). */
+export interface GroupProps extends ThreeCommonProps {
+  animations?: THREE.Group["animations"];
+  customDepthMaterial?: THREE.Group["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Group["customDistanceMaterial"];
+  layers?: THREE.Group["layers"];
+  matrixAutoUpdate?: THREE.Group["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Group["matrixWorldAutoUpdate"];
+  up?: THREE.Group["up"] | Vector3Prop;
+}
+
+/** Props of the "instancedmesh" element (THREE.InstancedMesh). */
+export interface InstancedMeshProps extends ThreeCommonProps {
+  animations?: THREE.InstancedMesh["animations"];
+  boundingBox?: THREE.InstancedMesh["boundingBox"];
+  boundingSphere?: THREE.InstancedMesh["boundingSphere"];
+  count?: THREE.InstancedMesh["count"];
+  customDepthMaterial?: THREE.InstancedMesh["customDepthMaterial"];
+  customDistanceMaterial?: THREE.InstancedMesh["customDistanceMaterial"];
+  geometry?: THREE.InstancedMesh["geometry"];
+  instanceColor?: THREE.InstancedMesh["instanceColor"];
+  instanceMatrix?: THREE.InstancedMesh["instanceMatrix"];
+  layers?: THREE.InstancedMesh["layers"];
+  material?: THREE.InstancedMesh["material"];
+  matrixAutoUpdate?: THREE.InstancedMesh["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.InstancedMesh["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.InstancedMesh["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.InstancedMesh["morphTargetInfluences"];
+  morphTexture?: THREE.InstancedMesh["morphTexture"] | string;
+  up?: THREE.InstancedMesh["up"] | Vector3Prop;
+}
+
+/** Props of the "line" element (THREE.Line). */
+export interface LineProps extends ThreeCommonProps {
+  animations?: THREE.Line["animations"];
+  customDepthMaterial?: THREE.Line["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Line["customDistanceMaterial"];
+  geometry?: THREE.Line["geometry"];
+  layers?: THREE.Line["layers"];
+  material?: THREE.Line["material"];
+  matrixAutoUpdate?: THREE.Line["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Line["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.Line["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.Line["morphTargetInfluences"];
+  up?: THREE.Line["up"] | Vector3Prop;
+}
+
+/** Props of the "lineloop" element (THREE.LineLoop). */
+export interface LineLoopProps extends ThreeCommonProps {
+  animations?: THREE.LineLoop["animations"];
+  customDepthMaterial?: THREE.LineLoop["customDepthMaterial"];
+  customDistanceMaterial?: THREE.LineLoop["customDistanceMaterial"];
+  geometry?: THREE.LineLoop["geometry"];
+  layers?: THREE.LineLoop["layers"];
+  material?: THREE.LineLoop["material"];
+  matrixAutoUpdate?: THREE.LineLoop["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.LineLoop["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.LineLoop["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.LineLoop["morphTargetInfluences"];
+  up?: THREE.LineLoop["up"] | Vector3Prop;
+}
+
+/** Props of the "linesegments" element (THREE.LineSegments). */
+export interface LineSegmentsProps extends ThreeCommonProps {
+  animations?: THREE.LineSegments["animations"];
+  customDepthMaterial?: THREE.LineSegments["customDepthMaterial"];
+  customDistanceMaterial?: THREE.LineSegments["customDistanceMaterial"];
+  geometry?: THREE.LineSegments["geometry"];
+  layers?: THREE.LineSegments["layers"];
+  material?: THREE.LineSegments["material"];
+  matrixAutoUpdate?: THREE.LineSegments["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.LineSegments["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.LineSegments["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.LineSegments["morphTargetInfluences"];
+  up?: THREE.LineSegments["up"] | Vector3Prop;
+}
+
+/** Props of the "lod" element (THREE.LOD). */
+export interface LODProps extends ThreeCommonProps {
+  animations?: THREE.LOD["animations"];
+  autoUpdate?: THREE.LOD["autoUpdate"];
+  customDepthMaterial?: THREE.LOD["customDepthMaterial"];
+  customDistanceMaterial?: THREE.LOD["customDistanceMaterial"];
+  layers?: THREE.LOD["layers"];
+  levels?: THREE.LOD["levels"];
+  matrixAutoUpdate?: THREE.LOD["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.LOD["matrixWorldAutoUpdate"];
+  up?: THREE.LOD["up"] | Vector3Prop;
+}
+
+/** Props of the "mesh" element (THREE.Mesh). */
+export interface MeshProps extends ThreeCommonProps {
+  animations?: THREE.Mesh["animations"];
+  customDepthMaterial?: THREE.Mesh["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Mesh["customDistanceMaterial"];
+  geometry?: THREE.Mesh["geometry"];
+  layers?: THREE.Mesh["layers"];
+  material?: THREE.Mesh["material"];
+  matrixAutoUpdate?: THREE.Mesh["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Mesh["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.Mesh["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.Mesh["morphTargetInfluences"];
+  up?: THREE.Mesh["up"] | Vector3Prop;
+}
+
+/** Props of the "points" element (THREE.Points). */
+export interface PointsProps extends ThreeCommonProps {
+  animations?: THREE.Points["animations"];
+  customDepthMaterial?: THREE.Points["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Points["customDistanceMaterial"];
+  geometry?: THREE.Points["geometry"];
+  layers?: THREE.Points["layers"];
+  material?: THREE.Points["material"];
+  matrixAutoUpdate?: THREE.Points["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Points["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.Points["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.Points["morphTargetInfluences"];
+  up?: THREE.Points["up"] | Vector3Prop;
+}
+
+/** Props of the "skinnedmesh" element (THREE.SkinnedMesh). */
+export interface SkinnedMeshProps extends ThreeCommonProps {
+  animations?: THREE.SkinnedMesh["animations"];
+  bindMatrix?: THREE.SkinnedMesh["bindMatrix"];
+  bindMatrixInverse?: THREE.SkinnedMesh["bindMatrixInverse"];
+  bindMode?: THREE.SkinnedMesh["bindMode"];
+  boundingBox?: THREE.SkinnedMesh["boundingBox"];
+  boundingSphere?: THREE.SkinnedMesh["boundingSphere"];
+  customDepthMaterial?: THREE.SkinnedMesh["customDepthMaterial"];
+  customDistanceMaterial?: THREE.SkinnedMesh["customDistanceMaterial"];
+  geometry?: THREE.SkinnedMesh["geometry"];
+  layers?: THREE.SkinnedMesh["layers"];
+  material?: THREE.SkinnedMesh["material"];
+  matrixAutoUpdate?: THREE.SkinnedMesh["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.SkinnedMesh["matrixWorldAutoUpdate"];
+  morphTargetDictionary?: THREE.SkinnedMesh["morphTargetDictionary"];
+  morphTargetInfluences?: THREE.SkinnedMesh["morphTargetInfluences"];
+  skeleton?: THREE.SkinnedMesh["skeleton"];
+  up?: THREE.SkinnedMesh["up"] | Vector3Prop;
+}
+
+/** Props of the "sprite" element (THREE.Sprite). */
+export interface SpriteProps extends ThreeCommonProps {
+  animations?: THREE.Sprite["animations"];
+  center?: THREE.Sprite["center"];
+  customDepthMaterial?: THREE.Sprite["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Sprite["customDistanceMaterial"];
+  geometry?: THREE.Sprite["geometry"];
+  layers?: THREE.Sprite["layers"];
+  material?: THREE.Sprite["material"];
+  matrixAutoUpdate?: THREE.Sprite["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Sprite["matrixWorldAutoUpdate"];
+  up?: THREE.Sprite["up"] | Vector3Prop;
+}
+
+/** Props of the "scene" element (THREE.Scene). */
+export interface SceneProps extends ThreeCommonProps {
+  animations?: THREE.Scene["animations"];
+  background?: THREE.Scene["background"] | string | THREE.ColorRepresentation;
+  backgroundBlurriness?: THREE.Scene["backgroundBlurriness"];
+  backgroundIntensity?: THREE.Scene["backgroundIntensity"];
+  backgroundRotation?: THREE.Scene["backgroundRotation"] | EulerProp;
+  customDepthMaterial?: THREE.Scene["customDepthMaterial"];
+  customDistanceMaterial?: THREE.Scene["customDistanceMaterial"];
+  environment?: THREE.Scene["environment"] | string;
+  environmentIntensity?: THREE.Scene["environmentIntensity"];
+  environmentRotation?: THREE.Scene["environmentRotation"] | EulerProp;
+  fog?: THREE.Scene["fog"];
+  layers?: THREE.Scene["layers"];
+  matrixAutoUpdate?: THREE.Scene["matrixAutoUpdate"];
+  matrixWorldAutoUpdate?: THREE.Scene["matrixWorldAutoUpdate"];
+  overrideMaterial?: THREE.Scene["overrideMaterial"];
+  up?: THREE.Scene["up"] | Vector3Prop;
+}
+
+/** Props of the "canvastexture" element (THREE.CanvasTexture). */
+export interface CanvasTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.CanvasTexture["anisotropy"];
+  center?: THREE.CanvasTexture["center"];
+  channel?: THREE.CanvasTexture["channel"];
+  colorSpace?: THREE.CanvasTexture["colorSpace"];
+  flipY?: THREE.CanvasTexture["flipY"];
+  format?: THREE.CanvasTexture["format"];
+  generateMipmaps?: THREE.CanvasTexture["generateMipmaps"];
+  image?: THREE.CanvasTexture["image"];
+  internalFormat?: THREE.CanvasTexture["internalFormat"];
+  magFilter?: THREE.CanvasTexture["magFilter"] | string;
+  mapping?: THREE.CanvasTexture["mapping"];
+  matrixAutoUpdate?: THREE.CanvasTexture["matrixAutoUpdate"];
+  minFilter?: THREE.CanvasTexture["minFilter"] | string;
+  mipmaps?: THREE.CanvasTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.CanvasTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.CanvasTexture["needsUpdate"];
+  offset?: THREE.CanvasTexture["offset"];
+  pmremVersion?: THREE.CanvasTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.CanvasTexture["premultiplyAlpha"];
+  repeat?: THREE.CanvasTexture["repeat"];
+  source?: THREE.CanvasTexture["source"];
+  unpackAlignment?: THREE.CanvasTexture["unpackAlignment"];
+  wrapS?: THREE.CanvasTexture["wrapS"];
+  wrapT?: THREE.CanvasTexture["wrapT"];
+}
+
+/** Props of the "compressedarraytexture" element (THREE.CompressedArrayTexture). */
+export interface CompressedArrayTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.CompressedArrayTexture["anisotropy"];
+  center?: THREE.CompressedArrayTexture["center"];
+  channel?: THREE.CompressedArrayTexture["channel"];
+  colorSpace?: THREE.CompressedArrayTexture["colorSpace"];
+  flipY?: THREE.CompressedArrayTexture["flipY"];
+  format?: THREE.CompressedArrayTexture["format"];
+  generateMipmaps?: THREE.CompressedArrayTexture["generateMipmaps"];
+  image?: THREE.CompressedArrayTexture["image"];
+  internalFormat?: THREE.CompressedArrayTexture["internalFormat"];
+  layerUpdates?: THREE.CompressedArrayTexture["layerUpdates"];
+  magFilter?: THREE.CompressedArrayTexture["magFilter"] | string;
+  mapping?: THREE.CompressedArrayTexture["mapping"];
+  matrixAutoUpdate?: THREE.CompressedArrayTexture["matrixAutoUpdate"];
+  minFilter?: THREE.CompressedArrayTexture["minFilter"] | string;
+  mipmaps?: THREE.CompressedArrayTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.CompressedArrayTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.CompressedArrayTexture["needsUpdate"];
+  offset?: THREE.CompressedArrayTexture["offset"];
+  pmremVersion?: THREE.CompressedArrayTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.CompressedArrayTexture["premultiplyAlpha"];
+  repeat?: THREE.CompressedArrayTexture["repeat"];
+  source?: THREE.CompressedArrayTexture["source"];
+  unpackAlignment?: THREE.CompressedArrayTexture["unpackAlignment"];
+  wrapR?: THREE.CompressedArrayTexture["wrapR"];
+  wrapS?: THREE.CompressedArrayTexture["wrapS"];
+  wrapT?: THREE.CompressedArrayTexture["wrapT"];
+}
+
+/** Props of the "compressedcubetexture" element (THREE.CompressedCubeTexture). */
+export interface CompressedCubeTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.CompressedCubeTexture["anisotropy"];
+  center?: THREE.CompressedCubeTexture["center"];
+  channel?: THREE.CompressedCubeTexture["channel"];
+  colorSpace?: THREE.CompressedCubeTexture["colorSpace"];
+  flipY?: THREE.CompressedCubeTexture["flipY"];
+  format?: THREE.CompressedCubeTexture["format"];
+  generateMipmaps?: THREE.CompressedCubeTexture["generateMipmaps"];
+  image?: THREE.CompressedCubeTexture["image"];
+  internalFormat?: THREE.CompressedCubeTexture["internalFormat"];
+  magFilter?: THREE.CompressedCubeTexture["magFilter"] | string;
+  mapping?: THREE.CompressedCubeTexture["mapping"];
+  matrixAutoUpdate?: THREE.CompressedCubeTexture["matrixAutoUpdate"];
+  minFilter?: THREE.CompressedCubeTexture["minFilter"] | string;
+  mipmaps?: THREE.CompressedCubeTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.CompressedCubeTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.CompressedCubeTexture["needsUpdate"];
+  offset?: THREE.CompressedCubeTexture["offset"];
+  pmremVersion?: THREE.CompressedCubeTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.CompressedCubeTexture["premultiplyAlpha"];
+  repeat?: THREE.CompressedCubeTexture["repeat"];
+  source?: THREE.CompressedCubeTexture["source"];
+  unpackAlignment?: THREE.CompressedCubeTexture["unpackAlignment"];
+  wrapS?: THREE.CompressedCubeTexture["wrapS"];
+  wrapT?: THREE.CompressedCubeTexture["wrapT"];
+}
+
+/** Props of the "compressedtexture" element (THREE.CompressedTexture). */
+export interface CompressedTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.CompressedTexture["anisotropy"];
+  center?: THREE.CompressedTexture["center"];
+  channel?: THREE.CompressedTexture["channel"];
+  colorSpace?: THREE.CompressedTexture["colorSpace"];
+  flipY?: THREE.CompressedTexture["flipY"];
+  format?: THREE.CompressedTexture["format"];
+  generateMipmaps?: THREE.CompressedTexture["generateMipmaps"];
+  image?: THREE.CompressedTexture["image"];
+  internalFormat?: THREE.CompressedTexture["internalFormat"];
+  magFilter?: THREE.CompressedTexture["magFilter"] | string;
+  mapping?: THREE.CompressedTexture["mapping"];
+  matrixAutoUpdate?: THREE.CompressedTexture["matrixAutoUpdate"];
+  minFilter?: THREE.CompressedTexture["minFilter"] | string;
+  mipmaps?: THREE.CompressedTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.CompressedTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.CompressedTexture["needsUpdate"];
+  offset?: THREE.CompressedTexture["offset"];
+  pmremVersion?: THREE.CompressedTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.CompressedTexture["premultiplyAlpha"];
+  repeat?: THREE.CompressedTexture["repeat"];
+  source?: THREE.CompressedTexture["source"];
+  unpackAlignment?: THREE.CompressedTexture["unpackAlignment"];
+  wrapS?: THREE.CompressedTexture["wrapS"];
+  wrapT?: THREE.CompressedTexture["wrapT"];
+}
+
+/** Props of the "cubetexture" element (THREE.CubeTexture). */
+export interface CubeTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.CubeTexture["anisotropy"];
+  center?: THREE.CubeTexture["center"];
+  channel?: THREE.CubeTexture["channel"];
+  colorSpace?: THREE.CubeTexture["colorSpace"];
+  flipY?: THREE.CubeTexture["flipY"];
+  format?: THREE.CubeTexture["format"];
+  generateMipmaps?: THREE.CubeTexture["generateMipmaps"];
+  image?: THREE.CubeTexture["image"];
+  images?: THREE.CubeTexture["images"];
+  internalFormat?: THREE.CubeTexture["internalFormat"];
+  magFilter?: THREE.CubeTexture["magFilter"] | string;
+  mapping?: THREE.CubeTexture["mapping"] | string;
+  matrixAutoUpdate?: THREE.CubeTexture["matrixAutoUpdate"];
+  minFilter?: THREE.CubeTexture["minFilter"] | string;
+  mipmaps?: THREE.CubeTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.CubeTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.CubeTexture["needsUpdate"];
+  offset?: THREE.CubeTexture["offset"];
+  pmremVersion?: THREE.CubeTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.CubeTexture["premultiplyAlpha"];
+  repeat?: THREE.CubeTexture["repeat"];
+  source?: THREE.CubeTexture["source"];
+  unpackAlignment?: THREE.CubeTexture["unpackAlignment"];
+  wrapS?: THREE.CubeTexture["wrapS"];
+  wrapT?: THREE.CubeTexture["wrapT"];
+}
+
+/** Props of the "data3dtexture" element (THREE.Data3DTexture). */
+export interface Data3DTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.Data3DTexture["anisotropy"];
+  center?: THREE.Data3DTexture["center"];
+  channel?: THREE.Data3DTexture["channel"];
+  colorSpace?: THREE.Data3DTexture["colorSpace"];
+  flipY?: THREE.Data3DTexture["flipY"];
+  format?: THREE.Data3DTexture["format"];
+  generateMipmaps?: THREE.Data3DTexture["generateMipmaps"];
+  image?: THREE.Data3DTexture["image"] | string;
+  internalFormat?: THREE.Data3DTexture["internalFormat"];
+  magFilter?: THREE.Data3DTexture["magFilter"] | string;
+  mapping?: THREE.Data3DTexture["mapping"];
+  matrixAutoUpdate?: THREE.Data3DTexture["matrixAutoUpdate"];
+  minFilter?: THREE.Data3DTexture["minFilter"] | string;
+  mipmaps?: THREE.Data3DTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.Data3DTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.Data3DTexture["needsUpdate"];
+  offset?: THREE.Data3DTexture["offset"];
+  pmremVersion?: THREE.Data3DTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.Data3DTexture["premultiplyAlpha"];
+  repeat?: THREE.Data3DTexture["repeat"];
+  source?: THREE.Data3DTexture["source"];
+  unpackAlignment?: THREE.Data3DTexture["unpackAlignment"];
+  wrapR?: THREE.Data3DTexture["wrapR"];
+  wrapS?: THREE.Data3DTexture["wrapS"];
+  wrapT?: THREE.Data3DTexture["wrapT"];
+}
+
+/** Props of the "dataarraytexture" element (THREE.DataArrayTexture). */
+export interface DataArrayTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.DataArrayTexture["anisotropy"];
+  center?: THREE.DataArrayTexture["center"];
+  channel?: THREE.DataArrayTexture["channel"];
+  colorSpace?: THREE.DataArrayTexture["colorSpace"];
+  flipY?: THREE.DataArrayTexture["flipY"];
+  format?: THREE.DataArrayTexture["format"];
+  generateMipmaps?: THREE.DataArrayTexture["generateMipmaps"];
+  image?: THREE.DataArrayTexture["image"] | string;
+  internalFormat?: THREE.DataArrayTexture["internalFormat"];
+  layerUpdates?: THREE.DataArrayTexture["layerUpdates"];
+  magFilter?: THREE.DataArrayTexture["magFilter"] | string;
+  mapping?: THREE.DataArrayTexture["mapping"];
+  matrixAutoUpdate?: THREE.DataArrayTexture["matrixAutoUpdate"];
+  minFilter?: THREE.DataArrayTexture["minFilter"] | string;
+  mipmaps?: THREE.DataArrayTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.DataArrayTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.DataArrayTexture["needsUpdate"];
+  offset?: THREE.DataArrayTexture["offset"];
+  pmremVersion?: THREE.DataArrayTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.DataArrayTexture["premultiplyAlpha"];
+  repeat?: THREE.DataArrayTexture["repeat"];
+  source?: THREE.DataArrayTexture["source"];
+  unpackAlignment?: THREE.DataArrayTexture["unpackAlignment"];
+  wrapR?: THREE.DataArrayTexture["wrapR"];
+  wrapS?: THREE.DataArrayTexture["wrapS"];
+  wrapT?: THREE.DataArrayTexture["wrapT"];
+}
+
+/** Props of the "datatexture" element (THREE.DataTexture). */
+export interface DataTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.DataTexture["anisotropy"];
+  center?: THREE.DataTexture["center"];
+  channel?: THREE.DataTexture["channel"];
+  colorSpace?: THREE.DataTexture["colorSpace"];
+  flipY?: THREE.DataTexture["flipY"];
+  format?: THREE.DataTexture["format"];
+  generateMipmaps?: THREE.DataTexture["generateMipmaps"];
+  image?: THREE.DataTexture["image"] | string;
+  internalFormat?: THREE.DataTexture["internalFormat"];
+  magFilter?: THREE.DataTexture["magFilter"] | string;
+  mapping?: THREE.DataTexture["mapping"];
+  matrixAutoUpdate?: THREE.DataTexture["matrixAutoUpdate"];
+  minFilter?: THREE.DataTexture["minFilter"] | string;
+  mipmaps?: THREE.DataTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.DataTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.DataTexture["needsUpdate"];
+  offset?: THREE.DataTexture["offset"];
+  pmremVersion?: THREE.DataTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.DataTexture["premultiplyAlpha"];
+  repeat?: THREE.DataTexture["repeat"];
+  source?: THREE.DataTexture["source"];
+  unpackAlignment?: THREE.DataTexture["unpackAlignment"];
+  wrapS?: THREE.DataTexture["wrapS"];
+  wrapT?: THREE.DataTexture["wrapT"];
+}
+
+/** Props of the "depthtexture" element (THREE.DepthTexture). */
+export interface DepthTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.DepthTexture["anisotropy"];
+  center?: THREE.DepthTexture["center"];
+  channel?: THREE.DepthTexture["channel"];
+  colorSpace?: THREE.DepthTexture["colorSpace"];
+  compareFunction?: THREE.DepthTexture["compareFunction"] | string;
+  flipY?: THREE.DepthTexture["flipY"];
+  format?: THREE.DepthTexture["format"] | string;
+  generateMipmaps?: THREE.DepthTexture["generateMipmaps"];
+  image?: THREE.DepthTexture["image"];
+  internalFormat?: THREE.DepthTexture["internalFormat"];
+  magFilter?: THREE.DepthTexture["magFilter"] | string;
+  mapping?: THREE.DepthTexture["mapping"];
+  matrixAutoUpdate?: THREE.DepthTexture["matrixAutoUpdate"];
+  minFilter?: THREE.DepthTexture["minFilter"] | string;
+  mipmaps?: THREE.DepthTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.DepthTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.DepthTexture["needsUpdate"];
+  offset?: THREE.DepthTexture["offset"];
+  pmremVersion?: THREE.DepthTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.DepthTexture["premultiplyAlpha"];
+  repeat?: THREE.DepthTexture["repeat"];
+  source?: THREE.DepthTexture["source"];
+  unpackAlignment?: THREE.DepthTexture["unpackAlignment"];
+  wrapS?: THREE.DepthTexture["wrapS"];
+  wrapT?: THREE.DepthTexture["wrapT"];
+}
+
+/** Props of the "framebuffertexture" element (THREE.FramebufferTexture). */
+export interface FramebufferTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.FramebufferTexture["anisotropy"];
+  center?: THREE.FramebufferTexture["center"];
+  channel?: THREE.FramebufferTexture["channel"];
+  colorSpace?: THREE.FramebufferTexture["colorSpace"];
+  flipY?: THREE.FramebufferTexture["flipY"];
+  format?: THREE.FramebufferTexture["format"];
+  generateMipmaps?: THREE.FramebufferTexture["generateMipmaps"];
+  image?: THREE.FramebufferTexture["image"];
+  internalFormat?: THREE.FramebufferTexture["internalFormat"];
+  magFilter?: THREE.FramebufferTexture["magFilter"] | string;
+  mapping?: THREE.FramebufferTexture["mapping"];
+  matrixAutoUpdate?: THREE.FramebufferTexture["matrixAutoUpdate"];
+  minFilter?: THREE.FramebufferTexture["minFilter"] | string;
+  mipmaps?: THREE.FramebufferTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.FramebufferTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.FramebufferTexture["needsUpdate"];
+  offset?: THREE.FramebufferTexture["offset"];
+  pmremVersion?: THREE.FramebufferTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.FramebufferTexture["premultiplyAlpha"];
+  repeat?: THREE.FramebufferTexture["repeat"];
+  source?: THREE.FramebufferTexture["source"];
+  unpackAlignment?: THREE.FramebufferTexture["unpackAlignment"];
+  wrapS?: THREE.FramebufferTexture["wrapS"];
+  wrapT?: THREE.FramebufferTexture["wrapT"];
+}
+
+/** Props of the "videotexture" element (THREE.VideoTexture). */
+export interface VideoTextureProps extends ThreeCommonProps {
+  anisotropy?: THREE.VideoTexture["anisotropy"];
+  center?: THREE.VideoTexture["center"];
+  channel?: THREE.VideoTexture["channel"];
+  colorSpace?: THREE.VideoTexture["colorSpace"];
+  flipY?: THREE.VideoTexture["flipY"];
+  format?: THREE.VideoTexture["format"];
+  generateMipmaps?: THREE.VideoTexture["generateMipmaps"];
+  image?: THREE.VideoTexture["image"];
+  internalFormat?: THREE.VideoTexture["internalFormat"];
+  magFilter?: THREE.VideoTexture["magFilter"] | string;
+  mapping?: THREE.VideoTexture["mapping"];
+  matrixAutoUpdate?: THREE.VideoTexture["matrixAutoUpdate"];
+  minFilter?: THREE.VideoTexture["minFilter"] | string;
+  mipmaps?: THREE.VideoTexture["mipmaps"] | string;
+  needsPMREMUpdate?: THREE.VideoTexture["needsPMREMUpdate"];
+  needsUpdate?: THREE.VideoTexture["needsUpdate"];
+  offset?: THREE.VideoTexture["offset"];
+  pmremVersion?: THREE.VideoTexture["pmremVersion"];
+  premultiplyAlpha?: THREE.VideoTexture["premultiplyAlpha"];
+  repeat?: THREE.VideoTexture["repeat"];
+  source?: THREE.VideoTexture["source"];
+  unpackAlignment?: THREE.VideoTexture["unpackAlignment"];
+  wrapS?: THREE.VideoTexture["wrapS"];
+  wrapT?: THREE.VideoTexture["wrapT"];
+}
+
+/** Every element tag that this renderer supports. */
+export interface ThreeIntrinsicElements {
+  "audio": AudioProps;
+  "audiolistener": AudioListenerProps;
+  "positionalaudio": PositionalAudioProps;
+  "arraycamera": ArrayCameraProps;
+  "camera": CameraProps;
+  "cubecamera": CubeCameraProps;
+  "orthographiccamera": OrthographicCameraProps;
+  "perspectivecamera": PerspectiveCameraProps;
+  "stereocamera": StereoCameraProps;
+  "buffergeometry": BufferGeometryProps;
+  "instancedbuffergeometry": InstancedBufferGeometryProps;
+  "object3d": Object3DProps;
+  "boxgeometry": BoxGeometryProps;
+  "capsulegeometry": CapsuleGeometryProps;
+  "circlegeometry": CircleGeometryProps;
+  "conegeometry": ConeGeometryProps;
+  "cylindergeometry": CylinderGeometryProps;
+  "dodecahedrongeometry": DodecahedronGeometryProps;
+  "edgesgeometry": EdgesGeometryProps;
+  "extrudegeometry": ExtrudeGeometryProps;
+  "icosahedrongeometry": IcosahedronGeometryProps;
+  "lathegeometry": LatheGeometryProps;
+  "octahedrongeometry": OctahedronGeometryProps;
+  "planegeometry": PlaneGeometryProps;
+  "polyhedrongeometry": PolyhedronGeometryProps;
+  "ringgeometry": RingGeometryProps;
+  "shapegeometry": ShapeGeometryProps;
+  "spheregeometry": SphereGeometryProps;
+  "tetrahedrongeometry": TetrahedronGeometryProps;
+  "torusgeometry": TorusGeometryProps;
+  "torusknotgeometry": TorusKnotGeometryProps;
+  "tubegeometry": TubeGeometryProps;
+  "wireframegeometry": WireframeGeometryProps;
+  "arrowhelper": ArrowHelperProps;
+  "axeshelper": AxesHelperProps;
+  "box3helper": Box3HelperProps;
+  "boxhelper": BoxHelperProps;
+  "camerahelper": CameraHelperProps;
+  "directionallighthelper": DirectionalLightHelperProps;
+  "gridhelper": GridHelperProps;
+  "hemispherelighthelper": HemisphereLightHelperProps;
+  "planehelper": PlaneHelperProps;
+  "pointlighthelper": PointLightHelperProps;
+  "polargridhelper": PolarGridHelperProps;
+  "skeletonhelper": SkeletonHelperProps;
+  "spotlighthelper": SpotLightHelperProps;
+  "ambientlight": AmbientLightProps;
+  "directionallight": DirectionalLightProps;
+  "hemispherelight": HemisphereLightProps;
+  "lightprobe": LightProbeProps;
+  "pointlight": PointLightProps;
+  "rectarealight": RectAreaLightProps;
+  "spotlight": SpotLightProps;
+  "linebasicmaterial": LineBasicMaterialProps;
+  "linedashedmaterial": LineDashedMaterialProps;
+  "meshbasicmaterial": MeshBasicMaterialProps;
+  "meshdepthmaterial": MeshDepthMaterialProps;
+  "meshdistancematerial": MeshDistanceMaterialProps;
+  "meshlambertmaterial": MeshLambertMaterialProps;
+  "meshmatcapmaterial": MeshMatcapMaterialProps;
+  "meshnormalmaterial": MeshNormalMaterialProps;
+  "meshphongmaterial": MeshPhongMaterialProps;
+  "meshphysicalmaterial": MeshPhysicalMaterialProps;
+  "meshstandardmaterial": MeshStandardMaterialProps;
+  "meshtoonmaterial": MeshToonMaterialProps;
+  "pointsmaterial": PointsMaterialProps;
+  "rawshadermaterial": RawShaderMaterialProps;
+  "shadermaterial": ShaderMaterialProps;
+  "shadowmaterial": ShadowMaterialProps;
+  "spritematerial": SpriteMaterialProps;
+  "batchedmesh": BatchedMeshProps;
+  "bone": BoneProps;
+  "group": GroupProps;
+  "instancedmesh": InstancedMeshProps;
+  "line": LineProps;
+  "lineloop": LineLoopProps;
+  "linesegments": LineSegmentsProps;
+  "lod": LODProps;
+  "mesh": MeshProps;
+  "points": PointsProps;
+  "skinnedmesh": SkinnedMeshProps;
+  "sprite": SpriteProps;
+  "scene": SceneProps;
+  "canvastexture": CanvasTextureProps;
+  "compressedarraytexture": CompressedArrayTextureProps;
+  "compressedcubetexture": CompressedCubeTextureProps;
+  "compressedtexture": CompressedTextureProps;
+  "cubetexture": CubeTextureProps;
+  "data3dtexture": Data3DTextureProps;
+  "dataarraytexture": DataArrayTextureProps;
+  "datatexture": DataTextureProps;
+  "depthtexture": DepthTextureProps;
+  "framebuffertexture": FramebufferTextureProps;
+  "videotexture": VideoTextureProps;
+  "texture": ThreeAssetProps;
+  "asset": ThreeAssetProps;
+}
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements extends ThreeIntrinsicElements {}
+  }
+}

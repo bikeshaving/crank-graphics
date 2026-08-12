@@ -1,4 +1,5 @@
 import {renderer} from "../src/index.ts";
+import type {Context} from "@b9g/crank";
 import * as THREE from "three";
 
 // Create Three.js scene, camera, and renderer
@@ -23,7 +24,7 @@ let loadingState = {
 };
 
 // Component demonstrating AssetRegistry with onload events
-function* AssetDemo() {
+function* AssetDemo(this: Context) {
 	// Use proper Crank component pattern with for-of iteration
 	for (const props of this) {
 		loadingState.time += 0.01;
@@ -78,7 +79,7 @@ function* AssetDemo() {
 					rotationX={loadingState.time}
 					rotationY={loadingState.time * 0.7}
 				>
-					<mesh-basic-material map="url(#checkerTexture)" />
+					<meshbasicmaterial map="url(#checkerTexture)" />
 				</mesh>
 
 				<mesh
@@ -88,7 +89,7 @@ function* AssetDemo() {
 					z={0}
 					rotationY={loadingState.time}
 				>
-					<mesh-basic-material map="url(#gradientTexture)" />
+					<meshbasicmaterial map="url(#gradientTexture)" />
 				</mesh>
 
 				{/* This mesh will use the fallback texture since the asset failed to load */}
@@ -99,7 +100,7 @@ function* AssetDemo() {
 					z={0}
 					rotationZ={loadingState.time * 0.5}
 				>
-					<mesh-basic-material map="url(#missingTexture)" color={0xff4444} />
+					<meshbasicmaterial map="url(#missingTexture)" color={0xff4444} />
 				</mesh>
 
 				{/* Show loading status in 3D text (using geometry) */}
@@ -109,7 +110,7 @@ function* AssetDemo() {
 					y={2.5}
 					z={0}
 				>
-					<mesh-basic-material 
+					<meshbasicmaterial 
 						color={loadingState.assetsLoaded >= 2 ? 0x00ff00 : 0xffaa00}
 						transparent={true}
 						opacity={0.8}
@@ -117,8 +118,8 @@ function* AssetDemo() {
 				</mesh>
 
 				{/* Lighting */}
-				<ambient-light intensity={0.4} />
-				<directional-light 
+				<ambientlight intensity={0.4} />
+				<directionallight 
 					intensity={0.8}
 					x={5}
 					y={5}

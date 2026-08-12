@@ -5,7 +5,20 @@ import * as Sinon from "sinon";
 import * as THREE from "three";
 
 import { createElement } from "@b9g/crank";
-import { renderer } from "../src/index.js";
+import {
+	renderer,
+	register,
+	unregister,
+	type ThreeElementProps,
+} from "../src/index.js";
+
+declare global {
+	namespace JSX {
+		interface IntrinsicElements {
+			"custom-marker": ThreeElementProps<Marker>;
+		}
+	}
+}
 
 const test = suite("basic three.js rendering");
 
@@ -81,9 +94,9 @@ test("mesh with geometry and material", () => {
 test("scene with camera and light", () => {
 	renderer.render(
 		<scene>
-			<perspective-camera x={0} y={0} z={5} />
-			<ambient-light />
-			<directional-light x={1} y={1} z={1} />
+			<perspectivecamera x={0} y={0} z={5} />
+			<ambientlight />
+			<directionallight x={1} y={1} z={1} />
 		</scene>,
 		threeScene
 	);
@@ -131,6 +144,63 @@ test("uniform scale", () => {
 	Assert.is(group.scale.x, 1.5);
 	Assert.is(group.scale.y, 1.5);
 	Assert.is(group.scale.z, 1.5);
+});
+
+test("expanded tag catalog", () => {
+	renderer.render(
+		<group>
+			<mesh>
+				<torusknotgeometry />
+				<meshphysicalmaterial />
+			</mesh>
+			<skinnedmesh />
+			<batchedmesh args={[1, 16, 16]} />
+			<rectarealight />
+			<axeshelper />
+		</group>,
+		threeScene,
+	);
+
+	const group = threeScene.children[0] as THREE.Group;
+	const mesh = group.children[0] as THREE.Mesh;
+
+	Assert.ok(mesh instanceof THREE.Mesh);
+	Assert.ok(group.children[1] instanceof THREE.SkinnedMesh);
+	Assert.ok(group.children[2] instanceof THREE.BatchedMesh);
+	Assert.ok(group.children[3] instanceof THREE.RectAreaLight);
+	Assert.ok(group.children[4] instanceof THREE.AxesHelper);
+});
+
+test("constructor args prop", () => {
+	renderer.render(<mesh args={[new THREE.BoxGeometry(2, 3, 4)]} />, threeScene);
+
+	const mesh = threeScene.children[0] as THREE.Mesh;
+	const geometry = mesh.geometry as THREE.BoxGeometry;
+	Assert.is(geometry.parameters.width, 2);
+	Assert.is(geometry.parameters.depth, 4);
+});
+
+class Marker extends THREE.Object3D {
+	label = "";
+}
+
+test("register a custom renderable", () => {
+	register("custom-marker", Marker);
+
+	try {
+		renderer.render(<custom-marker label="here" x={5} />, threeScene);
+
+		const marker = threeScene.children[0] as Marker;
+		Assert.ok(marker instanceof Marker);
+		Assert.is(marker.label, "here");
+		Assert.is(marker.position.x, 5);
+	} finally {
+		unregister("custom-marker");
+	}
+});
+
+test("register rejects a dashless tag", () => {
+	Assert.throws(() => register("marker", Marker), /must contain a dash/);
 });
 
 test.run();

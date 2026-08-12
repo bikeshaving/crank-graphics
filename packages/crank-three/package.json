@@ -1,17 +1,23 @@
 {
-  "name": "@crank/three",
+  "name": "@b9g/crank-three",
   "version": "0.1.0",
   "description": "Three.js renderer for Crank",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
@@ -32,8 +38,16 @@
     "3d",
     "webgl"
   ],
-  "author": "Crank Contributors",
+  "author": "Brian Kim <hello@b9g.dev>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bikeshaving/crank-graphics.git",
+    "directory": "packages/crank-three"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@b9g/crank": "^0.7.0",
     "three": "^0.170.0"

@@ -13,6 +13,7 @@ import {
 } from "ts-morph";
 import * as FS from "fs";
 import * as Path from "path";
+import {classNameToTagName} from "../src/core/tag-name";
 
 interface ThreeClassInfo {
 	name: string;
@@ -22,6 +23,7 @@ interface ThreeClassInfo {
 	implementsClause?: string[];
 	constructors: ConstructorInfo[];
 	properties: PropertyInfo[];
+	jsxProperties: JSXPropertyInfo[];
 	isObject3D: boolean;
 	isMaterial: boolean;
 	isGeometry: boolean;
@@ -61,65 +63,37 @@ interface PropertyInfo {
 	semanticType: "texture" | "material" | "geometry" | "array" | "object" | "primitive" | "unknown";
 }
 
+interface JSXPropertyInfo {
+	name: string;
+	typeText: string;
+}
+
 interface PropMapping {
 	jsxProp: string;
 	constructorParam: string;
 	transformation?: string;
 }
 
-// Important Three.js classes we want to support
-const IMPORTANT_CLASSES = [
-	// Object3D hierarchy
-	"Object3D",
-	"Scene",
-	"Group",
-	
-	// Mesh and geometry
-	"Mesh",
-	"BoxGeometry",
-	"SphereGeometry",
-	"PlaneGeometry",
-	"CylinderGeometry",
-	"ConeGeometry",
-	"TorusGeometry",
-	
-	// Materials
-	"MeshBasicMaterial",
-	"MeshStandardMaterial",
-	"MeshPhongMaterial",
-	"MeshLambertMaterial",
-	"PointsMaterial",
-	"LineBasicMaterial",
-	"LineDashedMaterial",
-	
-	// Lights
-	"AmbientLight",
-	"DirectionalLight",
-	"PointLight",
-	"SpotLight",
-	"HemisphereLight",
-	
-	// Camera
-	"PerspectiveCamera",
-	"OrthographicCamera",
-	
-	// Helpers
-	"AxesHelper",
-	"GridHelper",
-	"DirectionalLightHelper",
-	"CameraHelper",
-	
-	// Performance & Optimization
-	"LOD",
-	"InstancedMesh",
-	
-	// Others
-	"Points",
-	"Line",
-	"LineLoop",
-	"LineSegments",
-	"Sprite",
+/**
+ * Marker properties of the Three.js class hierarchies that this renderer supports.
+ * Every Three.js class carries a readonly marker such as "isObject3D".
+ * The marker is a reliable test, and it works for a subclass of any depth.
+ */
+const HIERARCHY_MARKERS = [
+	"isObject3D",
+	"isBufferGeometry",
+	"isMaterial",
+	"isTexture",
+	"isLight",
+	"isCamera",
 ];
+
+/**
+ * Classes that the rule finds, but that this renderer must not map to a tag.
+ * - Material: a bare material has no shader, so it renders nothing.
+ * - Texture: the "texture" tag belongs to the asset registry element.
+ */
+const EXCLUDED_CLASSES = new Set(["Material", "Texture"]);
 
 function main() {
 	console.log("🔍 Starting Three.js type introspection...");
@@ -128,68 +102,46 @@ function main() {
 		tsConfigFilePath: "tsconfig.json",
 	});
 
-	// Add Three.js types - need to load individual files since they're distributed
-	const threeTypesDir = Path.join(process.cwd(), "node_modules/@types/three/src");
-	console.log(`📄 Loading types from: ${threeTypesDir}`);
-	
-	if (!FS.existsSync(threeTypesDir)) {
-		console.error("❌ Three.js types not found. Install @types/three");
-		process.exit(1);
-	}
+	// Resolve the Three.js classes through the "three" module.
+	// Module resolution keeps one declaration of each class in the program.
+	// A file added by path gives a second declaration, and the checker then fails.
+	const introspectionFile = project.createSourceFile(
+		"__three-introspection.ts",
+		`import * as THREE from "three";\nexport type ThreeModule = typeof THREE;\n`,
+		{overwrite: true},
+	);
 
-	// Load specific type files for the classes we care about
-	const typeFilePaths = [
-		"core/Object3D.d.ts",
-		"scenes/Scene.d.ts", 
-		"objects/Group.d.ts",
-		"objects/Mesh.d.ts",
-		"objects/LOD.d.ts",
-		"objects/InstancedMesh.d.ts",
-		"geometries/BoxGeometry.d.ts",
-		"geometries/SphereGeometry.d.ts",
-		"geometries/PlaneGeometry.d.ts",
-		"geometries/CylinderGeometry.d.ts",
-		"geometries/ConeGeometry.d.ts",
-		"geometries/TorusGeometry.d.ts",
-		"materials/MeshBasicMaterial.d.ts",
-		"materials/MeshStandardMaterial.d.ts",
-		"materials/MeshPhongMaterial.d.ts",
-		"materials/MeshLambertMaterial.d.ts",
-		"lights/AmbientLight.d.ts",
-		"lights/DirectionalLight.d.ts",
-		"lights/PointLight.d.ts",
-		"lights/SpotLight.d.ts",
-		"lights/HemisphereLight.d.ts",
-		"cameras/PerspectiveCamera.d.ts",
-		"cameras/OrthographicCamera.d.ts",
-	];
-
-	const sourceFiles = [];
-	for (const filePath of typeFilePaths) {
-		const fullPath = Path.join(threeTypesDir, filePath);
-		if (FS.existsSync(fullPath)) {
-			sourceFiles.push(project.addSourceFileAtPath(fullPath));
-		}
-	}
-	
-	// Find classes from all loaded files
-	let allClasses = [];
-	for (const sourceFile of sourceFiles) {
-		allClasses.push(...sourceFile.getClasses());
-	}
-	console.log(`📊 Found ${allClasses.length} classes in Three.js types`);
+	const moduleType = introspectionFile.getTypeAliasOrThrow("ThreeModule").getType();
+	console.log(`📊 Found ${moduleType.getProperties().length} exports in the three module`);
 
 	const threeClasses: ThreeClassInfo[] = [];
 
-	for (const cls of allClasses) {
-		const className = cls.getName();
-		if (!className || !IMPORTANT_CLASSES.includes(className)) {
+	for (const symbol of moduleType.getProperties()) {
+		const className = symbol.getName();
+		if (EXCLUDED_CLASSES.has(className)) {
+			console.log(`⏭️  Excluding ${className}`);
+			continue;
+		}
+
+		// An export specifier re-exports a class from another module.
+		// The aliased symbol holds the class declaration.
+		const resolved = symbol.getAliasedSymbol() ?? symbol;
+		const declaration = resolved
+			.getDeclarations()
+			.find(d => d.getKind() === SyntaxKind.ClassDeclaration) as ClassDeclaration | undefined;
+
+		if (!declaration || declaration.isAbstract()) {
+			continue;
+		}
+
+		const classType = declaration.getType();
+		if (!HIERARCHY_MARKERS.some(marker => classType.getProperty(marker))) {
 			continue;
 		}
 
 		console.log(`✅ Processing ${className}`);
 
-		const classInfo = analyzeClass(cls);
+		const classInfo = analyzeClass(declaration, className);
 		if (classInfo) {
 			threeClasses.push(classInfo);
 		}
@@ -206,20 +158,22 @@ function main() {
 	console.log("✨ Code generation complete!");
 }
 
-function analyzeClass(cls: ClassDeclaration): ThreeClassInfo | null {
-	const name = cls.getName();
+function analyzeClass(cls: ClassDeclaration, exportName?: string): ThreeClassInfo | null {
+	const name = exportName ?? cls.getName();
 	if (!name) return null;
 
 	const tagName = classNameToTagName(name);
 	const extendsClause = cls.getExtends()?.getText();
-	
-	// Determine what type of class this is
-	const isObject3D = extendsClause?.includes("Object3D") || name === "Object3D";
-	const isMaterial = name.includes("Material");
-	const isGeometry = name.includes("Geometry");
+	const classType = cls.getType();
+
+	// The marker properties classify the class. A name test is not reliable.
+	const isObject3D = !!classType.getProperty("isObject3D");
+	const isMaterial = !!classType.getProperty("isMaterial");
+	const isGeometry = !!classType.getProperty("isBufferGeometry");
 
 	const constructors = cls.getConstructors().map(analyzeConstructor);
 	const properties = cls.getProperties().map(analyzeProperty);
+	const jsxProperties = collectJSXProperties(cls);
 
 	return {
 		name,
@@ -229,10 +183,72 @@ function analyzeClass(cls: ClassDeclaration): ThreeClassInfo | null {
 		implementsClause: cls.getImplements().map(i => i.getText()),
 		constructors,
 		properties,
+		jsxProperties,
 		isObject3D,
 		isMaterial,
 		isGeometry,
 	};
+}
+
+// Props that the common props interface declares, or that the renderer must not set.
+const EXCLUDED_JSX_PROPS = new Set([
+	"position",
+	"rotation",
+	"scale",
+	"visible",
+	"name",
+	"userData",
+	"castShadow",
+	"receiveShadow",
+	"frustumCulled",
+	"renderOrder",
+	"children",
+	"parent",
+	"id",
+	"uuid",
+	"type",
+	"version",
+	"matrix",
+	"matrixWorld",
+	"matrixWorldNeedsUpdate",
+	"modelViewMatrix",
+	"normalMatrix",
+	"quaternion",
+]);
+
+/**
+ * Collect the writable properties of a class, inherited properties included.
+ * The type checker gives the full property list of the class type.
+ */
+function collectJSXProperties(cls: ClassDeclaration): JSXPropertyInfo[] {
+	const result: JSXPropertyInfo[] = [];
+	const seen = new Set<string>();
+
+	for (const symbol of cls.getType().getProperties()) {
+		const name = symbol.getName();
+		if (seen.has(name) || EXCLUDED_JSX_PROPS.has(name)) continue;
+		if (name.startsWith("_") || /^is[A-Z]/.test(name)) continue;
+
+		const declaration = symbol.getDeclarations()[0];
+		if (!declaration) continue;
+		if (declaration.getKind() === SyntaxKind.MethodDeclaration) continue;
+		if ((declaration as any).isReadonly?.()) continue;
+
+		let typeText: string;
+		try {
+			const type = symbol.getTypeAtLocation(declaration);
+			if (type.getCallSignatures().length > 0) continue;
+			typeText = type.getText(declaration);
+		} catch (error) {
+			// The checker cannot resolve every inherited symbol. Skip those properties.
+			continue;
+		}
+
+		seen.add(name);
+		result.push({name, typeText});
+	}
+
+	return result.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function analyzeConstructor(ctor: ConstructorDeclaration): ConstructorInfo {
@@ -284,13 +300,6 @@ function classifyParameterType(type: string): "texture" | "material" | "geometry
 	return "unknown";
 }
 
-function classNameToTagName(className: string): string {
-	// Convert PascalCase to kebab-case
-	return className
-		.replace(/([A-Z])/g, "-$1")
-		.toLowerCase()
-		.replace(/^-/, "");
-}
 
 function generateTagMapping(classes: ThreeClassInfo[]) {
 	console.log("🏷️  Generating tag mapping...");
@@ -394,8 +403,8 @@ ${exportMap}
 function generateClassPropertyApplier(cls: ThreeClassInfo): string {
 	const customHandlers: string[] = [];
 
-	// Add texture handling for materials
-	if (cls.isMaterial) {
+	// Add texture handling for materials that have a map property
+	if (cls.isMaterial && cls.jsxProperties.some(prop => prop.name === "map")) {
 		customHandlers.push(`  map: (node: ${cls.className}, value: any) => {
     if (value) {
       const resolvedTexture = resolveTexture(value, node, 'map');
@@ -411,26 +420,44 @@ function generateClassPropertyApplier(cls: ThreeClassInfo): string {
 }
 
 function generateConstructorHelpers(classes: ThreeClassInfo[]) {
-	console.log("🏗️  Generating constructor helpers...");
-	
-	const cases = classes.map(generateConstructorCase).join("\n");
+	console.log("\ud83c\udfd7\ufe0f  Generating constructor helpers...");
 
 	const code = `// Auto-generated Three.js constructor helpers
 // Generated by scripts/generate-three-objects.ts
 
-import * as THREE from 'three';
 import type { ThreeTag } from './tag-mapping';
 
-export function createThreeObject(tag: ThreeTag, ThreeClass: any, props: Record<string, any>): any {
+/**
+ * Create the Three.js object of an element.
+ * The "args" prop gives the constructor arguments, for example
+ * <boxgeometry args={[1, 2, 3]} />.
+ */
+export function createThreeObject(
+  tag: ThreeTag | string,
+  ThreeClass: any,
+  props: Record<string, any>,
+): any {
+  const args: Array<any> = Array.isArray(props.args) ? props.args : [];
+
   try {
-    switch (tag) {
-${cases}
-      default:
-        return new ThreeClass();
-    }
+    return new ThreeClass(...args);
   } catch (error) {
-    console.warn(\`Failed to create \${tag} with constructor args, falling back to default:\`, error);
-    return new ThreeClass();
+    if (args.length > 0) {
+      console.warn(\`Failed to create <\${tag}> with the args prop. Trying the default constructor:\`, error);
+      try {
+        return new ThreeClass();
+      } catch (fallbackError) {
+        throw new Error(
+          \`Cannot create <\${tag}>. The class needs constructor arguments. Pass them with the args prop.\`,
+          {cause: fallbackError},
+        );
+      }
+    }
+
+    throw new Error(
+      \`Cannot create <\${tag}>. The class needs constructor arguments. Pass them with the args prop.\`,
+      {cause: error},
+    );
   }
 }
 `;
@@ -438,151 +465,181 @@ ${cases}
 	writeGeneratedFile("generated/constructors.ts", code);
 }
 
-function generateConstructorCase(cls: ThreeClassInfo): string {
-	// Simple default constructors for now
-	return `      case '${cls.tagName}':
-        return new ThreeClass();`;
-}
-
 function generateJSXTypes(classes: ThreeClassInfo[]) {
 	console.log("📝 Generating TypeScript definitions...");
-	
-	const interfaces = classes.map(cls => generateThreeJSXInterface(cls)).join("\n");
+
+	const interfaces = classes.map(cls => generateThreeJSXInterface(cls)).join("\n\n");
+	const elementEntries = classes.map(cls =>
+		`  "${cls.tagName}": ${propsInterfaceName(cls)};`
+	).join("\n");
 
 	const code = `// Auto-generated Three.js JSX type definitions
 // Generated by scripts/generate-three-objects.ts
 
 import * as THREE from 'three';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-${interfaces}
-    }
-  }
+/** A Vector3 property. The renderer accepts a vector, a triple, a number, or a partial vector. */
+export type Vector3Prop =
+  | THREE.Vector3
+  | [number, number, number]
+  | number
+  | {x?: number; y?: number; z?: number};
+
+/** A rotation property. The renderer accepts an Euler, a triple, or a partial Euler. */
+export type EulerProp =
+  | THREE.Euler
+  | [number, number, number]
+  | {x?: number; y?: number; z?: number; order?: THREE.EulerOrder};
+
+/** A texture property. A string is a path, a "#id" reference, or a "url(#id)" reference. */
+export type TextureProp = THREE.Texture | string | null;
+
+export type ThreeEventHandler = (event: any) => void;
+
+/** The value properties of a class. The helper drops the methods. */
+export type ThreeValueProps<T> = {
+  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]?: T[K];
+};
+
+/**
+ * The props of an element of a class that extend() registers.
+ * Augment JSX.IntrinsicElements with it:
+ *
+ *   declare global {
+ *     namespace JSX {
+ *       interface IntrinsicElements {
+ *         orbitcontrols: ThreeElementProps<OrbitControls>;
+ *       }
+ *     }
+ *   }
+ */
+export type ThreeElementProps<T> = ThreeCommonProps &
+  Omit<ThreeValueProps<T>, keyof ThreeCommonProps>;
+
+/** Props that every Three.js element accepts. */
+export interface ThreeCommonProps {
+  position?: Vector3Prop;
+  rotation?: EulerProp;
+  scale?: Vector3Prop;
+
+  // Shorthand transform props. The renderer writes them to position, rotation, and scale.
+  x?: number;
+  y?: number;
+  z?: number;
+  rotationX?: number;
+  rotationY?: number;
+  rotationZ?: number;
+  scaleX?: number;
+  scaleY?: number;
+  scaleZ?: number;
+
+  visible?: boolean;
+  name?: string;
+  userData?: any;
+  castShadow?: boolean;
+  receiveShadow?: boolean;
+  frustumCulled?: boolean;
+  renderOrder?: number;
+
+  children?: any;
+
+  /** The constructor arguments of the Three.js class. */
+  args?: Array<any>;
+
+  // Special props of Crank elements.
+  key?: unknown;
+  ref?: unknown;
+  copy?: unknown;
+  hydrate?: unknown;
+
+  // Event handlers. The renderer adds each "on" prop with addEventListener.
+  onAdded?: ThreeEventHandler;
+  onRemoved?: ThreeEventHandler;
+  [event: \`on\${string}\`]: ThreeEventHandler | undefined;
 }
 
-export {};
+/** Props of the virtual "texture" and "asset" elements. */
+export interface ThreeAssetProps {
+  /** The registry id. Other elements refer to it with "url(#id)". */
+  id: string;
+  /** A path to load the asset from. */
+  src?: string;
+  /** The asset type. The registry reads the file extension when you omit it. */
+  type?: string;
+  texture?: THREE.Texture;
+  asset?: any;
+  metadata?: Record<string, any>;
+  onload?: ThreeEventHandler;
+  onerror?: ThreeEventHandler;
+  onLoad?: ThreeEventHandler;
+  onError?: ThreeEventHandler;
+  children?: any;
+}
+
+${interfaces}
+
+/** Every element tag that this renderer supports. */
+export interface ThreeIntrinsicElements {
+${elementEntries}
+  "texture": ThreeAssetProps;
+  "asset": ThreeAssetProps;
+}
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements extends ThreeIntrinsicElements {}
+  }
+}
 `;
 
 	writeGeneratedFile("generated/jsx-types.ts", code);
 }
 
-function generateThreeJSXInterface(cls: ThreeClassInfo): string {
-	return `      "${cls.tagName}": {
-        // Common Object3D props
-        position?: [number, number, number] | THREE.Vector3;
-        rotation?: [number, number, number] | THREE.Euler;
-        scale?: [number, number, number] | THREE.Vector3 | number;
-        visible?: boolean;
-        name?: string;
-        userData?: any;
-        castShadow?: boolean;
-        receiveShadow?: boolean;
-        frustumCulled?: boolean;
-        renderOrder?: number;
-
-        // Event handlers (simulated via raycasting - framework implementation needed)
-        // Common UI-style events
-        onClick?: (event: any) => void;
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-
-        // Real Three.js EventDispatcher events
-        onAdded?: (event: any) => void;
-        onRemoved?: (event: any) => void;
-
-        // Class-specific props
-        ${generateThreeClassSpecificProps(cls)}
-
-        // Children
-        children?: any;
-      };`;
+function propsInterfaceName(cls: ThreeClassInfo): string {
+	return `${cls.name}Props`;
 }
 
-function generateThreeClassSpecificProps(cls: ThreeClassInfo): string {
-	const props: string[] = [];
+function generateThreeJSXInterface(cls: ThreeClassInfo): string {
+	const props = cls.jsxProperties
+		.map(prop => `  ${quotePropName(prop.name)}?: ${jsxPropType(cls, prop)};`)
+		.join("\n");
 
-	// Geometry-specific props
-	if (cls.isGeometry) {
-		if (cls.name.includes("Box")) {
-			props.push("width?: number;");
-			props.push("height?: number;");
-			props.push("depth?: number;");
-		} else if (cls.name.includes("Sphere")) {
-			props.push("radius?: number;");
-			props.push("widthSegments?: number;");
-			props.push("heightSegments?: number;");
-		} else if (cls.name.includes("Plane")) {
-			props.push("width?: number;");
-			props.push("height?: number;");
-		} else if (cls.name.includes("Cylinder")) {
-			props.push("radiusTop?: number;");
-			props.push("radiusBottom?: number;");
-			props.push("height?: number;");
-		}
+	return `/** Props of the "${cls.tagName}" element (${cls.className}). */
+export interface ${propsInterfaceName(cls)} extends ThreeCommonProps {
+${props}
+}`;
+}
+
+function quotePropName(name: string): string {
+	return /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name) ? name : `"${name}"`;
+}
+
+/**
+ * Build the prop type from the property type of the class.
+ * An indexed access type keeps the generated file short and correct.
+ */
+function jsxPropType(cls: ThreeClassInfo, prop: JSXPropertyInfo): string {
+	const indexed = `${cls.className}["${prop.name}"]`;
+	const alternatives: string[] = [indexed];
+
+	if (prop.typeText.includes("Texture")) {
+		// The renderer resolves "#id", "url(#id)", and paths.
+		alternatives.push("string");
 	}
 
-	// Material-specific props
-	if (cls.isMaterial) {
-		props.push("color?: THREE.ColorRepresentation;");
-		props.push("transparent?: boolean;");
-		props.push("opacity?: number;");
-		
-		if (cls.name.includes("Standard") || cls.name.includes("Phong")) {
-			props.push("roughness?: number;");
-			props.push("metalness?: number;");
-		}
-		
-		// Texture support
-		props.push("map?: THREE.Texture | string;");
+	if (/\bColor\b/.test(prop.typeText)) {
+		alternatives.push("THREE.ColorRepresentation");
 	}
 
-	// Camera-specific props
-	if (cls.name.includes("Camera")) {
-		if (cls.name.includes("Perspective")) {
-			props.push("fov?: number;");
-			props.push("aspect?: number;");
-			props.push("near?: number;");
-			props.push("far?: number;");
-		} else if (cls.name.includes("Orthographic")) {
-			props.push("left?: number;");
-			props.push("right?: number;");
-			props.push("top?: number;");
-			props.push("bottom?: number;");
-			props.push("near?: number;");
-			props.push("far?: number;");
-		}
+	if (/\bVector3\b/.test(prop.typeText)) {
+		alternatives.push("Vector3Prop");
 	}
 
-	// Light-specific props
-	if (cls.name.includes("Light")) {
-		props.push("color?: THREE.ColorRepresentation;");
-		props.push("intensity?: number;");
-		
-		if (cls.name.includes("Directional")) {
-			props.push("target?: THREE.Object3D;");
-		} else if (cls.name.includes("Point") || cls.name.includes("Spot")) {
-			props.push("distance?: number;");
-			props.push("decay?: number;");
-		}
-		
-		if (cls.name.includes("Spot")) {
-			props.push("angle?: number;");
-			props.push("penumbra?: number;");
-		}
+	if (/\bEuler\b/.test(prop.typeText)) {
+		alternatives.push("EulerProp");
 	}
 
-	// Mesh-specific props
-	if (cls.name === "Mesh") {
-		props.push("geometry?: THREE.BufferGeometry;");
-		props.push("material?: THREE.Material;");
-	}
-
-	return props.join("\n        ");
+	return alternatives.join(" | ");
 }
 
 function writeGeneratedFile(relativePath: string, content: string) {
@@ -596,6 +653,6 @@ function writeGeneratedFile(relativePath: string, content: string) {
 	console.log(`📄 Generated: ${relativePath}`);
 }
 
-if (import.meta.main) {
+if ((import.meta as any).main) {
 	main();
 }

@@ -92,8 +92,8 @@ function* AnimatedScene() {
 				/>
 
 				{/* Lighting */}
-				<ambient-light intensity={0.4} />
-				<directional-light 
+				<ambientlight intensity={0.4} />
+				<directionallight 
 					intensity={0.8}
 					x={5}
 					y={5}

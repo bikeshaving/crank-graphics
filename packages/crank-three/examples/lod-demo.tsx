@@ -1,4 +1,5 @@
 import {renderer} from "../src/index.ts";
+import type {Context} from "@b9g/crank";
 import * as THREE from "three";
 
 // Create Three.js scene, camera, and renderer
@@ -44,7 +45,7 @@ let cameraDistance = 10;
 let animationTime = 0;
 
 // Component demonstrating LOD (Level of Detail)
-function* LODDemo() {
+function* LODDemo(this: Context) {
 	for (const props of this) {
 		animationTime += 0.01;
 		
@@ -56,7 +57,7 @@ function* LODDemo() {
 		yield (
 			<scene>
 				{/* LOD Object - automatically switches detail based on camera distance */}
-				<l-o-d>
+				<lod>
 					{/* High detail - show when close (distance < 8) */}
 					<mesh 
 						geometry={highDetailGeometry}
@@ -81,7 +82,7 @@ function* LODDemo() {
 						geometry={billboardGeometry}
 						material={billboardMaterial}
 					/>
-				</l-o-d>
+				</lod>
 
 				{/* Reference objects at different distances for comparison */}
 				<mesh
@@ -119,8 +120,8 @@ function* LODDemo() {
 				</group>
 
 				{/* Lighting */}
-				<ambient-light intensity={0.4} />
-				<directional-light 
+				<ambientlight intensity={0.4} />
+				<directionallight 
 					intensity={0.8}
 					x={10}
 					y={10}

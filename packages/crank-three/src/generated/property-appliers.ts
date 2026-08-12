@@ -49,29 +49,131 @@ function resolveTexture(textureRef: any, node?: any, property?: string): THREE.T
   return new THREE.Texture();
 }
 
+export const applyAudioProps = createPropertyApplier<THREE.Audio>('Audio');
+
+export const applyAudioListenerProps = createPropertyApplier<THREE.AudioListener>('AudioListener');
+
+export const applyPositionalAudioProps = createPropertyApplier<THREE.PositionalAudio>('PositionalAudio');
+
+export const applyArrayCameraProps = createPropertyApplier<THREE.ArrayCamera>('ArrayCamera');
+
+export const applyCameraProps = createPropertyApplier<THREE.Camera>('Camera');
+
+export const applyCubeCameraProps = createPropertyApplier<THREE.CubeCamera>('CubeCamera');
+
+export const applyOrthographicCameraProps = createPropertyApplier<THREE.OrthographicCamera>('OrthographicCamera');
+
+export const applyPerspectiveCameraProps = createPropertyApplier<THREE.PerspectiveCamera>('PerspectiveCamera');
+
+export const applyStereoCameraProps = createPropertyApplier<THREE.StereoCamera>('StereoCamera');
+
+export const applyBufferGeometryProps = createPropertyApplier<THREE.BufferGeometry>('BufferGeometry');
+
+export const applyInstancedBufferGeometryProps = createPropertyApplier<THREE.InstancedBufferGeometry>('InstancedBufferGeometry');
+
 export const applyObject3DProps = createPropertyApplier<THREE.Object3D>('Object3D');
-
-export const applySceneProps = createPropertyApplier<THREE.Scene>('Scene');
-
-export const applyGroupProps = createPropertyApplier<THREE.Group>('Group');
-
-export const applyMeshProps = createPropertyApplier<THREE.Mesh>('Mesh');
-
-export const applyLODProps = createPropertyApplier<THREE.LOD>('LOD');
-
-export const applyInstancedMeshProps = createPropertyApplier<THREE.InstancedMesh>('InstancedMesh');
 
 export const applyBoxGeometryProps = createPropertyApplier<THREE.BoxGeometry>('BoxGeometry');
 
-export const applySphereGeometryProps = createPropertyApplier<THREE.SphereGeometry>('SphereGeometry');
+export const applyCapsuleGeometryProps = createPropertyApplier<THREE.CapsuleGeometry>('CapsuleGeometry');
 
-export const applyPlaneGeometryProps = createPropertyApplier<THREE.PlaneGeometry>('PlaneGeometry');
-
-export const applyCylinderGeometryProps = createPropertyApplier<THREE.CylinderGeometry>('CylinderGeometry');
+export const applyCircleGeometryProps = createPropertyApplier<THREE.CircleGeometry>('CircleGeometry');
 
 export const applyConeGeometryProps = createPropertyApplier<THREE.ConeGeometry>('ConeGeometry');
 
+export const applyCylinderGeometryProps = createPropertyApplier<THREE.CylinderGeometry>('CylinderGeometry');
+
+export const applyDodecahedronGeometryProps = createPropertyApplier<THREE.DodecahedronGeometry>('DodecahedronGeometry');
+
+export const applyEdgesGeometryProps = createPropertyApplier<THREE.EdgesGeometry>('EdgesGeometry');
+
+export const applyExtrudeGeometryProps = createPropertyApplier<THREE.ExtrudeGeometry>('ExtrudeGeometry');
+
+export const applyIcosahedronGeometryProps = createPropertyApplier<THREE.IcosahedronGeometry>('IcosahedronGeometry');
+
+export const applyLatheGeometryProps = createPropertyApplier<THREE.LatheGeometry>('LatheGeometry');
+
+export const applyOctahedronGeometryProps = createPropertyApplier<THREE.OctahedronGeometry>('OctahedronGeometry');
+
+export const applyPlaneGeometryProps = createPropertyApplier<THREE.PlaneGeometry>('PlaneGeometry');
+
+export const applyPolyhedronGeometryProps = createPropertyApplier<THREE.PolyhedronGeometry>('PolyhedronGeometry');
+
+export const applyRingGeometryProps = createPropertyApplier<THREE.RingGeometry>('RingGeometry');
+
+export const applyShapeGeometryProps = createPropertyApplier<THREE.ShapeGeometry>('ShapeGeometry');
+
+export const applySphereGeometryProps = createPropertyApplier<THREE.SphereGeometry>('SphereGeometry');
+
+export const applyTetrahedronGeometryProps = createPropertyApplier<THREE.TetrahedronGeometry>('TetrahedronGeometry');
+
 export const applyTorusGeometryProps = createPropertyApplier<THREE.TorusGeometry>('TorusGeometry');
+
+export const applyTorusKnotGeometryProps = createPropertyApplier<THREE.TorusKnotGeometry>('TorusKnotGeometry');
+
+export const applyTubeGeometryProps = createPropertyApplier<THREE.TubeGeometry>('TubeGeometry');
+
+export const applyWireframeGeometryProps = createPropertyApplier<THREE.WireframeGeometry>('WireframeGeometry');
+
+export const applyArrowHelperProps = createPropertyApplier<THREE.ArrowHelper>('ArrowHelper');
+
+export const applyAxesHelperProps = createPropertyApplier<THREE.AxesHelper>('AxesHelper');
+
+export const applyBox3HelperProps = createPropertyApplier<THREE.Box3Helper>('Box3Helper');
+
+export const applyBoxHelperProps = createPropertyApplier<THREE.BoxHelper>('BoxHelper');
+
+export const applyCameraHelperProps = createPropertyApplier<THREE.CameraHelper>('CameraHelper');
+
+export const applyDirectionalLightHelperProps = createPropertyApplier<THREE.DirectionalLightHelper>('DirectionalLightHelper');
+
+export const applyGridHelperProps = createPropertyApplier<THREE.GridHelper>('GridHelper');
+
+export const applyHemisphereLightHelperProps = createPropertyApplier<THREE.HemisphereLightHelper>('HemisphereLightHelper');
+
+export const applyPlaneHelperProps = createPropertyApplier<THREE.PlaneHelper>('PlaneHelper');
+
+export const applyPointLightHelperProps = createPropertyApplier<THREE.PointLightHelper>('PointLightHelper');
+
+export const applyPolarGridHelperProps = createPropertyApplier<THREE.PolarGridHelper>('PolarGridHelper');
+
+export const applySkeletonHelperProps = createPropertyApplier<THREE.SkeletonHelper>('SkeletonHelper');
+
+export const applySpotLightHelperProps = createPropertyApplier<THREE.SpotLightHelper>('SpotLightHelper');
+
+export const applyAmbientLightProps = createPropertyApplier<THREE.AmbientLight>('AmbientLight');
+
+export const applyDirectionalLightProps = createPropertyApplier<THREE.DirectionalLight>('DirectionalLight');
+
+export const applyHemisphereLightProps = createPropertyApplier<THREE.HemisphereLight>('HemisphereLight');
+
+export const applyLightProbeProps = createPropertyApplier<THREE.LightProbe>('LightProbe');
+
+export const applyPointLightProps = createPropertyApplier<THREE.PointLight>('PointLight');
+
+export const applyRectAreaLightProps = createPropertyApplier<THREE.RectAreaLight>('RectAreaLight');
+
+export const applySpotLightProps = createPropertyApplier<THREE.SpotLight>('SpotLight');
+
+export const applyLineBasicMaterialProps = createPropertyApplier<THREE.LineBasicMaterial>('LineBasicMaterial', {
+  map: (node: THREE.LineBasicMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
+
+export const applyLineDashedMaterialProps = createPropertyApplier<THREE.LineDashedMaterial>('LineDashedMaterial', {
+  map: (node: THREE.LineDashedMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
 
 export const applyMeshBasicMaterialProps = createPropertyApplier<THREE.MeshBasicMaterial>('MeshBasicMaterial', {
   map: (node: THREE.MeshBasicMaterial, value: any) => {
@@ -83,8 +185,8 @@ export const applyMeshBasicMaterialProps = createPropertyApplier<THREE.MeshBasic
   }
 });
 
-export const applyMeshStandardMaterialProps = createPropertyApplier<THREE.MeshStandardMaterial>('MeshStandardMaterial', {
-  map: (node: THREE.MeshStandardMaterial, value: any) => {
+export const applyMeshDepthMaterialProps = createPropertyApplier<THREE.MeshDepthMaterial>('MeshDepthMaterial', {
+  map: (node: THREE.MeshDepthMaterial, value: any) => {
     if (value) {
       const resolvedTexture = resolveTexture(value, node, 'map');
       node.map = resolvedTexture;
@@ -93,8 +195,8 @@ export const applyMeshStandardMaterialProps = createPropertyApplier<THREE.MeshSt
   }
 });
 
-export const applyMeshPhongMaterialProps = createPropertyApplier<THREE.MeshPhongMaterial>('MeshPhongMaterial', {
-  map: (node: THREE.MeshPhongMaterial, value: any) => {
+export const applyMeshDistanceMaterialProps = createPropertyApplier<THREE.MeshDistanceMaterial>('MeshDistanceMaterial', {
+  map: (node: THREE.MeshDistanceMaterial, value: any) => {
     if (value) {
       const resolvedTexture = resolveTexture(value, node, 'map');
       node.map = resolvedTexture;
@@ -113,42 +215,225 @@ export const applyMeshLambertMaterialProps = createPropertyApplier<THREE.MeshLam
   }
 });
 
-export const applyAmbientLightProps = createPropertyApplier<THREE.AmbientLight>('AmbientLight');
+export const applyMeshMatcapMaterialProps = createPropertyApplier<THREE.MeshMatcapMaterial>('MeshMatcapMaterial', {
+  map: (node: THREE.MeshMatcapMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
 
-export const applyDirectionalLightProps = createPropertyApplier<THREE.DirectionalLight>('DirectionalLight');
+export const applyMeshNormalMaterialProps = createPropertyApplier<THREE.MeshNormalMaterial>('MeshNormalMaterial');
 
-export const applyPointLightProps = createPropertyApplier<THREE.PointLight>('PointLight');
+export const applyMeshPhongMaterialProps = createPropertyApplier<THREE.MeshPhongMaterial>('MeshPhongMaterial', {
+  map: (node: THREE.MeshPhongMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
 
-export const applySpotLightProps = createPropertyApplier<THREE.SpotLight>('SpotLight');
+export const applyMeshPhysicalMaterialProps = createPropertyApplier<THREE.MeshPhysicalMaterial>('MeshPhysicalMaterial', {
+  map: (node: THREE.MeshPhysicalMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
 
-export const applyHemisphereLightProps = createPropertyApplier<THREE.HemisphereLight>('HemisphereLight');
+export const applyMeshStandardMaterialProps = createPropertyApplier<THREE.MeshStandardMaterial>('MeshStandardMaterial', {
+  map: (node: THREE.MeshStandardMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
 
-export const applyPerspectiveCameraProps = createPropertyApplier<THREE.PerspectiveCamera>('PerspectiveCamera');
+export const applyMeshToonMaterialProps = createPropertyApplier<THREE.MeshToonMaterial>('MeshToonMaterial', {
+  map: (node: THREE.MeshToonMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
 
-export const applyOrthographicCameraProps = createPropertyApplier<THREE.OrthographicCamera>('OrthographicCamera');
+export const applyPointsMaterialProps = createPropertyApplier<THREE.PointsMaterial>('PointsMaterial', {
+  map: (node: THREE.PointsMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
+
+export const applyRawShaderMaterialProps = createPropertyApplier<THREE.RawShaderMaterial>('RawShaderMaterial');
+
+export const applyShaderMaterialProps = createPropertyApplier<THREE.ShaderMaterial>('ShaderMaterial');
+
+export const applyShadowMaterialProps = createPropertyApplier<THREE.ShadowMaterial>('ShadowMaterial');
+
+export const applySpriteMaterialProps = createPropertyApplier<THREE.SpriteMaterial>('SpriteMaterial', {
+  map: (node: THREE.SpriteMaterial, value: any) => {
+    if (value) {
+      const resolvedTexture = resolveTexture(value, node, 'map');
+      node.map = resolvedTexture;
+      node.needsUpdate = true;
+    }
+  }
+});
+
+export const applyBatchedMeshProps = createPropertyApplier<THREE.BatchedMesh>('BatchedMesh');
+
+export const applyBoneProps = createPropertyApplier<THREE.Bone>('Bone');
+
+export const applyGroupProps = createPropertyApplier<THREE.Group>('Group');
+
+export const applyInstancedMeshProps = createPropertyApplier<THREE.InstancedMesh>('InstancedMesh');
+
+export const applyLineProps = createPropertyApplier<THREE.Line>('Line');
+
+export const applyLineLoopProps = createPropertyApplier<THREE.LineLoop>('LineLoop');
+
+export const applyLineSegmentsProps = createPropertyApplier<THREE.LineSegments>('LineSegments');
+
+export const applyLODProps = createPropertyApplier<THREE.LOD>('LOD');
+
+export const applyMeshProps = createPropertyApplier<THREE.Mesh>('Mesh');
+
+export const applyPointsProps = createPropertyApplier<THREE.Points>('Points');
+
+export const applySkinnedMeshProps = createPropertyApplier<THREE.SkinnedMesh>('SkinnedMesh');
+
+export const applySpriteProps = createPropertyApplier<THREE.Sprite>('Sprite');
+
+export const applySceneProps = createPropertyApplier<THREE.Scene>('Scene');
+
+export const applyCanvasTextureProps = createPropertyApplier<THREE.CanvasTexture>('CanvasTexture');
+
+export const applyCompressedArrayTextureProps = createPropertyApplier<THREE.CompressedArrayTexture>('CompressedArrayTexture');
+
+export const applyCompressedCubeTextureProps = createPropertyApplier<THREE.CompressedCubeTexture>('CompressedCubeTexture');
+
+export const applyCompressedTextureProps = createPropertyApplier<THREE.CompressedTexture>('CompressedTexture');
+
+export const applyCubeTextureProps = createPropertyApplier<THREE.CubeTexture>('CubeTexture');
+
+export const applyData3DTextureProps = createPropertyApplier<THREE.Data3DTexture>('Data3DTexture');
+
+export const applyDataArrayTextureProps = createPropertyApplier<THREE.DataArrayTexture>('DataArrayTexture');
+
+export const applyDataTextureProps = createPropertyApplier<THREE.DataTexture>('DataTexture');
+
+export const applyDepthTextureProps = createPropertyApplier<THREE.DepthTexture>('DepthTexture');
+
+export const applyFramebufferTextureProps = createPropertyApplier<THREE.FramebufferTexture>('FramebufferTexture');
+
+export const applyVideoTextureProps = createPropertyApplier<THREE.VideoTexture>('VideoTexture');
 
 export const PROPERTY_APPLIERS = {
-  "object3-d": applyObject3DProps,
-  "scene": applySceneProps,
+  "audio": applyAudioProps,
+  "audiolistener": applyAudioListenerProps,
+  "positionalaudio": applyPositionalAudioProps,
+  "arraycamera": applyArrayCameraProps,
+  "camera": applyCameraProps,
+  "cubecamera": applyCubeCameraProps,
+  "orthographiccamera": applyOrthographicCameraProps,
+  "perspectivecamera": applyPerspectiveCameraProps,
+  "stereocamera": applyStereoCameraProps,
+  "buffergeometry": applyBufferGeometryProps,
+  "instancedbuffergeometry": applyInstancedBufferGeometryProps,
+  "object3d": applyObject3DProps,
+  "boxgeometry": applyBoxGeometryProps,
+  "capsulegeometry": applyCapsuleGeometryProps,
+  "circlegeometry": applyCircleGeometryProps,
+  "conegeometry": applyConeGeometryProps,
+  "cylindergeometry": applyCylinderGeometryProps,
+  "dodecahedrongeometry": applyDodecahedronGeometryProps,
+  "edgesgeometry": applyEdgesGeometryProps,
+  "extrudegeometry": applyExtrudeGeometryProps,
+  "icosahedrongeometry": applyIcosahedronGeometryProps,
+  "lathegeometry": applyLatheGeometryProps,
+  "octahedrongeometry": applyOctahedronGeometryProps,
+  "planegeometry": applyPlaneGeometryProps,
+  "polyhedrongeometry": applyPolyhedronGeometryProps,
+  "ringgeometry": applyRingGeometryProps,
+  "shapegeometry": applyShapeGeometryProps,
+  "spheregeometry": applySphereGeometryProps,
+  "tetrahedrongeometry": applyTetrahedronGeometryProps,
+  "torusgeometry": applyTorusGeometryProps,
+  "torusknotgeometry": applyTorusKnotGeometryProps,
+  "tubegeometry": applyTubeGeometryProps,
+  "wireframegeometry": applyWireframeGeometryProps,
+  "arrowhelper": applyArrowHelperProps,
+  "axeshelper": applyAxesHelperProps,
+  "box3helper": applyBox3HelperProps,
+  "boxhelper": applyBoxHelperProps,
+  "camerahelper": applyCameraHelperProps,
+  "directionallighthelper": applyDirectionalLightHelperProps,
+  "gridhelper": applyGridHelperProps,
+  "hemispherelighthelper": applyHemisphereLightHelperProps,
+  "planehelper": applyPlaneHelperProps,
+  "pointlighthelper": applyPointLightHelperProps,
+  "polargridhelper": applyPolarGridHelperProps,
+  "skeletonhelper": applySkeletonHelperProps,
+  "spotlighthelper": applySpotLightHelperProps,
+  "ambientlight": applyAmbientLightProps,
+  "directionallight": applyDirectionalLightProps,
+  "hemispherelight": applyHemisphereLightProps,
+  "lightprobe": applyLightProbeProps,
+  "pointlight": applyPointLightProps,
+  "rectarealight": applyRectAreaLightProps,
+  "spotlight": applySpotLightProps,
+  "linebasicmaterial": applyLineBasicMaterialProps,
+  "linedashedmaterial": applyLineDashedMaterialProps,
+  "meshbasicmaterial": applyMeshBasicMaterialProps,
+  "meshdepthmaterial": applyMeshDepthMaterialProps,
+  "meshdistancematerial": applyMeshDistanceMaterialProps,
+  "meshlambertmaterial": applyMeshLambertMaterialProps,
+  "meshmatcapmaterial": applyMeshMatcapMaterialProps,
+  "meshnormalmaterial": applyMeshNormalMaterialProps,
+  "meshphongmaterial": applyMeshPhongMaterialProps,
+  "meshphysicalmaterial": applyMeshPhysicalMaterialProps,
+  "meshstandardmaterial": applyMeshStandardMaterialProps,
+  "meshtoonmaterial": applyMeshToonMaterialProps,
+  "pointsmaterial": applyPointsMaterialProps,
+  "rawshadermaterial": applyRawShaderMaterialProps,
+  "shadermaterial": applyShaderMaterialProps,
+  "shadowmaterial": applyShadowMaterialProps,
+  "spritematerial": applySpriteMaterialProps,
+  "batchedmesh": applyBatchedMeshProps,
+  "bone": applyBoneProps,
   "group": applyGroupProps,
+  "instancedmesh": applyInstancedMeshProps,
+  "line": applyLineProps,
+  "lineloop": applyLineLoopProps,
+  "linesegments": applyLineSegmentsProps,
+  "lod": applyLODProps,
   "mesh": applyMeshProps,
-  "l-o-d": applyLODProps,
-  "instanced-mesh": applyInstancedMeshProps,
-  "box-geometry": applyBoxGeometryProps,
-  "sphere-geometry": applySphereGeometryProps,
-  "plane-geometry": applyPlaneGeometryProps,
-  "cylinder-geometry": applyCylinderGeometryProps,
-  "cone-geometry": applyConeGeometryProps,
-  "torus-geometry": applyTorusGeometryProps,
-  "mesh-basic-material": applyMeshBasicMaterialProps,
-  "mesh-standard-material": applyMeshStandardMaterialProps,
-  "mesh-phong-material": applyMeshPhongMaterialProps,
-  "mesh-lambert-material": applyMeshLambertMaterialProps,
-  "ambient-light": applyAmbientLightProps,
-  "directional-light": applyDirectionalLightProps,
-  "point-light": applyPointLightProps,
-  "spot-light": applySpotLightProps,
-  "hemisphere-light": applyHemisphereLightProps,
-  "perspective-camera": applyPerspectiveCameraProps,
-  "orthographic-camera": applyOrthographicCameraProps,
+  "points": applyPointsProps,
+  "skinnedmesh": applySkinnedMeshProps,
+  "sprite": applySpriteProps,
+  "scene": applySceneProps,
+  "canvastexture": applyCanvasTextureProps,
+  "compressedarraytexture": applyCompressedArrayTextureProps,
+  "compressedcubetexture": applyCompressedCubeTextureProps,
+  "compressedtexture": applyCompressedTextureProps,
+  "cubetexture": applyCubeTextureProps,
+  "data3dtexture": applyData3DTextureProps,
+  "dataarraytexture": applyDataArrayTextureProps,
+  "datatexture": applyDataTextureProps,
+  "depthtexture": applyDepthTextureProps,
+  "framebuffertexture": applyFramebufferTextureProps,
+  "videotexture": applyVideoTextureProps,
 } as const;
