@@ -37,7 +37,7 @@ test("AnimatedSprite playing property direct assignment", () => {
 	const { createPixiObject } = require("../src/generated/constructors.js");
 	
 	// Create an AnimatedSprite via constructor (triggers prototype setup)
-	const sprite = createPixiObject("animated-sprite", PIXI.AnimatedSprite, { textures });
+	const sprite = createPixiObject("animatedsprite", PIXI.AnimatedSprite, { textures });
 	
 	// Test direct assignment to playing property
 	let playWasCalled = false;

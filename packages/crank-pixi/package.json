@@ -1,22 +1,32 @@
 {
-  "name": "@crank/pixi",
+  "name": "@b9g/crank-pixi",
   "version": "0.1.0",
   "description": "Pixi.js renderer for Crank",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
@@ -31,8 +41,17 @@
     "canvas",
     "webgl"
   ],
-  "author": "Crank Contributors",
+  "author": "Brian Kim <hello@b9g.dev>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bikeshaving/crank-graphics.git",
+    "directory": "packages/crank-pixi"
+  },
+  "bugs": {
+    "url": "https://github.com/bikeshaving/crank-graphics/issues"
+  },
+  "homepage": "https://github.com/bikeshaving/crank-graphics/tree/main/packages/crank-pixi#readme",
   "peerDependencies": {
     "@b9g/crank": "^0.7.0",
     "pixi.js": "^8.12.0"

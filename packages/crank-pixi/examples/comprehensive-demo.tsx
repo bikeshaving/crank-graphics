@@ -155,7 +155,7 @@ function* ComprehensiveDemo() {
 					/>
 
 					{/* Animated Sprite */}
-					<animated-sprite
+					<animatedsprite
 						x={0}
 						y={40}
 						textures={[redTexture, greenTexture]}
@@ -172,7 +172,7 @@ function* ComprehensiveDemo() {
 					/>
 
 					{/* Tiling Sprite */}
-					<tiling-sprite
+					<tilingsprite
 						texture={redTexture}
 						x={100}
 						y={20}
@@ -190,7 +190,7 @@ function* ComprehensiveDemo() {
 					/>
 
 					{/* Nine Slice Sprite */}
-					<nine-slice-sprite
+					<nineslicesprite
 						texture={greenTexture}
 						x={200}
 						y={20}
@@ -210,7 +210,7 @@ function* ComprehensiveDemo() {
 					/>
 
 					{/* Particle Container */}
-					<particle-container x={320} y={40} maxSize={100}>
+					<particlecontainer x={320} y={40} maxSize={100}>
 						{Array.from({length: 10}, (_, i) => (
 							<sprite
 								key={i}
@@ -221,7 +221,7 @@ function* ComprehensiveDemo() {
 								scale={0.3}
 							/>
 						))}
-					</particle-container>
+					</particlecontainer>
 					<text
 						text="ParticleContainer"
 						x={320}
@@ -315,7 +315,7 @@ function* ComprehensiveDemo() {
 					/>
 
 					<text
-						text={`Total Objects: 15+ | Generated Tags: container, sprite, graphics, text, animated-sprite, tiling-sprite, nine-slice-sprite, particle-container, htmltext, mesh`}
+						text={`Total Objects: 15+ | Generated Tags: container, sprite, graphics, text, animatedsprite, tilingsprite, nineslicesprite, particlecontainer, htmltext, mesh`}
 						x={200}
 						y={20}
 						style={{fontSize: 12, fill: 0xaaaaaa}}

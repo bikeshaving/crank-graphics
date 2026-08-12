@@ -24,11 +24,26 @@ export interface PendingTextureReference {
 	resolver: (node: any, texture: PIXI.Texture) => void; // function to apply the texture
 }
 
-export interface TextureLoadEvent extends Event {
+export interface TextureLoadEventDetail {
 	textureId: string;
 	texture?: PIXI.Texture;
 	error?: Error;
 	progress?: number;
+}
+
+export class TextureLoadEvent extends CustomEvent<TextureLoadEventDetail> {
+	readonly textureId: string;
+	readonly texture: PIXI.Texture | undefined;
+	readonly error: Error | undefined;
+	readonly progress: number | undefined;
+
+	constructor(type: string, detail: TextureLoadEventDetail) {
+		super(type, {detail});
+		this.textureId = detail.textureId;
+		this.texture = detail.texture;
+		this.error = detail.error;
+		this.progress = detail.progress;
+	}
 }
 
 export type TextureEventHandler = (event: TextureLoadEvent) => void;
@@ -74,12 +89,7 @@ export class TextureRegistry extends EventTarget {
 		});
 
 		// Fire load event
-		const loadEvent = new CustomEvent('load', {
-			detail: { textureId: id, texture }
-		}) as TextureLoadEvent;
-		loadEvent.textureId = id;
-		loadEvent.texture = texture;
-		this.dispatchEvent(loadEvent);
+		this.dispatchEvent(new TextureLoadEvent("load", {textureId: id, texture}));
 	}
 
 	/**
@@ -116,13 +126,10 @@ export class TextureRegistry extends EventTarget {
 				this.loadingPromises.delete(id);
 				
 				// Fire load event
-				const loadEvent = new CustomEvent('load', {
-					detail: { textureId: id, texture }
-				}) as TextureLoadEvent;
-				loadEvent.textureId = id;
-				loadEvent.texture = texture;
-				this.dispatchEvent(loadEvent);
-				
+				this.dispatchEvent(
+					new TextureLoadEvent("load", {textureId: id, texture}),
+				);
+
 				return texture;
 			})
 			.catch((error) => {
@@ -133,13 +140,10 @@ export class TextureRegistry extends EventTarget {
 				this.loadingPromises.delete(id);
 				
 				// Fire error event
-				const errorEvent = new CustomEvent('error', {
-					detail: { textureId: id, error }
-				}) as TextureLoadEvent;
-				errorEvent.textureId = id;
-				errorEvent.error = error;
-				this.dispatchEvent(errorEvent);
-				
+				this.dispatchEvent(
+					new TextureLoadEvent("error", {textureId: id, error}),
+				);
+
 				// Return empty texture as fallback
 				const emptyTexture = PIXI.Texture.EMPTY;
 				this.textures.set(id, {
@@ -372,6 +376,10 @@ export class TextureRegistry extends EventTarget {
 export const textureRegistry = TextureRegistry.getInstance();
 
 // Development helper to expose registry in global scope for debugging
-if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+if (
+	typeof window !== "undefined" &&
+	typeof process !== "undefined" &&
+	process.env.NODE_ENV === "development"
+) {
 	(window as any).__PIXI_TEXTURE_REGISTRY__ = textureRegistry;
 }

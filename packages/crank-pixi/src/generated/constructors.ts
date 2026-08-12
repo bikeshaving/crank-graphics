@@ -21,6 +21,18 @@ function resolveTexture(textureRef: any): PIXI.Texture {
   return PIXI.Texture.EMPTY;
 }
 
+// Constructor options for classes whose constructor needs an options object.
+// Children and event handlers are applied later, not through the constructor.
+function constructorOptions(props: Record<string, any>): Record<string, any> {
+  const options: Record<string, any> = {};
+  for (const [key, value] of Object.entries(props)) {
+    if (key === "children" || key.startsWith("on")) continue;
+    options[key] = value;
+  }
+
+  return options;
+}
+
 // Flag to track if we've added prototype modifications
 let prototypesModified = false;
 
@@ -50,17 +62,59 @@ export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<str
     switch (tag) {
       case 'sprite':
         return new PixiClass();
+      case 'rendercontainer': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
+      case 'renderlayer':
+        return new PixiClass();
       case 'container':
         return new PixiClass();
-      case 'abstract-text':
-        return new PixiClass();
-      case 'text':
+      case 'domcontainer':
         return new PixiClass();
       case 'graphics':
         return new PixiClass();
-      case 'particle-container':
+      case 'text':
         return new PixiClass();
-      case 'animated-sprite': {
+      case 'meshplane': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
+      case 'perspectivemesh': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
+      case 'meshrope': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
+      case 'meshsimple': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
+      case 'particlecontainer':
+        return new PixiClass();
+      case 'animatedsprite': {
         try {
           // Auto-generated constructor using interface analysis
           const options = {
@@ -80,7 +134,7 @@ export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<str
           return new PixiClass();
         }
       }
-      case 'nine-slice-sprite': {
+      case 'nineslicesprite': {
         try {
           // Auto-generated constructor using interface analysis
           const options = {
@@ -100,7 +154,7 @@ export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<str
           return new PixiClass();
         }
       }
-      case 'tiling-sprite': {
+      case 'tilingsprite': {
         try {
           // Auto-generated constructor using interface analysis
           const options = {
@@ -120,7 +174,7 @@ export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<str
           return new PixiClass();
         }
       }
-      case 'bitmap-text': {
+      case 'bitmaptext': {
         try {
           // Auto-generated constructor using interface analysis
           const options = {
@@ -136,13 +190,20 @@ export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<str
           return new PixiClass();
         }
       }
-      case 'split-text':
-        return new PixiClass();
+      case 'splittext': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
       case 'htmltext': {
         try {
           // Auto-generated constructor using interface analysis
           const options = {
-            ...(props.textureStyle !== undefined && { textureStyle: props.textureStyle })
+            ...(props.textureStyle !== undefined && { textureStyle: props.textureStyle }),
+            ...(props.autoGenerateMipmaps !== undefined && { autoGenerateMipmaps: props.autoGenerateMipmaps })
           };
           return new PixiClass(options);
         } catch (constructorError) {
@@ -150,8 +211,14 @@ export function createPixiObject(tag: PixiTag, PixiClass: any, props: Record<str
           return new PixiClass();
         }
       }
-      case 'split-bitmap-text':
-        return new PixiClass();
+      case 'splitbitmaptext': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(`Constructor for ${tag} failed with options:`, constructorError);
+          return new PixiClass({});
+        }
+      }
       case 'mesh': {
         try {
           // Auto-generated constructor using interface analysis

@@ -60,12 +60,19 @@ export const applySpriteProps = createPropertyApplier<PIXI.Sprite>('Sprite', {
   }
 });
 
+export const applyRenderContainerProps = createPropertyApplier<PIXI.RenderContainer>('RenderContainer');
+
+export const applyRenderLayerProps = createPropertyApplier<PIXI.RenderLayer>('RenderLayer');
+
 export const applyContainerProps = createPropertyApplier<PIXI.Container>('Container');
 
-export const applyAbstractTextProps = createPropertyApplier<PIXI.AbstractText>('AbstractText', {
-  style: (node: PIXI.AbstractText, value: any) => {
-    if (value) {
-      node.style = new PIXI.TextStyle(value);
+export const applyDOMContainerProps = createPropertyApplier<PIXI.DOMContainer>('DOMContainer');
+
+export const applyGraphicsProps = createPropertyApplier<PIXI.Graphics>('Graphics', {
+  draw: (node: PIXI.Graphics, drawFn: (g: PIXI.Graphics) => void) => {
+    if (typeof drawFn === 'function') {
+      node.clear();
+      drawFn(node);
     }
   }
 });
@@ -78,14 +85,13 @@ export const applyTextProps = createPropertyApplier<PIXI.Text>('Text', {
   }
 });
 
-export const applyGraphicsProps = createPropertyApplier<PIXI.Graphics>('Graphics', {
-  draw: (node: PIXI.Graphics, drawFn: (g: PIXI.Graphics) => void) => {
-    if (typeof drawFn === 'function') {
-      node.clear();
-      drawFn(node);
-    }
-  }
-});
+export const applyMeshPlaneProps = createPropertyApplier<PIXI.MeshPlane>('MeshPlane');
+
+export const applyPerspectiveMeshProps = createPropertyApplier<PIXI.PerspectiveMesh>('PerspectiveMesh');
+
+export const applyMeshRopeProps = createPropertyApplier<PIXI.MeshRope>('MeshRope');
+
+export const applyMeshSimpleProps = createPropertyApplier<PIXI.MeshSimple>('MeshSimple');
 
 export const applyParticleContainerProps = createPropertyApplier<PIXI.ParticleContainer>('ParticleContainer', {
   texture: (node: PIXI.ParticleContainer, value: any) => {
@@ -215,17 +221,23 @@ export const applyMeshProps = createPropertyApplier<PIXI.Mesh>('Mesh', {
 
 export const PROPERTY_APPLIERS = {
   "sprite": applySpriteProps,
+  "rendercontainer": applyRenderContainerProps,
+  "renderlayer": applyRenderLayerProps,
   "container": applyContainerProps,
-  "abstract-text": applyAbstractTextProps,
-  "text": applyTextProps,
+  "domcontainer": applyDOMContainerProps,
   "graphics": applyGraphicsProps,
-  "particle-container": applyParticleContainerProps,
-  "animated-sprite": applyAnimatedSpriteProps,
-  "nine-slice-sprite": applyNineSliceSpriteProps,
-  "tiling-sprite": applyTilingSpriteProps,
-  "bitmap-text": applyBitmapTextProps,
-  "split-text": applySplitTextProps,
+  "text": applyTextProps,
+  "meshplane": applyMeshPlaneProps,
+  "perspectivemesh": applyPerspectiveMeshProps,
+  "meshrope": applyMeshRopeProps,
+  "meshsimple": applyMeshSimpleProps,
+  "particlecontainer": applyParticleContainerProps,
+  "animatedsprite": applyAnimatedSpriteProps,
+  "nineslicesprite": applyNineSliceSpriteProps,
+  "tilingsprite": applyTilingSpriteProps,
+  "bitmaptext": applyBitmapTextProps,
+  "splittext": applySplitTextProps,
   "htmltext": applyHTMLTextProps,
-  "split-bitmap-text": applySplitBitmapTextProps,
+  "splitbitmaptext": applySplitBitmapTextProps,
   "mesh": applyMeshProps,
 } as const;

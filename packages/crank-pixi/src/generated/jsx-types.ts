@@ -66,6 +66,137 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the Sprite instance
+        [prop: string]: any;
+      };
+      "rendercontainer": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the RenderContainer instance
+        [prop: string]: any;
+      };
+      "renderlayer": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the RenderLayer instance
+        [prop: string]: any;
       };
       "container": {
         // Common display object props
@@ -127,8 +258,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the Container instance
+        [prop: string]: any;
       };
-      "abstract-text": {
+      "domcontainer": {
         // Common display object props
         x?: number;
         y?: number;
@@ -184,11 +318,77 @@ declare global {
         onTouchEndOutside?: (event: any) => void;
 
         // Class-specific props
-        text?: string;
-        style?: PIXI.TextStyleOptions;
+        
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the DOMContainer instance
+        [prop: string]: any;
+      };
+      "graphics": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        draw?: (g: PIXI.Graphics) => void;
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the Graphics instance
+        [prop: string]: any;
       };
       "text": {
         // Common display object props
@@ -251,69 +451,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the Text$1 instance
+        [prop: string]: any;
       };
-      "graphics": {
-        // Common display object props
-        x?: number;
-        y?: number;
-        width?: number;
-        height?: number;
-        alpha?: number;
-        visible?: boolean;
-        rotation?: number;
-        scale?: number | { x?: number; y?: number };
-        anchor?: number | { x?: number; y?: number };
-        tint?: number;
-
-        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
-        // Click events
-        onClick?: (event: any) => void;
-        onRightClick?: (event: any) => void;
-        onTap?: (event: any) => void;
-        onPointerTap?: (event: any) => void;
-
-        // Mouse events  
-        onMouseDown?: (event: any) => void;
-        onMouseUp?: (event: any) => void;
-        onMouseMove?: (event: any) => void;
-        onMouseOver?: (event: any) => void;
-        onMouseOut?: (event: any) => void;
-        onMouseEnter?: (event: any) => void;
-        onMouseLeave?: (event: any) => void;
-        onMouseUpOutside?: (event: any) => void;
-        onGlobalMouseMove?: (event: any) => void;
-
-        // Right mouse events
-        onRightDown?: (event: any) => void;
-        onRightUp?: (event: any) => void;
-        onRightUpOutside?: (event: any) => void;
-
-        // Pointer events (recommended for cross-platform compatibility)
-        onPointerDown?: (event: any) => void;
-        onPointerUp?: (event: any) => void;
-        onPointerMove?: (event: any) => void;
-        onPointerOver?: (event: any) => void;
-        onPointerOut?: (event: any) => void;
-        onPointerEnter?: (event: any) => void;
-        onPointerLeave?: (event: any) => void;
-        onPointerCancel?: (event: any) => void;
-        onPointerUpOutside?: (event: any) => void;
-        onGlobalPointerMove?: (event: any) => void;
-
-        // Touch events
-        onTouchStart?: (event: any) => void;
-        onTouchEnd?: (event: any) => void;
-        onTouchMove?: (event: any) => void;
-        onTouchCancel?: (event: any) => void;
-        onTouchEndOutside?: (event: any) => void;
-
-        // Class-specific props
-        draw?: (g: PIXI.Graphics) => void;
-
-        // Children
-        children?: any;
-      };
-      "particle-container": {
+      "meshplane": {
         // Common display object props
         x?: number;
         y?: number;
@@ -373,8 +515,267 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the MeshPlane instance
+        [prop: string]: any;
       };
-      "animated-sprite": {
+      "perspectivemesh": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the PerspectiveMesh instance
+        [prop: string]: any;
+      };
+      "meshrope": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the MeshRope instance
+        [prop: string]: any;
+      };
+      "meshsimple": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the MeshSimple instance
+        [prop: string]: any;
+      };
+      "particlecontainer": {
+        // Common display object props
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+        alpha?: number;
+        visible?: boolean;
+        rotation?: number;
+        scale?: number | { x?: number; y?: number };
+        anchor?: number | { x?: number; y?: number };
+        tint?: number;
+
+        // Comprehensive event handlers (following DOM conventions - all lowercase event names)
+        // Click events
+        onClick?: (event: any) => void;
+        onRightClick?: (event: any) => void;
+        onTap?: (event: any) => void;
+        onPointerTap?: (event: any) => void;
+
+        // Mouse events  
+        onMouseDown?: (event: any) => void;
+        onMouseUp?: (event: any) => void;
+        onMouseMove?: (event: any) => void;
+        onMouseOver?: (event: any) => void;
+        onMouseOut?: (event: any) => void;
+        onMouseEnter?: (event: any) => void;
+        onMouseLeave?: (event: any) => void;
+        onMouseUpOutside?: (event: any) => void;
+        onGlobalMouseMove?: (event: any) => void;
+
+        // Right mouse events
+        onRightDown?: (event: any) => void;
+        onRightUp?: (event: any) => void;
+        onRightUpOutside?: (event: any) => void;
+
+        // Pointer events (recommended for cross-platform compatibility)
+        onPointerDown?: (event: any) => void;
+        onPointerUp?: (event: any) => void;
+        onPointerMove?: (event: any) => void;
+        onPointerOver?: (event: any) => void;
+        onPointerOut?: (event: any) => void;
+        onPointerEnter?: (event: any) => void;
+        onPointerLeave?: (event: any) => void;
+        onPointerCancel?: (event: any) => void;
+        onPointerUpOutside?: (event: any) => void;
+        onGlobalPointerMove?: (event: any) => void;
+
+        // Touch events
+        onTouchStart?: (event: any) => void;
+        onTouchEnd?: (event: any) => void;
+        onTouchMove?: (event: any) => void;
+        onTouchCancel?: (event: any) => void;
+        onTouchEndOutside?: (event: any) => void;
+
+        // Class-specific props
+        
+
+        // Children
+        children?: any;
+
+        // The renderer applies the other props to the ParticleContainer instance
+        [prop: string]: any;
+      };
+      "animatedsprite": {
         // Common display object props
         x?: number;
         y?: number;
@@ -434,8 +835,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the AnimatedSprite instance
+        [prop: string]: any;
       };
-      "nine-slice-sprite": {
+      "nineslicesprite": {
         // Common display object props
         x?: number;
         y?: number;
@@ -495,8 +899,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the NineSliceSprite instance
+        [prop: string]: any;
       };
-      "tiling-sprite": {
+      "tilingsprite": {
         // Common display object props
         x?: number;
         y?: number;
@@ -556,8 +963,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the TilingSprite instance
+        [prop: string]: any;
       };
-      "bitmap-text": {
+      "bitmaptext": {
         // Common display object props
         x?: number;
         y?: number;
@@ -618,8 +1028,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the BitmapText instance
+        [prop: string]: any;
       };
-      "split-text": {
+      "splittext": {
         // Common display object props
         x?: number;
         y?: number;
@@ -680,6 +1093,9 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the SplitText instance
+        [prop: string]: any;
       };
       "htmltext": {
         // Common display object props
@@ -742,8 +1158,11 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the HTMLText instance
+        [prop: string]: any;
       };
-      "split-bitmap-text": {
+      "splitbitmaptext": {
         // Common display object props
         x?: number;
         y?: number;
@@ -804,6 +1223,9 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the SplitBitmapText instance
+        [prop: string]: any;
       };
       "mesh": {
         // Common display object props
@@ -865,6 +1287,9 @@ declare global {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the Mesh instance
+        [prop: string]: any;
       };
       // Texture definition element
       texture: {

@@ -1,27 +1,28 @@
-# @crank/pixi
+# @b9g/crank-pixi
 
 A Pixi.js renderer for Crank.js that allows you to create interactive graphics and games using Crank's declarative component model.
 
 ## Installation
 
 ```bash
-npm install @crank/pixi pixi.js @crank/core
+npm install @b9g/crank-pixi pixi.js @b9g/crank
 ```
 
 ## Basic Usage
 
 ```tsx
-import { renderer } from "@crank/pixi";
+import { renderer } from "@b9g/crank-pixi";
 import * as PIXI from "pixi.js";
 
 // Create a Pixi application
-const app = new PIXI.Application({
+const app = new PIXI.Application();
+await app.init({
   width: 800,
   height: 600,
   backgroundColor: 0x1099bb,
 });
 
-document.body.appendChild(app.view);
+document.body.appendChild(app.canvas);
 
 // Define a Crank component
 function* GameScene() {
@@ -65,6 +66,19 @@ app.ticker.add(() => {
 ```
 
 ## Supported Elements
+
+The generator reads the Pixi type definitions and emits one tag for each
+concrete class that extends `PIXI.Container`. The tag is the class name in lower
+case, with no hyphens:
+
+`container`, `sprite`, `graphics`, `text`, `htmltext`, `bitmaptext`,
+`splittext`, `splitbitmaptext`, `animatedsprite`, `tilingsprite`,
+`nineslicesprite`, `particlecontainer`, `mesh`, `meshplane`, `meshrope`,
+`meshsimple`, `perspectivemesh`, `domcontainer`, `renderlayer`,
+`rendercontainer`.
+
+`rendercontainer` needs a `render` function prop, because Pixi draws it through
+that function.
 
 ### `<container>`
 A basic display object container that can hold other display objects.
@@ -115,9 +129,8 @@ For drawing shapes and graphics programmatically.
   x={100}
   y={100}
   draw={(g) => {
-    g.beginFill(0xff0000);
-    g.drawCircle(0, 0, 50);
-    g.endFill();
+    g.circle(0, 0, 50);
+    g.fill(0xff0000);
   }}
 />
 ```
@@ -137,15 +150,50 @@ All Pixi display objects support these common properties:
 
 ## Event Handling
 
-Event listeners can be added using the `on*` prop pattern:
+Add event listeners with the `on*` prop pattern:
 
 ```tsx
 <sprite 
   texture="button.png"
   interactive={true}
-  onclick={(event) => console.log('Clicked!')}
-  onmouseover={(event) => console.log('Hovered!')}
+  onClick={(event) => console.log('Clicked!')}
+  onMouseOver={(event) => console.log('Hovered!')}
 />
+```
+
+## Custom renderables
+
+Use `register()` for your own `Container` subclasses and for third-party display
+objects. The API mirrors `customElements.define()`.
+
+```tsx
+import { register, renderer } from "@b9g/crank-pixi";
+import * as PIXI from "pixi.js";
+
+class Radar extends PIXI.Container {
+  sweep = 0;
+}
+
+register("my-radar", Radar);
+
+renderer.render(<my-radar x={100} y={100} sweep={0.5} />, app.stage);
+```
+
+The tag name must contain a dash, as `customElements.define()` also requires.
+Generated Pixi tags have no dash, so the two groups never collide.
+
+To type the new tag, augment `JSX.IntrinsicElements` with `PixiElementProps`:
+
+```tsx
+import type { PixiElementProps } from "@b9g/crank-pixi";
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "my-radar": PixiElementProps<Radar>;
+    }
+  }
+}
 ```
 
 ## License

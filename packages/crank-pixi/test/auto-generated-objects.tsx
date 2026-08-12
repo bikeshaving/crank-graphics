@@ -36,8 +36,8 @@ test("all auto-generated tags are supported", () => {
 	// Verify key objects are present
 	const expectedTags = [
 		'container', 'sprite', 'text', 'graphics', 
-		'animated-sprite', 'tiling-sprite', 'nine-slice-sprite',
-		'particle-container', 'bitmap-text', 'htmltext'
+		'animatedsprite', 'tilingsprite', 'nineslicesprite',
+		'particlecontainer', 'bitmaptext', 'htmltext'
 	];
 	
 	for (const tag of expectedTags) {
@@ -88,7 +88,7 @@ test("animated sprite creation", () => {
 	const texture2 = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
 	
 	renderer.render(
-		<animated-sprite 
+		<animatedsprite 
 			textures={[texture1, texture2]} 
 			animationSpeed={0.1}
 		/>, 
@@ -104,7 +104,7 @@ test("tiling sprite creation", () => {
 	const texture = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
 	
 	renderer.render(
-		<tiling-sprite 
+		<tilingsprite 
 			texture={texture}
 			width={100}
 			height={100}
@@ -122,7 +122,7 @@ test("nine slice sprite creation", () => {
 	const texture = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
 	
 	renderer.render(
-		<nine-slice-sprite 
+		<nineslicesprite 
 			texture={texture}
 			width={100}
 			height={100}
@@ -142,10 +142,10 @@ test("nine slice sprite creation", () => {
 
 test("particle container creation", () => {
 	renderer.render(
-		<particle-container maxSize={100}>
+		<particlecontainer maxSize={100}>
 			<sprite />
 			<sprite />
-		</particle-container>, 
+		</particlecontainer>, 
 		pixiApp
 	);
 	

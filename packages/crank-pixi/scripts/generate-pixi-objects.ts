@@ -13,6 +13,7 @@ import {
 } from "ts-morph";
 import * as FS from "fs";
 import * as Path from "path";
+import {classNameToTag} from "../src/core/tag-name.ts";
 
 interface PixiClassInfo {
 	name: string;
@@ -176,11 +177,21 @@ function main() {
 		});
 	}
 
+	// Index every class in the file, so the extends chain resolves through
+	// base classes that Pixi does not export.
+	const classesByName = new Map<string, ClassDeclaration>();
+	for (const cls of sourceFile.getClasses()) {
+		const className = cls.getName();
+		if (className) {
+			classesByName.set(className, cls);
+		}
+	}
+
 	// Analyze each class for display object relevance
 	const pixiClasses: PixiClassInfo[] = [];
 
 	for (const cls of exportedClasses) {
-		const classInfo = analyzeClass(cls, exportMap);
+		const classInfo = analyzeClass(cls, exportMap, classesByName);
 		if (classInfo && classInfo.isDisplayObject) {
 			pixiClasses.push(classInfo);
 			console.log(
@@ -203,36 +214,34 @@ function main() {
 function analyzeClass(
 	cls: ClassDeclaration,
 	exportMap: Map<string, string>,
+	classesByName: Map<string, ClassDeclaration>,
 ): PixiClassInfo | null {
 	const name = cls.getName();
 	if (!name) return null;
 
 	// Skip non-display object classes
-	if (!isDisplayObjectClass(cls)) return null;
+	if (!isDisplayObjectClass(cls, classesByName)) return null;
 
 	// Handle generic classes with reasonable defaults
 	const typeParams = cls.getTypeParameters();
 	let actualClassName: string;
 
-	if (typeParams.length > 0) {
-		// Handle common generic classes with sensible defaults
-		if (name === "Container") {
-			actualClassName = "PIXI.Container"; // Default generic
-		} else if (name === "Mesh") {
-			actualClassName = "PIXI.Mesh"; // Default generic
-		} else if (name === "AbstractText") {
-			actualClassName = "PIXI.AbstractText"; // Default generic
-		} else {
-			console.log(
-				`⚠️  Skipping generic class ${name} with ${typeParams.length} type parameters`,
-			);
-			return null;
-		}
-	} else {
-		// Use export map to get the actual exported name
-		const exportedName = exportMap.get(name) || name;
-		actualClassName = `PIXI.${exportedName}`;
+	// A generic class is usable without type arguments if each type parameter
+	// has a default. Skip the other generic classes.
+	const allTypeParamsHaveDefaults = typeParams.every((param) =>
+		Boolean(param.getDefault()),
+	);
+
+	if (typeParams.length > 0 && !allTypeParamsHaveDefaults) {
+		console.log(
+			`⚠️  Skipping generic class ${name} with ${typeParams.length} type parameters`,
+		);
+		return null;
 	}
+
+	// Use export map to get the actual exported name
+	const exportedName = exportMap.get(name) || name;
+	actualClassName = `PIXI.${exportedName}`;
 
 	const tagName = classNameToTag(name);
 	const extendsClause = cls.getExtends()?.getText();
@@ -259,17 +268,26 @@ function analyzeClass(
 	};
 }
 
-function isDisplayObjectClass(cls: ClassDeclaration): boolean {
+function isDisplayObjectClass(
+	cls: ClassDeclaration,
+	classesByName: Map<string, ClassDeclaration>,
+): boolean {
+	// An abstract class is not constructible, for example AbstractText.
+	if (cls.isAbstract()) {
+		return false;
+	}
+
 	const name = cls.getName() || "";
 
-	// Exclude system, pipe, and internal classes
+
+	// Exclude internal machinery. These classes do not extend Container today,
+	// but the patterns keep the catalog stable if Pixi changes a base class.
 	const excludePatterns = [
 		"System",
 		"Pipe",
 		"Adaptor",
 		"Adapter",
 		"Pool",
-		"Data",
 		"Metrics",
 		"Batch",
 		"Gpu",
@@ -285,70 +303,53 @@ function isDisplayObjectClass(cls: ClassDeclaration): boolean {
 		return false;
 	}
 
-	// Focus on main display object classes
-	const displayObjectPatterns = [
-		/^Container$/,
-		/^Sprite$/,
-		/^Graphics$/,
-		/^Text$/,
-		/^AnimatedSprite$/,
-		/^TilingSprite$/,
-		/^NineSliceSprite$/,
-		/^ParticleContainer$/,
-		/^BitmapText$/,
-		/^HTMLText$/,
-		/^Mesh$/,
-		/.*Text$/, // Include all text-related classes that end with "Text"
-	];
-
-	const exactMatches = [
-		"Container",
-		"Sprite",
-		"Graphics",
-		"AnimatedSprite",
-		"TilingSprite",
-		"NineSliceSprite",
-		"ParticleContainer",
-		"BitmapText",
-		"HTMLText",
-		"Mesh",
-	];
-
-	// Check for exact matches first
-	if (exactMatches.includes(name)) {
-		return true;
+	if (!isContainerSubclass(cls, classesByName)) {
+		return false;
 	}
 
-	// Handle Text$1 case (internal name for Text)
-	if (name === "Text$1") {
-		return true;
+	// Skip the display objects that Pixi marks as deprecated or internal, for
+	// example NineSlicePlane and BitmapTextGraphics.
+	const docTags = cls
+		.getJsDocs()
+		.flatMap((doc) => doc.getTags())
+		.map((tag) => tag.getTagName());
+	if (docTags.includes("deprecated") || docTags.includes("internal")) {
+		console.log(`⚠️  Skipping ${name} (marked @deprecated or @internal)`);
+		return false;
 	}
 
-	// For other classes, be more selective
-	if (displayObjectPatterns.some((pattern) => pattern.test(name))) {
-		// Double-check that it's not a system class
-		return !excludePatterns.some((pattern) => name.includes(pattern));
-	}
-
-	return false;
+	return true;
 }
 
-function classNameToTag(className: string): string {
-	// Special cases for cleaner tag names
-	if (className === "Text$1") return "text";
-	if (className === "HTMLText") return "htmltext";
-	if (className === "BitmapText") return "bitmap-text";
-	if (className === "AnimatedSprite") return "animated-sprite";
-	if (className === "TilingSprite") return "tiling-sprite";
-	if (className === "NineSliceSprite") return "nine-slice-sprite";
-	if (className === "ParticleContainer") return "particle-container";
+// Walk the extends chain. A class is a display object when the chain reaches
+// Container, the base class of every Pixi v8 display object.
+function isContainerSubclass(
+	cls: ClassDeclaration,
+	classesByName: Map<string, ClassDeclaration>,
+	seen = new Set<string>(),
+): boolean {
+	const name = cls.getName() || "";
+	if (name === "Container") {
+		return true;
+	}
 
-	// Convert PascalCase to kebab-case for others
-	return className
-		.replace(/([A-Z])/g, (match, letter, index) =>
-			index === 0 ? letter : "-" + letter,
-		)
-		.toLowerCase();
+	if (seen.has(name)) {
+		return false;
+	}
+
+	seen.add(name);
+
+	const baseName = cls.getExtends()?.getExpression().getText();
+	if (!baseName) {
+		return false;
+	}
+
+	const baseClass = classesByName.get(baseName);
+	if (!baseClass) {
+		return false;
+	}
+
+	return isContainerSubclass(baseClass, classesByName, seen);
 }
 
 function analyzeConstructor(ctor: ConstructorDeclaration): ConstructorInfo {
@@ -1096,6 +1097,18 @@ function resolveTexture(textureRef: any): PIXI.Texture {
   return PIXI.Texture.EMPTY;
 }
 
+// Constructor options for classes whose constructor needs an options object.
+// Children and event handlers are applied later, not through the constructor.
+function constructorOptions(props: Record<string, any>): Record<string, any> {
+  const options: Record<string, any> = {};
+  for (const [key, value] of Object.entries(props)) {
+    if (key === "children" || key.startsWith("on")) continue;
+    options[key] = value;
+  }
+
+  return options;
+}
+
 // Flag to track if we've added prototype modifications
 let prototypesModified = false;
 
@@ -1210,6 +1223,25 @@ function generateConstructorCase(cls: PixiClassInfo): string {
         }
       }`;
 		}
+	}
+
+	// A class whose every constructor needs a first argument gets the props as
+	// an options object, for example MeshSimple and RenderContainer.
+	const requiresArguments =
+		cls.constructors.length > 0 &&
+		cls.constructors.every(
+			(ctor) => ctor.parameters.length > 0 && !ctor.parameters[0].isOptional,
+		);
+
+	if (requiresArguments) {
+		return `      case '${tagName}': {
+        try {
+          return new PixiClass(constructorOptions(props));
+        } catch (constructorError) {
+          console.warn(\`Constructor for \${tag} failed with options:\`, constructorError);
+          return new PixiClass({});
+        }
+      }`;
 	}
 
 	// Fallback to simple constructor for safety
@@ -1407,6 +1439,9 @@ function generateJSXElementType(cls: PixiClassInfo): string {
 
         // Children
         children?: any;
+
+        // The renderer applies the other props to the ${cls.name} instance
+        [prop: string]: any;
       };`;
 }
 

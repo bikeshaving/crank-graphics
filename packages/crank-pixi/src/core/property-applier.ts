@@ -3,9 +3,17 @@
  * Used by auto-generated property appliers
  */
 
+export type PropertySetter = (node: any, value: any) => void;
+
+// Custom props include the properties of the node type and the extra JSX-only
+// props, for example the "draw" prop of the graphics element.
+export type CustomPropertySetters<T> = Partial<
+	Record<keyof T | (string & {}), PropertySetter>
+>;
+
 export function createPropertyApplier<T extends Record<string, any>>(
 	typeName: string,
-	customProps: Partial<Record<keyof T, (node: any, value: any) => void>> = {},
+	customProps: CustomPropertySetters<T> = {},
 ) {
 	return function applyProps(node: any, props: Record<string, any>): void {
 		for (const [key, value] of Object.entries(props)) {

@@ -86,7 +86,7 @@ function* AnimatedBackground() {
 		yield (
 			<container>
 				{/* Animated tiling background */}
-				<tiling-sprite
+				<tilingsprite
 					texture="url(#tile-pattern)"
 					width={800}
 					height={600}

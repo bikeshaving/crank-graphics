@@ -11,9 +11,22 @@ type PixiNode = any; // PIXI display object base
 type PixiContainer = any; // PIXI container type
 
 // Import auto-generated mappings
+import "./generated/jsx-types";
 import {PIXI_TAG_MAP} from "./generated/tag-mapping";
 import {PROPERTY_APPLIERS} from "./generated/property-appliers";
 import {createPixiObject} from "./generated/constructors";
+
+// Import the register() escape hatch
+import {
+	register,
+	getRegisteredElement,
+	getRegisteredTags,
+	clearRegisteredElements,
+} from "./core/register";
+
+export {register, getRegisteredTags, clearRegisteredElements};
+export type {RegisteredElement, PixiElementConstructor} from "./core/register";
+export type {PixiElementProps, PixiCommonProps} from "./types/element-props";
 
 // Import texture registry and URL parsing
 import {textureRegistry} from "./core/texture-registry";
@@ -260,8 +273,15 @@ export const adapter: Partial<
 		// Use the comprehensive tag mapping
 		const PixiClass = PIXI_TAG_MAP[tag as keyof typeof PIXI_TAG_MAP];
 		if (!PixiClass) {
+			// Tags that register() added
+			const registered = getRegisteredElement(tag);
+			if (registered) {
+				return new registered.class();
+			}
+
 			const supportedTags = Object.keys(PIXI_TAG_MAP)
 				.filter((t) => t !== "texture")
+				.concat(getRegisteredTags())
 				.join(", ");
 			throw new Error(
 				`Unknown Pixi tag: ${tag}. Supported tags: ${supportedTags}`,
@@ -304,13 +324,22 @@ export const adapter: Partial<
 		if (applier) {
 			applier(node, props);
 		} else {
-			// Fallback for unknown types
-			for (const [key, value] of Object.entries(props)) {
-				if (value !== undefined && key in node) {
-					try {
-						node[key] = value;
-					} catch (error) {
-						console.warn(`Failed to set property ${key} on ${tagName}:`, error);
+			// Tags that register() added
+			const registered = getRegisteredElement(tagName);
+			if (registered) {
+				registered.applyProps(node, props);
+			} else {
+				// Fallback for unknown types
+				for (const [key, value] of Object.entries(props)) {
+					if (value !== undefined && key in node) {
+						try {
+							node[key] = value;
+						} catch (error) {
+							console.warn(
+								`Failed to set property ${key} on ${tagName}:`,
+								error,
+							);
+						}
 					}
 				}
 			}
@@ -483,16 +512,19 @@ export const adapter: Partial<
 
 		// Only Containers can have children in Pixi.js v8
 		if (node instanceof PIXI.Container) {
+			const container: PIXI.Container = node;
+			const isParticleContainer = node instanceof PIXI.ParticleContainer;
+
 			// Remove existing children that aren't in the new children array
 			const toRemove: PixiNode[] = [];
-			for (const existingChild of node.children) {
+			for (const existingChild of container.children) {
 				if (!children.includes(existingChild)) {
 					toRemove.push(existingChild);
 				}
 			}
 
 			for (const child of toRemove) {
-				node.removeChild(child);
+				container.removeChild(child);
 			}
 
 			// Add/reorder children
@@ -502,38 +534,38 @@ export const adapter: Partial<
 				// Check if child is already in this container
 				let currentIndex = -1;
 				try {
-					currentIndex = node.getChildIndex(child);
+					currentIndex = container.getChildIndex(child);
 				} catch (e) {
 					// Child is not in this container, currentIndex remains -1
 				}
 
 				if (currentIndex === -1) {
 					// Child not in container, add it
-					if (node instanceof PIXI.ParticleContainer) {
+					if (isParticleContainer) {
 						// Use addParticle for ParticleContainer
-						(node as any).addParticle(child);
+						(container as any).addParticle(child);
 					} else {
-						node.addChildAt(child, i);
+						container.addChildAt(child, i);
 					}
 				} else if (currentIndex !== i) {
 					// Child exists but in wrong position, move it
-					if (node instanceof PIXI.ParticleContainer) {
+					if (isParticleContainer) {
 						// ParticleContainer doesn't support setChildIndex, remove and re-add
-						node.removeChild(child);
-						(node as any).addParticle(child);
+						container.removeChild(child);
+						(container as any).addParticle(child);
 					} else {
-						node.setChildIndex(child, i);
+						container.setChildIndex(child, i);
 					}
 				}
 			}
-			
+
 			// Handle deferred children from text nodes
 			for (const child of children) {
 				if ((child as any)[DEFERRED_CHILDREN]) {
 					const deferredChildren = (child as any)[DEFERRED_CHILDREN];
 					for (const deferredChild of deferredChildren) {
-						if (!node.children.includes(deferredChild)) {
-							node.addChild(deferredChild);
+						if (!container.children.includes(deferredChild)) {
+							container.addChild(deferredChild);
 						}
 					}
 					// Clear the deferred children to avoid re-adding

@@ -31,7 +31,7 @@ function* TextureReferencesDemo() {
 				<texture id="star-icon" src="https://pixijs.com/assets/star.png" />
 
 				{/* Background using tiling sprite with texture reference */}
-				<tiling-sprite
+				<tilingsprite
 					texture="url(#background-tile)"
 					width={800}
 					height={600}
@@ -57,7 +57,7 @@ function* TextureReferencesDemo() {
 				/>
 
 				{/* Nine-slice sprite using hero texture */}
-				<nine-slice-sprite
+				<nineslicesprite
 					texture="url(#hero-sprite)"
 					x={200}
 					y={300}
@@ -66,7 +66,7 @@ function* TextureReferencesDemo() {
 				/>
 
 				{/* Animated sprite using star texture */}
-				<animated-sprite
+				<animatedsprite
 					texture="url(#star-icon)"
 					x={600}
 					y={300}

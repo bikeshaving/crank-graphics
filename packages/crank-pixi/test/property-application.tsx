@@ -138,7 +138,7 @@ test("text properties - style object", () => {
 		fontSize: 24,
 		fill: 0xff0000,
 		fontFamily: "Arial",
-		fontWeight: "bold"
+		fontWeight: "bold" as const
 	};
 	
 	renderer.render(<text text="Styled Text" style={style} />, pixiApp);
@@ -156,7 +156,7 @@ test("animated sprite properties", () => {
 	const texture2 = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
 	
 	renderer.render(
-		<animated-sprite 
+		<animatedsprite 
 			textures={[texture1, texture2]}
 			animationSpeed={0.2}
 			playing={true}
@@ -174,7 +174,7 @@ test("tiling sprite properties", () => {
 	const texture = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==');
 	
 	renderer.render(
-		<tiling-sprite 
+		<tilingsprite 
 			texture={texture}
 			width={200}
 			height={150}
