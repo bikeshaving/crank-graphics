@@ -1,104 +1,100 @@
 /// <reference lib="dom" />
-import { suite } from "uvu";
-import * as Assert from "uvu/assert";
-import * as Sinon from "sinon";
+import { describe, test, expect, beforeEach, afterEach } from "@b9g/libuild/test";
 import * as PIXI from "pixi.js";
 
 import { createElement } from "@b9g/crank";
 import { renderer } from "../src/index.js";
 
-const test = suite("basic pixi rendering");
+describe("basic pixi rendering", () => {
+	let pixiApp: PIXI.Application;
 
-let pixiApp: PIXI.Application;
+	beforeEach(async () => {
+		// Create a test PIXI application
+		pixiApp = new PIXI.Application();
+		await pixiApp.init({
+			width: 800,
+			height: 600,
+			backgroundColor: 0x1099bb,
+		});
 
-test.before.each(async () => {
-	// Create a test PIXI application
-	pixiApp = new PIXI.Application();
-	await pixiApp.init({
-		width: 800,
-		height: 600,
-		backgroundColor: 0x1099bb,
+		// Clear any existing content
+		pixiApp.stage.removeChildren();
 	});
 
-	// Clear any existing content
-	pixiApp.stage.removeChildren();
-});
+	afterEach(() => {
+		if (pixiApp) {
+			pixiApp.destroy(true, true);
+		}
+	});
 
-test.after.each(() => {
-	if (pixiApp) {
-		pixiApp.destroy(true, true);
-	}
-});
+	test("simple container", () => {
+		renderer.render(<container />, pixiApp);
+	
+		expect(pixiApp.stage.children.length).toBe(1);
+		expect(pixiApp.stage.children[0] instanceof PIXI.Container).toBeTruthy();
+	});
 
-test("simple container", () => {
-	renderer.render(<container />, pixiApp);
+	test("container with position", () => {
+		renderer.render(<container x={100} y={200} />, pixiApp);
 	
-	Assert.is(pixiApp.stage.children.length, 1);
-	Assert.ok(pixiApp.stage.children[0] instanceof PIXI.Container);
-});
+		const container = pixiApp.stage.children[0] as PIXI.Container;
+		expect(container.x).toBe(100);
+		expect(container.y).toBe(200);
+	});
 
-test("container with position", () => {
-	renderer.render(<container x={100} y={200} />, pixiApp);
+	test("nested containers", () => {
+		renderer.render(
+			<container>
+				<container x={50} y={50} />
+				<container x={100} y={100} />
+			</container>,
+			pixiApp
+		);
 	
-	const container = pixiApp.stage.children[0] as PIXI.Container;
-	Assert.is(container.x, 100);
-	Assert.is(container.y, 200);
-});
+		const parentContainer = pixiApp.stage.children[0] as PIXI.Container;
+		expect(parentContainer.children.length).toBe(2);
+	
+		const child1 = parentContainer.children[0] as PIXI.Container;
+		const child2 = parentContainer.children[1] as PIXI.Container;
+	
+		expect(child1.x).toBe(50);
+		expect(child1.y).toBe(50);
+		expect(child2.x).toBe(100);
+		expect(child2.y).toBe(100);
+	});
 
-test("nested containers", () => {
-	renderer.render(
-		<container>
-			<container x={50} y={50} />
-			<container x={100} y={100} />
-		</container>,
-		pixiApp
-	);
+	test("text element", () => {
+		renderer.render(<text text="Hello World" x={10} y={20} />, pixiApp);
 	
-	const parentContainer = pixiApp.stage.children[0] as PIXI.Container;
-	Assert.is(parentContainer.children.length, 2);
-	
-	const child1 = parentContainer.children[0] as PIXI.Container;
-	const child2 = parentContainer.children[1] as PIXI.Container;
-	
-	Assert.is(child1.x, 50);
-	Assert.is(child1.y, 50);
-	Assert.is(child2.x, 100);
-	Assert.is(child2.y, 100);
-});
+		const textObj = pixiApp.stage.children[0] as PIXI.Text;
+		expect(textObj instanceof PIXI.Text).toBeTruthy();
+		expect(textObj.text).toBe("Hello World");
+		expect(textObj.x).toBe(10);
+		expect(textObj.y).toBe(20);
+	});
 
-test("text element", () => {
-	renderer.render(<text text="Hello World" x={10} y={20} />, pixiApp);
+	test("graphics element", () => {
+		let drawCount = 0;
 	
-	const textObj = pixiApp.stage.children[0] as PIXI.Text;
-	Assert.ok(textObj instanceof PIXI.Text);
-	Assert.is(textObj.text, "Hello World");
-	Assert.is(textObj.x, 10);
-	Assert.is(textObj.y, 20);
+		renderer.render(
+			<graphics 
+				x={50} 
+				y={75} 
+				draw={(g: PIXI.Graphics) => {
+					drawCount++;
+					g.rect(0, 0, 100, 100);
+					g.fill(0xff0000);
+				}} 
+			/>, 
+			pixiApp
+		);
+	
+		const graphics = pixiApp.stage.children[0] as PIXI.Graphics;
+		expect(graphics instanceof PIXI.Graphics).toBeTruthy();
+		expect(graphics.x).toBe(50);
+		expect(graphics.y).toBe(75);
+		// Note: We can't easily test the drawing operations without complex geometry inspection
+		// but we can verify the draw function was called
+		expect(drawCount).toBeGreaterThan(0);
+	});
 });
-
-test("graphics element", () => {
-	const drawSpy = Sinon.spy();
-	
-	renderer.render(
-		<graphics 
-			x={50} 
-			y={75} 
-			draw={(g: PIXI.Graphics) => {
-				drawSpy();
-				g.rect(0, 0, 100, 100);
-				g.fill(0xff0000);
-			}} 
-		/>, 
-		pixiApp
-	);
-	
-	const graphics = pixiApp.stage.children[0] as PIXI.Graphics;
-	Assert.ok(graphics instanceof PIXI.Graphics);
-	Assert.is(graphics.x, 50);
-	Assert.is(graphics.y, 75);
-	// Note: We can't easily test the drawing operations without complex geometry inspection
-	// but we can verify the draw function was called
-	Assert.ok(drawSpy.called);
-});
-
-test.run();

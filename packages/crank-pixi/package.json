@@ -3,22 +3,9 @@
   "version": "0.1.0",
   "description": "Pixi.js renderer for Crank",
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -28,11 +15,12 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "libuild build",
+    "publish": "libuild publish",
     "typecheck": "tsc --noEmit",
     "generate": "./scripts/generate-pixi-objects.ts",
-    "test": "playwright-test --runner uvu"
+    "test": "libuild test test/ -p chromium",
+    "prepublishOnly": "echo 'ERROR: Cannot publish from the package root. Use libuild publish instead.' && exit 1"
   },
   "keywords": [
     "crank",
@@ -57,14 +45,11 @@
     "pixi.js": "^8.12.0"
   },
   "devDependencies": {
+    "@b9g/libuild": "^0.2.18",
     "@types/node": "^20.0.0",
-    "@types/sinon": "^17.0.4",
-    "playwright-test": "^14.1.9",
-    "sinon": "^17.0.2",
+    "playwright": "^1.62.1",
     "ts-morph": "^21.0.0",
     "tsx": "^4.0.0",
-    "tsup": "^8.0.0",
-    "typescript": "^5.0.0",
-    "uvu": "^0.5.6"
+    "typescript": "^5.0.0"
   }
 }

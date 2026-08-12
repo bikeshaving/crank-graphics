@@ -9,6 +9,7 @@
     "jsxImportSource": "@b9g/crank",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "strict": true,
     "declaration": true,
     "sourceMap": true,

@@ -1,17 +1,14 @@
 console.log("Starting minimal test file");
 
 /// <reference lib="dom" />
-import { suite } from "uvu";
-import * as Assert from "uvu/assert";
+import { describe, test, expect } from "@b9g/libuild/test";
 
 console.log("Imports loaded");
 
-const test = suite("minimal test");
-
-test("basic math", () => {
-	console.log("Running basic math test");
-	Assert.is(1 + 1, 2);
-	console.log("Test passed");
+describe("minimal test", () => {
+	test("basic math", () => {
+		console.log("Running basic math test");
+		expect(1 + 1).toBe(2);
+		console.log("Test passed");
+	});
 });
-
-test.run();
