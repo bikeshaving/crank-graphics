@@ -1367,6 +1367,8 @@ ${classes.map((cls) => generateJSXElementType(cls)).join("\n")}
       texture: {
         id?: string;
         src?: string;
+        texture?: PIXI.Texture;
+        metadata?: Record<string, any>;
         children?: any;
       };
     }

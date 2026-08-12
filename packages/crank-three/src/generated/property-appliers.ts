@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { createPropertyApplier } from '../core/property-applier';
 import { parseTextureUrl } from '../core/texture-url-parser';
-import { textureRegistry } from '../core/texture-registry';
+import { assetRegistry } from '../core/asset-registry';
 
 // Enhanced texture resolution with URL reference support and deferred resolution
 function resolveTexture(textureRef: any, node?: any, property?: string): THREE.Texture {
@@ -18,25 +18,29 @@ function resolveTexture(textureRef: any, node?: any, property?: string): THREE.T
     // Check if it's a URL reference (url(#id) or #id)
     const parsed = parseTextureUrl(textureRef);
     if (parsed) {
-      const texture = textureRegistry.acquire(parsed.id);
+      const texture = assetRegistry.acquire(parsed.id);
       if (texture) {
         return texture;
       } else if (node && property) {
         // Defer resolution - texture may be defined later in the tree
-        textureRegistry.addPendingReference({
-          textureId: parsed.id,
+        assetRegistry.addPendingReference({
+          assetId: parsed.id,
           node,
           property,
-          resolver: (targetNode, resolvedTexture) => {
+          resolver: (targetNode: any, resolvedTexture: any) => {
             // Simple direct assignment - only called during finalize()
             if (targetNode[property] !== resolvedTexture) {
               targetNode[property] = resolvedTexture;
+              // A material needs a recompile after a late texture assignment.
+              if (targetNode.isMaterial) {
+                targetNode.needsUpdate = true;
+              }
             }
           }
         });
         return new THREE.Texture(); // Temporary fallback
       } else {
-        console.warn(`Texture reference "${textureRef}" not found in registry. Available textures: ${textureRegistry.getIds().join(', ')}`);
+        console.warn(`Texture reference "${textureRef}" not found in registry. Available assets: ${assetRegistry.getIds().join(', ')}`);
         return new THREE.Texture();
       }
     }

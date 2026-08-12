@@ -362,6 +362,22 @@ export const adapter: Partial<
 			return;
 		}
 
+		// A geometry child or a material child configures the parent object.
+		// Three.js holds these as properties, not as children of the scene graph.
+		if (node instanceof THREE.Object3D) {
+			for (const child of children) {
+				if (child instanceof THREE.BufferGeometry && "geometry" in node) {
+					if ((node as any).geometry !== child) {
+						(node as any).geometry = child;
+					}
+				} else if (child instanceof THREE.Material && "material" in node) {
+					if ((node as any).material !== child) {
+						(node as any).material = child;
+					}
+				}
+			}
+		}
+
 		// Only Object3D can have children in Three.js
 		if (node instanceof THREE.Object3D) {
 			// Remove existing children that aren't in the new children array

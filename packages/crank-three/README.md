@@ -129,6 +129,26 @@ Eleven classes need `args`, because their constructors have a required parameter
 audio classes, the light helpers, `camerahelper`, `skeletonhelper`,
 `compressedcubetexture`, and `videotexture` are the classes.
 
+## Resources and Disposal
+
+A geometry child or a material child is not a child of the scene graph. Three.js holds
+these as properties, so `<mesh>` takes them as its `geometry` and its `material`.
+
+```tsx
+<mesh>
+  <boxgeometry args={[2, 2, 2]} />
+  <meshstandardmaterial color={0x2266ff} />
+</mesh>
+```
+
+The renderer never disposes a geometry, a material, or a texture. Call `dispose()`
+yourself when you drop a resource. The one exception is the asset registry: it disposes
+what it holds when the `texture` element or the `asset` element unmounts.
+
+A re-render patches the object in place, so the object keeps its identity. The `args`
+prop applies only at creation. To build the object again with new arguments, change the
+`key` prop of the element.
+
 ## Custom Renderables
 
 `register()` adds a class that the generated catalog does not hold: your own subclass,

@@ -360,6 +360,17 @@ export const adapter: Partial<
 				}
 			}
 		}
+
+		// Detach the handlers that this render does not set again
+		for (const [key, oldValue] of Object.entries(oldProps ?? {})) {
+			if (
+				key.startsWith("on") &&
+				typeof oldValue === "function" &&
+				typeof props[key] !== "function"
+			) {
+				node.off(key.slice(2).toLowerCase(), oldValue);
+			}
+		}
 	},
 
 	arrange({

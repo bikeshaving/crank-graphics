@@ -23,26 +23,34 @@ export function createPropertyApplier<T extends Record<string, any>>(
 				node[key] &&
 				typeof node[key].set === "function"
 			) {
+				const current = node[key];
+
 				if (typeof value === "number") {
 					// Set all components to the same value
-					node[key].set(value, value, value);
-				} else if (value && typeof value === "object" && !Array.isArray(value)) {
-					const current = node[key];
-					node[key].set(
-						value.x ?? current.x, 
-						value.y ?? current.y, 
-						value.z ?? current.z
+					current.set(value, value, value);
+				} else if (Array.isArray(value)) {
+					// A triple, or a quadruple that ends with the Euler order
+					current.fromArray(value);
+				} else if (value && typeof value === "object") {
+					current.set(
+						value.x ?? current.x,
+						value.y ?? current.y,
+						value.z ?? current.z,
 					);
+
+					// An Euler also holds the order of the rotations
+					if (value.order !== undefined && "order" in current) {
+						current.order = value.order;
+					}
 				}
 				continue;
 			}
 
-			// Handle Euler rotation with order (when value is object)
-			if (key === "rotation" && node.rotation && value && typeof value === "object" && value.order) {
-				if (value.x !== undefined) node.rotation.x = value.x;
-				if (value.y !== undefined) node.rotation.y = value.y;
-				if (value.z !== undefined) node.rotation.z = value.z;
-				if (value.order !== undefined) node.rotation.order = value.order;
+			// Handle a color property. Three.js holds a Color object, and the
+			// prop accepts any color representation: a number, a string, or a
+			// Color.
+			if (node[key] && node[key].isColor && !(value && value.isColor)) {
+				node[key].set(value);
 				continue;
 			}
 

@@ -21,9 +21,24 @@ export type TextureProp = THREE.Texture | string | null;
 
 export type ThreeEventHandler = (event: any) => void;
 
+/**
+ * Widen one prop type the way the renderer accepts it: a color takes any color
+ * representation, a texture takes a url(#id) reference or a path, and a vector
+ * takes a triple or a partial vector.
+ */
+export type WidenThreeProp<V> = [V] extends [THREE.Color]
+  ? V | THREE.ColorRepresentation
+  : [V] extends [THREE.Texture | null]
+    ? V | string
+    : [V] extends [THREE.Vector3]
+      ? V | Vector3Prop
+      : [V] extends [THREE.Euler]
+        ? V | EulerProp
+        : V;
+
 /** The value properties of a class. The helper drops the methods. */
 export type ThreeValueProps<T> = {
-  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]?: T[K];
+  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]?: WidenThreeProp<T[K]>;
 };
 
 /**
