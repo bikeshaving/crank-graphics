@@ -1,149 +1,98 @@
-# @b9g/crank-graphics
+# Crank Graphics
 
-> ⚠️ **Under Construction** - This project is in early development and is not yet published to npm. APIs are subject to change.
+> ⚠️ **Under construction.** These packages are not yet on npm. The first release
+> will ship together with Crank 0.8. The current code works with Crank 0.7.
 
-Graphics rendering packages for [Crank.js](https://crank.js.org) - supporting Pixi.js, Three.js and more.
+Graphics renderers for [Crank.js](https://crank.js.org). Write Pixi.js and
+Three.js scenes as JSX, with components as plain functions, generators, and
+promises.
 
 ## Packages
 
-- **[@b9g/crank-pixi](./packages/crank-pixi)** - 2D graphics rendering with Pixi.js
-- **[@b9g/crank-three](./packages/crank-three)** - 3D graphics rendering with Three.js  
-- **[@b9g/crank-graphics-core](./packages/crank-graphics-core)** - Shared utilities and patterns
+- **[@b9g/crank-pixi](./packages/crank-pixi)** — 2D rendering with Pixi.js
+- **[@b9g/crank-three](./packages/crank-three)** — 3D rendering with Three.js
 
-## Features
+## Example
 
-### 🎨 Declarative Graphics
-Write graphics code using familiar JSX syntax:
+Every concrete class in each library is a typed JSX element. The tag name is
+the class name in lowercase.
 
-```jsx
+```tsx
 // Pixi.js
-<PixiApplication width={800} height={600}>
-  <texture id="player" src="/sprites/player.png" />
-  <sprite texture="#player" x={100} y={100} />
-</PixiApplication>
+import {renderer} from "@b9g/crank-pixi";
 
-// Three.js  
-<ThreeCanvas width={800} height={600}>
-  <texture id="brick" src="/textures/brick.jpg" />
-  <mesh>
-    <boxGeometry />
-    <meshStandardMaterial map="#brick" />
-  </mesh>
-</ThreeCanvas>
+renderer.render(
+  <container>
+    <texture id="player" src="/sprites/player.png" />
+    <sprite texture="url(#player)" x={100} y={100} />
+    <text text="Score: 0" style={{fill: 0xffffff}} />
+  </container>,
+  app.stage,
+);
 ```
 
-### 🔗 Asset Management
-- **Registry-based assets**: Reference textures and models with `#id` syntax
-- **Automatic loading**: Async asset loading with onload/onerror events
-- **Reference counting**: Automatic cleanup when assets are no longer used
-- **Deferred resolution**: Assets can be defined anywhere in the component tree
+```tsx
+// Three.js
+import {renderer} from "@b9g/crank-three";
 
-### 🎪 Framework Integration
-- **EventTarget API**: Standard DOM-like event handling
-- **Component patterns**: Proper Crank.js generator components
-- **TypeScript**: Full type safety with auto-generated JSX types
-- **Hot reload**: Development-friendly with fast refresh
-
-## Getting Started
-
-### Installation
-
-> **Note**: Packages are not yet published to npm. For now, you can clone and build locally:
-
-```bash
-git clone https://github.com/bikeshaving/crank-graphics.git
-cd crank-graphics
-bun install
-bun run build
+renderer.render(
+  <group>
+    <mesh rotationY={0.5}>
+      <torusknotgeometry args={[1, 0.4, 128, 32]} />
+      <meshphysicalmaterial color={0x4488ff} clearcoat={1} />
+    </mesh>
+    <ambientlight intensity={0.4} />
+    <directionallight intensity={0.8} x={5} y={5} z={5} />
+  </group>,
+  scene,
+);
 ```
 
-Once published, you'll be able to install via:
+## How the elements are made
 
-```bash
-# For 2D graphics with Pixi.js
-bun add @b9g/crank-pixi
+The element catalogs are generated, not written by hand. A ts-morph script in
+each package introspects the library's type definitions. The script finds every
+concrete class in the render hierarchy, selects a constructor, and emits the
+tag map, the property appliers, and the JSX prop types.
 
-# For 3D graphics with Three.js  
-bun add @b9g/crank-three
+This gives parity with each library by rule:
 
-# For shared utilities
-bun add @b9g/crank-graphics-core
+- **crank-pixi** accepts every concrete class that extends `Container`
+  (20 tags).
+- **crank-three** accepts every concrete class with a Three.js hierarchy
+  marker, such as `isObject3D` or `isMaterial` (94 tags).
+
+Run `bun run generate` after a Pixi or Three upgrade to refresh the catalogs.
+
+## Custom renderables
+
+Register your own classes with `register()`. A registered tag name must
+contain a dash, like a custom element on the web. Dashless names stay
+reserved for the generated elements.
+
+```tsx
+import {register} from "@b9g/crank-three";
+register("orbit-controls", OrbitControls);
 ```
 
-### Basic Usage
+## Events
 
-#### Pixi.js 2D Graphics
-
-```jsx
-import {PixiApplication, renderer} from "@b9g/crank-pixi";
-import {renderer as domRenderer} from "@b9g/crank/dom";
-
-function* Game() {
-  yield (
-    <PixiApplication width={800} height={600} backgroundColor={0x1099bb}>
-      <container>
-        <text text="Hello Pixi!" x={100} y={100} />
-        <sprite texture="path/to/sprite.png" x={200} y={200} />
-      </container>
-    </PixiApplication>
-  );
-}
-
-domRenderer.render(<Game />, document.body);
-```
-
-#### Three.js 3D Graphics
-
-```jsx
-import {ThreeCanvas, renderer} from "@b9g/crank-three";
-import {renderer as domRenderer} from "@b9g/crank/dom";
-
-function* Scene() {
-  yield (
-    <ThreeCanvas width={800} height={600}>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={0x00ff00} />
-      </mesh>
-    </ThreeCanvas>
-  );
-}
-
-domRenderer.render(<Scene />, document.body);
-```
+Event props use DOM conventions: `onClick`, `onPointerDown`, `onPointerMove`.
+See the [event mapping guide](./EVENT_MAPPING_GUIDE.md).
 
 ## Development
 
-This is a monorepo using Bun workspaces:
+The repository is a Bun workspace. Builds and tests run on
+[@b9g/libuild](https://github.com/bikeshaving/libuild).
 
 ```bash
-# Install dependencies
 bun install
-
-# Build all packages
-bun run build
-
-# Run tests
-bun run test
-
-# Type check
-bun run typecheck
-
-# Generate JSX types and property appliers
-bun run generate
+bun run build      # libuild build, each package
+bun run test       # libuild test, in Chromium
+bun run typecheck  # tsc --noEmit, each package
+bun run generate   # regenerate the element catalogs
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Run `bun run typecheck` and `bun run test`
-6. Submit a pull request
 
 ## License
 
-MIT © [Brian Kim](https://b9g.dev)
+MIT

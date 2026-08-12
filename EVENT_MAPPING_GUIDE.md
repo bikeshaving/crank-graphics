@@ -102,8 +102,8 @@ Three.js doesn't have built-in UI event handling like Pixi.js. Events are typica
   onPointerOver={(event) => console.log('Pointer over mesh')}
   onAdded={(event) => console.log('Mesh added to scene')}
 >
-  <box-geometry width={1} height={1} depth={1} />
-  <mesh-standard-material color="red" />
+  <boxgeometry args={[1, 1, 1]} />
+  <meshstandardmaterial color="red" />
 </mesh>
 ```
 
