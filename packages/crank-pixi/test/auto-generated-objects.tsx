@@ -19,8 +19,35 @@ describe("auto-generated pixi objects", () => {
 		pixiApp.stage.removeChildren();
 	});
 
-	afterEach(() => {
+	afterEach(async () => {
 		if (pixiApp) {
+			// Pixi builds HTML text textures asynchronously and gives no public
+			// way to await them. A destroy with builds in flight makes the
+			// resolved promise read a destroyed style and throw. Stop the
+			// ticker so no new build starts, then drain the two stores that
+			// hold pending builds: HTMLTextSystem._activeTextures and the
+			// per-text texturePromise in HTMLTextPipe gpu data.
+			pixiApp.ticker.stop();
+
+			const pending: Array<Promise<unknown>> = [];
+			const htmlTextSystem = (pixiApp.renderer as any).htmlText;
+			if (htmlTextSystem?._activeTextures) {
+				for (const entry of Object.values<any>(htmlTextSystem._activeTextures)) {
+					if (entry?.promise) {
+						pending.push(entry.promise);
+					}
+				}
+			}
+
+			const rendererUID = (pixiApp.renderer as any).uid;
+			for (const child of pixiApp.stage.children) {
+				const gpuData = (child as any)._gpuData?.[rendererUID];
+				if (gpuData?.texturePromise) {
+					pending.push(gpuData.texturePromise);
+				}
+			}
+
+			await Promise.allSettled(pending);
 			pixiApp.destroy(true, true);
 		}
 	});

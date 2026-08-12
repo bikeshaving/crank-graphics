@@ -10,10 +10,8 @@
   "scripts": {
     "build": "bun run clean && bun run --filter='./packages/*' build",
     "clean": "rm -rf packages/*/dist",
-    "dev": "bun run --filter='./packages/*' dev",
     "test": "bun run --filter='./packages/*' test",
     "typecheck": "bun run --filter='./packages/*' typecheck",
-    "lint": "eslint packages/*/src/**/*.{ts,tsx} --fix",
     "generate": "bun run --filter='./packages/*' generate"
   },
   "keywords": [
@@ -41,12 +39,6 @@
   "homepage": "https://github.com/bikeshaving/crank-graphics#readme",
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.0.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "prettier": "^3.0.0",
     "typescript": "^5.0.0"
   },
   "engines": {
