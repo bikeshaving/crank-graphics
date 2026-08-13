@@ -226,6 +226,16 @@ resolves it when the render finishes. You can also register an existing object:
 The `asset` element takes the same props, and accepts other asset types through the
 `type` prop.
 
+The registry reads the asset type from the source: a file extension, or the MIME type
+of a data URI. A source without either one, such as an object URL, needs the `type`
+prop. Loaders for models and for audio are not wired up yet, so such a source fires
+`onerror` and registers an empty placeholder.
+
+A `src` load is asynchronous, and the element registers its source one time. Two rules
+follow. Call `ctx.refresh()` from `onload`, because a load that settles does not render
+again by itself, and a reference applies during a render. Change the `key` prop of the
+element to load another source.
+
 ## Event Handling
 
 Three.js objects are event dispatchers. A prop that starts with `on` becomes an event

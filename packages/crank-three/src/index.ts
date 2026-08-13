@@ -83,6 +83,7 @@ import {
 	DEFERRED_CHILDREN,
 	IS_TEXTURE_DEFINITION,
 	TEXTURE_ID,
+	ASSET_TOKEN,
 	RESOLVING_TEXTURE,
 } from "./core/symbols";
 
@@ -213,6 +214,11 @@ function createAssetFromProps(props: Record<string, any>, assetType: "texture" |
 	} else {
 		console.warn(`${assetType} element "${assetId}" has no src or asset prop`);
 	}
+
+	// The token of this registration. The element unregisters the asset only
+	// while the token is current, so an element that takes the same id later
+	// keeps its asset when this element unmounts.
+	(group as any)[ASSET_TOKEN] = assetRegistry.getToken(assetId);
 
 	return group;
 }
@@ -421,9 +427,8 @@ export const adapter: Partial<
 	}): void {
 		// Handle texture definition cleanup
 		if ((node as any)[IS_TEXTURE_DEFINITION] && (node as any)[TEXTURE_ID]) {
-			const textureId = (node as any)[TEXTURE_ID];
-			console.log(`Unregistering texture "${textureId}"`);
-			textureRegistry.unregister(textureId);
+			const assetId = (node as any)[TEXTURE_ID];
+			assetRegistry.unregisterIfCurrent(assetId, (node as any)[ASSET_TOKEN]);
 		}
 
 		// Handle WebGLRenderer parents (special case)

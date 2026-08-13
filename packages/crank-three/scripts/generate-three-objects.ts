@@ -593,6 +593,12 @@ export interface ThreeAssetProps {
   onLoad?: ThreeEventHandler;
   onError?: ThreeEventHandler;
   children?: any;
+
+  // Special props of Crank elements.
+  key?: unknown;
+  ref?: unknown;
+  copy?: unknown;
+  hydrate?: unknown;
 }
 
 ${interfaces}

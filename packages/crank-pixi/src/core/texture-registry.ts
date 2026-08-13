@@ -90,6 +90,9 @@ export class TextureRegistry extends EventTarget {
 
 		// Fire load event
 		this.dispatchEvent(new TextureLoadEvent("load", {textureId: id, texture}));
+
+		// A node may have referenced this ID before the texture arrived
+		this.resolveReferencesFor(id);
 	}
 
 	/**
@@ -115,8 +118,18 @@ export class TextureRegistry extends EventTarget {
 
 
 		// Create loading promise
-		const loadingPromise = this.loadTexture(source)
+		let loadingPromise: Promise<PIXI.Texture>;
+
+		// unregister() drops the pending promise. A load that is no longer the
+		// current one for this ID must not write its result to the registry.
+		const isCurrent = () => this.loadingPromises.get(id) === loadingPromise;
+
+		loadingPromise = this.loadTexture(source)
 			.then((texture) => {
+				if (!isCurrent()) {
+					return texture;
+				}
+
 				this.textures.set(id, {
 					texture,
 					refCount: 0,
@@ -124,11 +137,14 @@ export class TextureRegistry extends EventTarget {
 					metadata: metadata || {},
 				});
 				this.loadingPromises.delete(id);
-				
+
 				// Fire load event
 				this.dispatchEvent(
 					new TextureLoadEvent("load", {textureId: id, texture}),
 				);
+
+				// A node may have referenced this ID before the load finished
+				this.resolveReferencesFor(id);
 
 				return texture;
 			})
@@ -137,21 +153,30 @@ export class TextureRegistry extends EventTarget {
 					`Failed to load texture "${id}" from source "${source}":`,
 					error,
 				);
+
+				// Return empty texture as fallback
+				const emptyTexture = PIXI.Texture.EMPTY;
+				if (!isCurrent()) {
+					return emptyTexture;
+				}
+
 				this.loadingPromises.delete(id);
-				
+
 				// Fire error event
 				this.dispatchEvent(
 					new TextureLoadEvent("error", {textureId: id, error}),
 				);
 
-				// Return empty texture as fallback
-				const emptyTexture = PIXI.Texture.EMPTY;
 				this.textures.set(id, {
 					texture: emptyTexture,
 					refCount: 0,
 					source: source,
 					metadata: {...metadata, error: error.message},
 				});
+
+				// Give the waiting nodes the fallback, so no reference stays pending
+				this.resolveReferencesFor(id);
+
 				return emptyTexture;
 			});
 
@@ -283,24 +308,70 @@ export class TextureRegistry extends EventTarget {
 	/**
 	 * Private helper to load a texture from a source
 	 */
-	private loadTexture(source: string): Promise<PIXI.Texture> {
-		return new Promise((resolve, reject) => {
-			try {
-				const texture = PIXI.Texture.from(source);
+	private async loadTexture(source: string): Promise<PIXI.Texture> {
+		// Texture.from() only reads the Assets cache. Assets.load() fetches the
+		// source, so a texture element with a src works on the first render.
+		// A source with no file extension, for example an object URL, gives
+		// Assets no parser to select, so name the texture parser for it.
+		const hasExtension = /\.[a-z0-9]+(\?|#|$)/i.test(source);
+		const asset =
+			hasExtension || source.startsWith("data:")
+				? await PIXI.Assets.load<PIXI.Texture>(source)
+				: await PIXI.Assets.load<PIXI.Texture>({
+						src: source,
+						loadParser: "loadTextures",
+					});
 
-				// Modern PIXI textures are loaded asynchronously
-				// We'll check if the texture source is already loaded
-				if (texture.source && texture.source.resource) {
-					resolve(texture);
-				} else {
-					// For async loading, we'll resolve immediately and let PIXI handle the loading
-					// The texture will update itself when the resource loads
-					resolve(texture);
-				}
-			} catch (error) {
-				reject(error);
+		if (!(asset instanceof PIXI.Texture)) {
+			throw new Error(`Source "${source}" did not load as a texture`);
+		}
+
+		return asset;
+	}
+
+	/**
+	 * Apply a texture to the pending references that name the given ID
+	 */
+	private resolveReferencesFor(id: string): void {
+		const entry = this.textures.get(id);
+		if (!entry || this.pendingReferences.length === 0) {
+			return;
+		}
+
+		const unresolved = new Array<PendingTextureReference>();
+		for (const ref of this.pendingReferences) {
+			if (ref.textureId !== id) {
+				unresolved.push(ref);
+				continue;
 			}
-		});
+
+			this.applyReference(ref, entry);
+		}
+
+		this.pendingReferences = unresolved;
+	}
+
+	/**
+	 * Give one waiting node its texture and count the new reference
+	 */
+	private applyReference(
+		ref: PendingTextureReference,
+		entry: TextureRegistryEntry,
+	): boolean {
+		try {
+			// A deferred reference counts like an acquire(). Without this the
+			// entry looks unused, and unregister() destroys a texture in use.
+			entry.refCount++;
+			ref.resolver(ref.node, entry.texture);
+			return true;
+		} catch (error) {
+			entry.refCount--;
+			console.warn(
+				`Failed to resolve texture reference "${ref.textureId}":`,
+				error,
+			);
+			return false;
+		}
 	}
 
 	/**
@@ -331,11 +402,9 @@ export class TextureRegistry extends EventTarget {
 			const entry = this.textures.get(ref.textureId);
 			if (entry) {
 				// Texture is now available, apply it
-				try {
-					ref.resolver(ref.node, entry.texture);
+				if (this.applyReference(ref, entry)) {
 					resolved.push(ref);
-				} catch (error) {
-					console.warn(`Failed to resolve texture reference "${ref.textureId}":`, error);
+				} else {
 					unresolved.push(ref);
 				}
 			} else {

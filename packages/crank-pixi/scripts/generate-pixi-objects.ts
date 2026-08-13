@@ -1370,6 +1370,7 @@ ${classes.map((cls) => generateJSXElementType(cls)).join("\n")}
         texture?: PIXI.Texture;
         metadata?: Record<string, any>;
         children?: any;
+        [prop: string]: any;
       };
     }
   }

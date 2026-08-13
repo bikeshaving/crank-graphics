@@ -47,6 +47,11 @@ export class AssetRegistry {
 	private assets = new Map<string, AssetRegistryEntry>();
 	private loadingPromises = new Map<string, Promise<any>>();
 	private pendingReferences = new Array<PendingAssetReference>();
+	// One token for each registration of an id. A load, or an unregister, acts
+	// only while its token is the current one. Two elements that hold the same
+	// id in turn therefore cannot cancel each other.
+	private tokens = new Map<string, number>();
+	private nextToken = 1;
 	private eventHandlers = new Map<string, AssetEventHandler[]>();
 
 	// Loaders for different asset types
@@ -84,6 +89,7 @@ export class AssetRegistry {
 			this.unregister(id);
 		}
 
+		this.claimToken(id);
 		this.assets.set(id, {
 			asset,
 			type,
@@ -122,6 +128,8 @@ export class AssetRegistry {
 			return existingPromise;
 		}
 
+		const token = this.claimToken(id);
+
 		// Auto-detect asset type from file extension
 		const detectedType = type || this.detectAssetType(source);
 
@@ -130,8 +138,15 @@ export class AssetRegistry {
 		if (onError) this.addEventListener(id, onError);
 
 		// Create loading promise
-		const loadingPromise = this.loadAsset(source, detectedType)
+		const loadingPromise: Promise<any> = this.loadAsset(source, detectedType)
 			.then((asset) => {
+				// The load is stale when the id was unregistered, or when another
+				// registration took its place. A stale result must not come back
+				// into the registry after the element that asked for it went away.
+				if (this.tokens.get(id) !== token) {
+					return asset;
+				}
+
 				this.assets.set(id, {
 					asset,
 					type: detectedType,
@@ -152,6 +167,11 @@ export class AssetRegistry {
 			})
 			.catch((error) => {
 				console.error(`Failed to load asset "${id}" from source "${source}":`, error);
+
+				if (this.tokens.get(id) !== token) {
+					return this.createFallbackAsset(detectedType);
+				}
+
 				this.loadingPromises.delete(id);
 
 				// Fire error event
@@ -168,13 +188,35 @@ export class AssetRegistry {
 					type: detectedType,
 					refCount: 0,
 					source: source,
-					metadata: {...metadata, error: error.message},
+					metadata: {...metadata, error: error?.message ?? String(error)},
 				});
 				return fallbackAsset;
 			});
 
 		this.loadingPromises.set(id, loadingPromise);
 		return loadingPromise;
+	}
+
+	/** Give the id a new registration token, and make that token the current one. */
+	private claimToken(id: string): number {
+		const token = this.nextToken++;
+		this.tokens.set(id, token);
+		return token;
+	}
+
+	/** Get the token of the registration that holds the id now. */
+	getToken(id: string): number | undefined {
+		return this.tokens.get(id);
+	}
+
+	/**
+	 * Unregister the id, but only while the token is the current one. An
+	 * element that unmounts after another element took the id leaves it alone.
+	 */
+	unregisterIfCurrent(id: string, token: number | undefined): void {
+		if (token !== undefined && this.tokens.get(id) === token) {
+			this.unregister(id);
+		}
 	}
 
 	/**
@@ -240,6 +282,9 @@ export class AssetRegistry {
 			this.loadingPromises.delete(id);
 		}
 
+		// A load that is still in flight becomes stale.
+		this.tokens.delete(id);
+
 		// Remove event handlers
 		this.eventHandlers.delete(id);
 	}
@@ -286,8 +331,20 @@ export class AssetRegistry {
 	 * Auto-detect asset type from file extension
 	 */
 	private detectAssetType(source: string): AssetType {
-		const ext = source.toLowerCase().split('.').pop() || '';
-		
+		const lowered = source.toLowerCase();
+
+		// A data URI carries its own MIME type, and it has no file extension.
+		if (lowered.startsWith('data:')) {
+			const mimeType = lowered.slice('data:'.length).split(/[;,]/)[0];
+			if (mimeType.startsWith('image/')) return 'texture';
+			if (mimeType.startsWith('audio/')) return 'audio';
+			return 'custom';
+		}
+
+		// A query string and a fragment are not part of the file name.
+		const path = lowered.split(/[?#]/)[0];
+		const ext = path.split('.').pop() || '';
+
 		switch (ext) {
 			case 'jpg':
 			case 'jpeg':
@@ -447,6 +504,7 @@ export class AssetRegistry {
 
 		this.assets.clear();
 		this.loadingPromises.clear();
+		this.tokens.clear();
 		this.pendingReferences = [];
 		this.eventHandlers.clear();
 	}

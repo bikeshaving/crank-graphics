@@ -15,6 +15,9 @@ export const IS_TEXTURE_DEFINITION = Symbol.for('CrankThree.isTextureDefinition'
 // Symbol for texture ID on texture definition elements
 export const TEXTURE_ID = Symbol.for('CrankThree.textureId');
 
+// Symbol for the registration token of an asset definition element
+export const ASSET_TOKEN = Symbol.for('CrankThree.assetToken');
+
 // Symbol for preventing infinite recursion during texture resolution
 export const RESOLVING_TEXTURE = Symbol.for('CrankThree.resolvingTexture');
 
